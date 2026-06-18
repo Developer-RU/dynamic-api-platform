@@ -1,6 +1,6 @@
 # Deployment
 
-Full guide: [Deployment](https://developer-ru.github.io/Dynamic-API-Platform/deployment.html)
+Full guide: [Deployment](https://developer-ru.github.io/Dynamic-API-Platform/deployment/)
 
 ## Production checklist
 

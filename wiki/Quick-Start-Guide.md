@@ -37,4 +37,4 @@ Same path `/api/products`, method POST, same schema.
 
 **Test** tab → Send request with JSON body.
 
-Or via curl — see [Getting Started](https://developer-ru.github.io/Dynamic-API-Platform/getting-started.html).
+Or via curl — see [Getting Started](https://developer-ru.github.io/Dynamic-API-Platform/getting-started/).

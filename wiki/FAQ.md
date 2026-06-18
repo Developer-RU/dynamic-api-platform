@@ -1,6 +1,6 @@
 # FAQ
 
-Full FAQ: [FAQ](https://developer-ru.github.io/Dynamic-API-Platform/faq.html)
+Full FAQ: [FAQ](https://developer-ru.github.io/Dynamic-API-Platform/faq/)
 
 **Q: Can I use GET and POST on same path?**  
 Yes, data is shared.

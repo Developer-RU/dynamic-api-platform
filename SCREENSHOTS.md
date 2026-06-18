@@ -3,7 +3,7 @@
 Визуальный обзор интерфейса **Dynamic API Platform**.
 
 Полная галерея с описаниями: [docs/screenshots.md](https://github.com/Developer-RU/Dynamic-API-Platform/blob/main/docs/screenshots.md)  
-Онлайн-документация: [Screenshots](https://developer-ru.github.io/Dynamic-API-Platform/screenshots.html)
+Онлайн-документация: [Screenshots](https://developer-ru.github.io/Dynamic-API-Platform/screenshots/)
 
 ## Login
 
