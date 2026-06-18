@@ -1,9 +1,8 @@
 ---
 layout: default
-title: RBAC
+title: Role-Based Access Control
+description: Permissions, groups, and access types
 ---
-
-# Role-Based Access Control (RBAC)
 
 ## Overview
 

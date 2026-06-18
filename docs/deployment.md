@@ -3,8 +3,6 @@ layout: default
 title: Deployment
 ---
 
-# Deployment Guide
-
 ## Docker Compose (recommended)
 
 ### Production checklist

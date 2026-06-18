@@ -3,8 +3,6 @@ layout: default
 title: Development
 ---
 
-# Development Guide
-
 ## Prerequisites
 
 - Node.js 20+
@@ -108,7 +106,7 @@ docker compose logs -f backend
 
 ## Common development issues
 
-See [Troubleshooting](troubleshooting.html).
+See [Troubleshooting](troubleshooting.md).
 
 ## Contributing
 

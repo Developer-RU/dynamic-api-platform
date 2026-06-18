@@ -3,8 +3,6 @@ layout: default
 title: Dynamic API Engine
 ---
 
-# Dynamic API Engine
-
 The dynamic engine is the core feature of the platform — it serves REST APIs defined in MongoDB at runtime without server restarts or code deployments.
 
 ## How it works

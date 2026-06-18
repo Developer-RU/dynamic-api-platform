@@ -3,8 +3,6 @@ layout: default
 title: API Reference
 ---
 
-# API Reference
-
 Base URL: `http://localhost:3001` (or your deployment domain)
 
 All management endpoints return JSON:

@@ -3,8 +3,6 @@ layout: default
 title: FAQ
 ---
 
-# Frequently Asked Questions
-
 ## General
 
 ### What is Dynamic API Platform?

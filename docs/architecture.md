@@ -3,8 +3,6 @@ layout: default
 title: Architecture
 ---
 
-# Architecture
-
 ## High-level overview
 
 ```

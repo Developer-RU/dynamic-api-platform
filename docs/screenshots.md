@@ -1,74 +1,39 @@
-# Screenshots
-
-Скриншоты интерфейса **Dynamic API Platform v1.0**, снятые с локального окружения (`http://localhost:8080`).
-
-> Все изображения находятся в папке [`docs/screenshots/`](screenshots/).
-
 ---
+layout: default
+title: Screenshots
+description: UI screenshots from localhost deployment
+---
+
+Screenshots of **Dynamic API Platform v1.0** running at `http://localhost:8080`.
 
 ## Login
 
-Страница входа в админ-панель.
+<img src="{{ '/screenshots/login.png' | relative_url }}" alt="Login page">
 
-![Login page](screenshots/login.png)
-
-**URL:** `/login`  
-**Учётные данные по умолчанию:** `admin` / `Admin123!`
-
----
+**URL:** `/login` · **Default:** `admin` / `Admin123!`
 
 ## Dashboard
 
-Главная страница со статистикой и графиками активности.
+<img src="{{ '/screenshots/dashboard.png' | relative_url }}" alt="Dashboard">
 
-![Dashboard](screenshots/dashboard.png)
-
-**URL:** `/`  
-**Содержит:** счётчики Users, Endpoints, Requests, Errors, Groups; графики Requests Over Time, Errors Over Time, User Activity.
-
----
+**URL:** `/` — stats, charts, user activity
 
 ## Endpoints
 
-Управление API-эндпоинтами с группировкой по секциям, поиском и фильтрами.
+<img src="{{ '/screenshots/endpoints.png' | relative_url }}" alt="Endpoints">
 
-![Endpoints](screenshots/endpoints.png)
-
-**URL:** `/endpoints`  
-**Содержит:** поиск, фильтры по группам (CRM, SHOP, DEVICES), сворачиваемые таблицы по группам, системные эндпоинты с иконкой замка.
-
----
+**URL:** `/endpoints` — grouped tables, search, filters
 
 ## Settings
 
-Настройки платформы: безопасность, rate limiting, логи, пагинация.
+<img src="{{ '/screenshots/settings.png' | relative_url }}" alt="Settings">
 
-![Settings](screenshots/settings.png)
-
-**URL:** `/settings`  
-**Содержит:** JWT, блокировка входа, регистрация, лимиты API, очистка логов, настройки отображения.
-
----
+**URL:** `/settings` — auth, rate limits, logs, pagination
 
 ## System
 
-Мониторинг серверных ресурсов и сетевых интерфейсов.
+<img src="{{ '/screenshots/system.png' | relative_url }}" alt="System">
 
-![System](screenshots/system.png)
+**URL:** `/system` — CPU, memory, disk, network
 
-**URL:** `/system`  
-**Содержит:** OS, CPU, память, диск, файлы, сеть с поиском по интерфейсам.
-
----
-
-## Как обновить скриншоты
-
-1. Запустите платформу: `docker compose up -d`
-2. Откройте http://localhost:8080
-3. Сделайте скриншоты ключевых страниц
-4. Сохраните в `docs/screenshots/`
-5. Обновите этот файл при изменении UI
-
----
-
-[← Back to documentation](index.md)
+[← Back to home]({{ '/' | relative_url }})

@@ -3,8 +3,6 @@ layout: default
 title: Configuration
 ---
 
-# Configuration
-
 ## Environment variables
 
 Copy `.env.example` to `.env` for Docker Compose variable substitution.

@@ -1,34 +1,45 @@
 title: Dynamic API Platform
 description: Create, manage and test dynamic REST APIs without writing code
-theme: jekyll-theme-cayman
+url: https://developer-ru.github.io
+baseurl: /dynamic-api-platform
+
+markdown: GFM
+permalink: pretty
+
 plugins:
   - jekyll-relative-links
+  - jekyll-seo-tag
+
 relative_links:
   enabled: true
   collections: true
 
-markdown: GFM
+exclude:
+  - Gemfile
+  - Gemfile.lock
 
-navigation:
+nav:
   - title: Home
     url: /
   - title: Getting Started
-    url: getting-started.html
+    url: /getting-started/
   - title: Architecture
-    url: architecture.html
+    url: /architecture/
   - title: API Reference
-    url: api-reference.html
+    url: /api-reference/
   - title: RBAC
-    url: rbac.html
+    url: /rbac/
   - title: Dynamic Engine
-    url: dynamic-api-engine.html
+    url: /dynamic-api-engine/
   - title: Deployment
-    url: deployment.html
+    url: /deployment/
   - title: Configuration
-    url: configuration.html
+    url: /configuration/
   - title: Development
-    url: development.html
-  - title: FAQ
-    url: faq.html
+    url: /development/
   - title: Screenshots
-    url: screenshots.html
+    url: /screenshots/
+  - title: FAQ
+    url: /faq/
+  - title: Troubleshooting
+    url: /troubleshooting/

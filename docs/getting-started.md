@@ -3,8 +3,6 @@ layout: default
 title: Getting Started
 ---
 
-# Getting Started
-
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) 24+ and Docker Compose v2
@@ -120,14 +118,14 @@ curl http://localhost:3001/api/products \
 
 ## Interface preview
 
-![Login page](screenshots/login.png)
+![Login page]({{ '/screenshots/login.png' | relative_url }})
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard]({{ '/screenshots/dashboard.png' | relative_url }})
 
-[Full screenshot gallery →](screenshots.html)
+[Full screenshot gallery →]({{ '/screenshots/' | relative_url }})
 
 ## Next steps
 
-- Read [Architecture](architecture.html) to understand the system design
-- Review [RBAC](rbac.html) before adding team members
-- Follow [Deployment](deployment.html) for production setup
+- Read [Architecture](architecture.md) to understand the system design
+- Review [RBAC](rbac.md) before adding team members
+- Follow [Deployment](deployment.md) for production setup

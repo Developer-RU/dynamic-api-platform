@@ -1,26 +1,19 @@
 ---
 layout: default
-title: Dynamic API Platform
 ---
 
-# Dynamic API Platform
-
-<p align="center">
-  <img src="banner.png" alt="Dynamic API Platform" width="100%" />
-</p>
+<img class="banner" src="{{ '/banner.png' | relative_url }}" alt="Dynamic API Platform">
 
 **Create, manage, and test REST APIs without writing backend code.**
 
 Dynamic API Platform is an open-source full-stack application that lets you define REST endpoints through a web UI, attach JSON schemas, enforce access control, and serve data instantly — powered by MongoDB and a runtime API engine.
 
-<p align="center">
-  <a href="getting-started.html">Quick Start</a> ·
-  <a href="architecture.html">Architecture</a> ·
-  <a href="api-reference.html">API Reference</a> ·
+<p class="quick-links">
+  <a href="{{ '/getting-started/' | relative_url }}">Quick Start</a> ·
+  <a href="{{ '/architecture/' | relative_url }}">Architecture</a> ·
+  <a href="{{ '/api-reference/' | relative_url }}">API Reference</a> ·
   <a href="https://github.com/Developer-RU/dynamic-api-platform">GitHub</a>
 </p>
-
----
 
 ## Features
 
@@ -48,29 +41,27 @@ docker compose up -d
 
 **Default login:** `admin` / `Admin123!` — change immediately in production.
 
-## Documentation Map
+## Documentation
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](getting-started.html) | Installation, first endpoint, curl examples |
-| [Architecture](architecture.html) | System design, layers, data flow |
-| [API Reference](api-reference.html) | All management API endpoints |
-| [RBAC](rbac.html) | Permissions, groups, access types |
-| [Dynamic API Engine](dynamic-api-engine.html) | How runtime endpoints work |
-| [Deployment](deployment.html) | Docker, production, reverse proxy |
-| [Configuration](configuration.html) | Environment variables & Settings UI |
-| [Development](development.html) | Local dev setup, project conventions |
-| [FAQ](faq.html) | Common questions |
-| [Troubleshooting](troubleshooting.html) | Known issues and fixes |
-| [Screenshots](screenshots.html) | UI gallery |
+| [Getting Started]({{ '/getting-started/' | relative_url }}) | Installation, first endpoint, curl examples |
+| [Architecture]({{ '/architecture/' | relative_url }}) | System design, layers, data flow |
+| [API Reference]({{ '/api-reference/' | relative_url }}) | All management API endpoints |
+| [RBAC]({{ '/rbac/' | relative_url }}) | Permissions, groups, access types |
+| [Dynamic API Engine]({{ '/dynamic-api-engine/' | relative_url }}) | How runtime endpoints work |
+| [Deployment]({{ '/deployment/' | relative_url }}) | Docker, production, reverse proxy |
+| [Configuration]({{ '/configuration/' | relative_url }}) | Environment variables & Settings UI |
+| [Development]({{ '/development/' | relative_url }}) | Local dev setup, project conventions |
+| [Screenshots]({{ '/screenshots/' | relative_url }}) | UI gallery |
+| [FAQ]({{ '/faq/' | relative_url }}) | Common questions |
+| [Troubleshooting]({{ '/troubleshooting/' | relative_url }}) | Known issues and fixes |
 
 ## Preview
 
-![Dashboard](screenshots/dashboard.png)
+<img src="{{ '/screenshots/dashboard.png' | relative_url }}" alt="Dashboard">
 
-![Endpoints](screenshots/endpoints.png)
-
-[Full screenshot gallery →](screenshots.html)
+[Full screenshot gallery →]({{ '/screenshots/' | relative_url }})
 
 ## Tech Stack
 
