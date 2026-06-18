@@ -1,0 +1,26 @@
+# Architecture
+
+See full documentation: [Architecture](https://developer-ru.github.io/dynamic-api-platform/architecture.html)
+
+## Stack
+
+- **Frontend:** React 18, TypeScript, Vite, Tailwind CSS
+- **Backend:** Node.js, Express, TypeScript, Mongoose
+- **Database:** MongoDB 7
+- **Deploy:** Docker Compose
+
+## Layers
+
+```
+Routes → Services → Repositories → MongoDB
+```
+
+Dynamic requests: `dynamic.routes` → DynamicEngine → EndpointData
+
+## Key collections
+
+- `users`, `groups` — RBAC
+- `endpoints`, `endpointgroups` — API definitions
+- `endpointdatas` — runtime data
+- `logs` — audit trail
+- `systemsettings` — platform config
