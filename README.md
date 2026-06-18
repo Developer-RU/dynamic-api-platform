@@ -7,7 +7,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](backend/package.json)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](frontend/package.json)
 
-[📖 Documentation](https://developer-ru.github.io/dynamic-api-platform/) · [🚀 Quick Start](#-quick-start) · [📸 Screenshots](#-screenshots) · [✨ Features](#-features) · [🐛 Issues](https://github.com/Developer-RU/dynamic-api-platform/issues)
+[Documentation](https://developer-ru.github.io/dynamic-api-platform/) · [Quick Start](#quick-start) · [Screenshots](#screenshots) · [Features](#features) · [Issues](https://github.com/Developer-RU/dynamic-api-platform/issues)
 
 ---
 
@@ -39,7 +39,7 @@ docker compose up -d
 | **Backend API** | http://localhost:3001 |
 | **Health Check** | http://localhost:3001/api/health |
 
-**Default login:** `admin` / `Admin123!` — ⚠️ change immediately in production.
+**Default login:** `admin` / `Admin123!` — change immediately in production.
 
 ## Screenshots
 
@@ -115,7 +115,7 @@ curl http://localhost:3001/api/products -H "Authorization: Bearer $TOKEN"
 | [FAQ](docs/faq.md) | Common questions |
 | [Screenshots](docs/screenshots.md) | UI gallery |
 
-📚 **Online docs:** https://developer-ru.github.io/dynamic-api-platform/
+**Online docs:** https://developer-ru.github.io/dynamic-api-platform/
 
 ## Project Structure
 

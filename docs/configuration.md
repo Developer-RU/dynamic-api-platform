@@ -27,7 +27,7 @@ Copy `.env.example` to `.env` for Docker Compose variable substitution.
 | `ADMIN_PASSWORD` | `Admin123!` | Seed admin password |
 | `VITE_API_URL` | `""` | Frontend API base (build-time) |
 
-> ⚠️ **Production:** Change all secrets and default admin password.
+> **Production:** Change all secrets and default admin password.
 
 ---
 
