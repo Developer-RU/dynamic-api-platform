@@ -7,7 +7,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](backend/package.json)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](frontend/package.json)
 
-[📖 Documentation](https://developer-ru.github.io/dynamic-api-platform/) · [🚀 Quick Start](#-quick-start) · [✨ Features](#-features) · [🐛 Issues](https://github.com/Developer-RU/dynamic-api-platform/issues)
+[📖 Documentation](https://developer-ru.github.io/dynamic-api-platform/) · [🚀 Quick Start](#-quick-start) · [📸 Screenshots](#-screenshots) · [✨ Features](#-features) · [🐛 Issues](https://github.com/Developer-RU/dynamic-api-platform/issues)
 
 ---
 
@@ -40,6 +40,22 @@ docker compose up -d
 | **Health Check** | http://localhost:3001/api/health |
 
 **Default login:** `admin` / `Admin123!` — ⚠️ change immediately in production.
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/dashboard.png" alt="Dashboard" width="800" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/endpoints.png" alt="Endpoints" width="800" />
+</p>
+
+| Login | Settings | System |
+|-------|----------|--------|
+| ![Login](docs/screenshots/login.png) | ![Settings](docs/screenshots/settings.png) | ![System](docs/screenshots/system.png) |
+
+Полная галерея: [SCREENSHOTS.md](SCREENSHOTS.md) · [docs/screenshots.md](docs/screenshots.md)
 
 ## Features
 
@@ -97,6 +113,7 @@ curl http://localhost:3001/api/products -H "Authorization: Bearer $TOKEN"
 | [Deployment](docs/deployment.md) | Production setup |
 | [Configuration](docs/configuration.md) | Environment variables |
 | [FAQ](docs/faq.md) | Common questions |
+| [Screenshots](docs/screenshots.md) | UI gallery |
 
 📚 **Online docs:** https://developer-ru.github.io/dynamic-api-platform/
 

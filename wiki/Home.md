@@ -8,6 +8,7 @@ Create, manage, and test REST APIs without writing backend code.
 
 - [Installation](Installation)
 - [Quick Start Guide](Quick-Start-Guide)
+- [Screenshots](Screenshots)
 - [API Reference](API-Reference)
 - [RBAC & Permissions](RBAC-and-Permissions)
 - [Deployment](Deployment)

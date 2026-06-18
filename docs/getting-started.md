@@ -118,6 +118,14 @@ curl http://localhost:3001/api/products \
 | System | `/system` | Server resources |
 | Settings | `/settings` | Platform configuration |
 
+## Interface preview
+
+![Login page](screenshots/login.png)
+
+![Dashboard](screenshots/dashboard.png)
+
+[Full screenshot gallery →](screenshots.html)
+
 ## Next steps
 
 - Read [Architecture](architecture.html) to understand the system design

@@ -30,3 +30,5 @@ navigation:
     url: development.html
   - title: FAQ
     url: faq.html
+  - title: Screenshots
+    url: screenshots.html

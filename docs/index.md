@@ -58,6 +58,15 @@ docker compose up -d
 | [Development](development.html) | Local dev setup, project conventions |
 | [FAQ](faq.html) | Common questions |
 | [Troubleshooting](troubleshooting.html) | Known issues and fixes |
+| [Screenshots](screenshots.html) | UI gallery |
+
+## Preview
+
+![Dashboard](screenshots/dashboard.png)
+
+![Endpoints](screenshots/endpoints.png)
+
+[Full screenshot gallery →](screenshots.html)
 
 ## Tech Stack
 

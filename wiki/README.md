@@ -18,6 +18,7 @@
 | [Configuration](Configuration.md) | Env vars & settings |
 | [FAQ](FAQ.md) | Common questions |
 | [Troubleshooting](Troubleshooting.md) | Problem solving |
+| [Screenshots](Screenshots.md) | UI gallery |
 | [Contributing](Contributing.md) | How to contribute |
 
 ## Importing to GitHub Wiki
