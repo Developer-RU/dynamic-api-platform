@@ -110,7 +110,7 @@ Yes, v1.0 ships with a dark theme inspired by 3x-ui panel style.
 
 ### What license?
 
-MIT — free for commercial and personal use.
+Apache License 2.0 — free for commercial and personal use.
 
 ### How to contribute?
 

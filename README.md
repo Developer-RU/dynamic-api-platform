@@ -6,7 +6,7 @@
 
 **Open-source platform for creating, managing, and testing REST APIs without writing backend code.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](backend/package.json)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](frontend/package.json)
@@ -178,4 +178,4 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 
-[MIT License](LICENSE) © 2026 Developer-RU
+[Apache License 2.0](LICENSE) © 2026 Developer-RU

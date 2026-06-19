@@ -121,9 +121,9 @@ curl http://localhost:3001/api/products \
 
 ## Interface preview
 
-![Login page]({{ '/screenshots/login.png' | relative_url }})
+![Login page](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/login.png)
 
-![Dashboard]({{ '/screenshots/dashboard.png' | relative_url }})
+![Dashboard](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/dashboard.png)
 
 [Full screenshot gallery →]({{ '/screenshots/' | relative_url }})
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Create, manage and test dynamic REST APIs without writing backend code",
   "private": true,
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Developer-RU",
   "repository": {
     "type": "git",

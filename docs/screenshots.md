@@ -11,31 +11,31 @@ Screenshots of **Dynamic API Platform v1.0** running at `http://localhost:8080`.
 
 ## Login
 
-<img src="{{ '/screenshots/login.png' | relative_url }}" alt="Login page">
+![Login page](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/login.png)
 
 **URL:** `/login` · **Default:** `admin` / `Admin123!`
 
 ## Dashboard
 
-<img src="{{ '/screenshots/dashboard.png' | relative_url }}" alt="Dashboard">
+![Dashboard](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/dashboard.png)
 
 **URL:** `/` — stats, charts, user activity
 
 ## Endpoints
 
-<img src="{{ '/screenshots/endpoints.png' | relative_url }}" alt="Endpoints">
+![Endpoints](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/endpoints.png)
 
 **URL:** `/endpoints` — grouped tables, search, filters
 
 ## Settings
 
-<img src="{{ '/screenshots/settings.png' | relative_url }}" alt="Settings">
+![Settings](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/settings.png)
 
 **URL:** `/settings` — auth, rate limits, logs, pagination
 
 ## System
 
-<img src="{{ '/screenshots/system.png' | relative_url }}" alt="System">
+![System](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/system.png)
 
 **URL:** `/system` — CPU, memory, disk, network
 

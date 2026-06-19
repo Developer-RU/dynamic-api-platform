@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<img class="banner" src="{{ '/banner.png' | relative_url }}" alt="Dynamic API Platform">
+<img class="banner" src="https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/banner.png" alt="Dynamic API Platform">
 
 **Create, manage, and test REST APIs without writing backend code.**
 
@@ -59,7 +59,7 @@ docker compose up -d
 
 ## Preview
 
-<img src="{{ '/screenshots/dashboard.png' | relative_url }}" alt="Dashboard">
+![Dashboard preview](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/dashboard.png)
 
 [Full screenshot gallery →]({{ '/screenshots/' | relative_url }})
 
@@ -71,4 +71,4 @@ docker compose up -d
 
 ## License
 
-[MIT License](https://github.com/Developer-RU/Dynamic-API-Platform/blob/main/LICENSE)
+[Apache License 2.0](https://github.com/Developer-RU/Dynamic-API-Platform/blob/main/LICENSE)

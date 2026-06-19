@@ -10,4 +10,4 @@ No, they are protected.
 `docker compose down -v && docker compose up -d`
 
 **Q: License?**  
-MIT
+Apache License 2.0

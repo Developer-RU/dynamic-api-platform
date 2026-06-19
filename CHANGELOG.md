@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- UI screenshots gallery (`docs/screenshots/`, `SCREENSHOTS.md`, `docs/screenshots.md`)
-- Screenshots in README, GitHub Pages docs, and Wiki
+### Changed
+- License changed from MIT to Apache License 2.0
+
+### Fixed
+- Broken images in `docs/screenshots.md` on GitHub (use raw.githubusercontent.com URLs)
 
 ## [1.0.0] - 2026-06-18
 
