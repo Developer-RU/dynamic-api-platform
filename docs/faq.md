@@ -82,7 +82,11 @@ Fixed in recent builds: expired sessions now redirect to `/login`. If you still 
 
 ### Where is endpoint data stored?
 
-MongoDB `endpointdatas` collection, linked by `endpointId` and `resourcePath`.
+MongoDB `endpointdatas` collection, linked by `endpointId` and `resourcePath`. Admins with `manage_users` can inspect raw documents in **Database → Endpoint Data**.
+
+### Can I browse MongoDB from the admin panel?
+
+Yes. **Administration → Database** (`/database`) shows whitelisted collections as raw JSON. Requires `manage_users`. See [Database Explorer]({{ '/database/' | relative_url }}).
 
 ### What happens if I change the schema?
 

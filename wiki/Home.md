@@ -8,13 +8,13 @@ Endpoints are stored in MongoDB and served **at runtime** — add or change a ro
 
 ## What's new (recent)
 
-| Feature | Description |
-|---------|-------------|
+| Update | Summary |
+|--------|---------|
 | **`reference` fields** | Foreign keys between endpoints; `?populate=` on GET |
-| **Zero-downtime routes** | New endpoints live immediately after save |
-| **Auth fixes** | Refresh token permissions, redirect to login on session expiry |
-| **System endpoint tests** | Tester uses real RBAC routes for `/api/users`, `/api/groups`, `/api/profile` |
-| **License** | Apache License 2.0 |
+| **Database Explorer** | Raw MongoDB UI + API (`/database`, `/api/database/*`) |
+| **Zero-downtime routes** | Endpoints live immediately after save |
+| **Auth fixes** | Session redirect, JWT refresh permissions |
+| **System endpoint tests** | Real RBAC routes for `/api/users`, etc. |
 
 Full list: [CHANGELOG.md](https://github.com/Developer-RU/Dynamic-API-Platform/blob/main/CHANGELOG.md)
 
@@ -23,6 +23,7 @@ Full list: [CHANGELOG.md](https://github.com/Developer-RU/Dynamic-API-Platform/b
 - [Installation](Installation)
 - [Quick Start Guide](Quick-Start-Guide)
 - [Dynamic API Engine](Dynamic-API-Engine)
+- [Database Explorer](Database-Explorer)
 - [Screenshots](Screenshots)
 - [API Reference](API-Reference)
 - [RBAC & Permissions](RBAC-and-Permissions)

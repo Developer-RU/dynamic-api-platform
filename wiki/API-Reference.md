@@ -38,3 +38,12 @@ GET/PUT/PATCH/DELETE      /api/your-path/:id
 **Query (GET):** `page`, `limit`, `populate=true`, `populate=fieldName`
 
 **Schema:** includes `reference` type for links to other endpoints' records.
+
+## Database (raw)
+
+```
+GET/POST/PUT/DELETE /api/database/collections/:name
+GET/DELETE          /api/database/collections/:name/:id
+```
+
+Requires `manage_users`. See [Database Explorer](Database-Explorer).

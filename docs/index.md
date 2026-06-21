@@ -21,6 +21,7 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 | Update | Summary |
 |--------|---------|
 | **`reference` fields** | Foreign keys between endpoints; validate links on write; `?populate=` on GET |
+| **Database Explorer** | Raw MongoDB browser/editor at `/database` (requires `manage_users`) |
 | **Zero-downtime routes** | Save an endpoint in the UI — callable immediately, no restart |
 | **Auth improvements** | Redirect to login when session expires; fixed JWT refresh permissions |
 | **System endpoint tests** | Tester uses real management API for `/api/users`, `/api/groups`, `/api/profile` |
@@ -41,7 +42,7 @@ Details: [Changelog on GitHub](https://github.com/Developer-RU/Dynamic-API-Platf
 |----------|-------------|
 | **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, grouped organization |
 | **Security** | JWT auth with refresh, RBAC, rate limiting, login lockout, audit logs, Helmet, CORS |
-| **Admin Panel** | Dashboard, endpoint editor with linked-endpoint picker, API tester, auto-docs, users & groups management |
+| **Admin Panel** | Dashboard, endpoint editor with linked-endpoint picker, **Database Explorer (raw JSON)**, API tester, auto-docs, users & groups |
 | **DevOps** | Docker Compose one-command deploy, health checks, persistent volumes |
 | **Search** | Full-text search on all data list pages (client + server side) |
 
@@ -70,6 +71,7 @@ docker compose up -d
 | [API Reference]({{ '/api-reference/' | relative_url }}) | All management API endpoints |
 | [RBAC]({{ '/rbac/' | relative_url }}) | Permissions, groups, access types |
 | [Dynamic API Engine]({{ '/dynamic-api-engine/' | relative_url }}) | How runtime endpoints work |
+| [Database Explorer]({{ '/database/' | relative_url }}) | Raw MongoDB admin UI and API |
 | [Deployment]({{ '/deployment/' | relative_url }}) | Docker, production, reverse proxy |
 | [Configuration]({{ '/configuration/' | relative_url }}) | Environment variables & Settings UI |
 | [Development]({{ '/development/' | relative_url }}) | Local dev setup, project conventions |

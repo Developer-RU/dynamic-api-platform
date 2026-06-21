@@ -39,7 +39,11 @@ Same path `/api/products`, method POST, same schema.
 4. POST product with `"categoryId": "<id>"`
 5. GET `/api/products?populate=categoryId` to see embedded category
 
-## 8. Test
+## 8. Browse raw data (optional)
+
+**Administration → Database** — view/edit MongoDB collections as JSON. Requires `manage_users`.
+
+## 9. Test
 
 **Test** tab → Send request with JSON body.
 

@@ -20,6 +20,10 @@ Full guide: [RBAC](https://developer-ru.github.io/Dynamic-API-Platform/rbac/)
 - `authenticated` — any logged-in user
 - `group` — user must belong to `allowedGroupIds`
 
+## Database Explorer
+
+**Administration → Database** — raw JSON editor for whitelisted MongoDB collections. Requires **`manage_users`**.
+
 ## System endpoints in the UI
 
 Entries like **List Users** (`GET /api/users`) document the **management API**. They use RBAC on real Express routes (`manage_users` / `view`), not dynamic engine group checks. The built-in **Test** tab invokes those routes directly.

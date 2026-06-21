@@ -72,6 +72,7 @@ Thin HTTP handlers. Parse query/body, call services, return JSON.
 | `/api/profile` | Current user profile |
 | `/api/endpoints` | Endpoint & endpoint group management |
 | `/api/dashboard` | Stats, logs, system info |
+| `/api/database` | Raw MongoDB explorer (manage_users only) |
 | `/api/settings` | Platform settings |
 | `/api/*` | Dynamic engine (catch-all) |
 

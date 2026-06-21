@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Target endpoint selector in the schema editor (**Linked endpoint**)
   - Validation on create/update: referenced record must exist in the target collection
   - **`?populate=true`** or **`?populate=fieldName`** on GET requests to embed linked records
+- **Database Explorer** — admin UI (`/database`) and REST API (`/api/database/*`) for raw MongoDB access
+  - Whitelisted collections: users, groups, endpoints, endpointgroups, endpointdatas, logs, systemsettings
+  - View, create, edit, delete documents as JSON; search and pagination
+  - Requires `manage_users`; sensitive user fields redacted; changes audit-logged
 - Documentation: zero-downtime API creation (no server restart on new routes), comparison with Strapi/Directus
 - Session handling: centralized `UnauthorizedError` and auth state sync on token expiry
 

@@ -72,6 +72,7 @@ Management API endpoints always use RBAC permissions regardless of endpoint acce
 | Audit logs | `view_logs` |
 | Users CRUD | `manage_users` (view for GET list) |
 | Groups CRUD | `manage_users` for write, `view` for read |
+| **Database Explorer** (`/database`, `/api/database/*`) | `manage_users` |
 | Endpoints CRUD | `manage_api` (view for GET) |
 | Settings | `manage_users` OR `manage_api` |
 

@@ -28,6 +28,10 @@ Use latest backend. System routes require RBAC (`manage_users` or `view`), not d
 
 Target record must exist first. Create the linked endpoint's record and use its `id`.
 
+## Database Explorer
+
+Admin UI: `/database` — raw JSON for whitelisted collections. API: `/api/database/*`. Requires `manage_users`.
+
 ## Reset all data
 
 ```bash

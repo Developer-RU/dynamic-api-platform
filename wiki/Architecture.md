@@ -32,6 +32,10 @@ EndpointData ──reference field──▶ EndpointData (validated foreign keys
 Endpoint ──one-to-many──▶ EndpointData (endpointId + resourcePath)
 ```
 
+## Database routes
+
+`GET/POST/PUT/DELETE /api/database/collections/:name` — raw MongoDB access (`manage_users`).
+
 ## Runtime behavior
 
 - Endpoint definitions read from MongoDB on each request — **no restart** when routes change

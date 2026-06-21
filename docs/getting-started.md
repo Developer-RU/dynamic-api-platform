@@ -135,6 +135,7 @@ Details: [Dynamic API Engine — References]({{ '/dynamic-api-engine/' | relativ
 | Users | `/users` | User management |
 | User Groups | `/groups` | RBAC permissions |
 | Audit Logs | `/logs` | System activity |
+| Database | `/database` | Raw MongoDB collections (JSON; requires `manage_users`) |
 | System | `/system` | Server resources |
 | Settings | `/settings` | Platform configuration |
 

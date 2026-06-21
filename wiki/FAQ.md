@@ -15,6 +15,9 @@ No, they are protected.
 **Q: Test on `/api/users` returns Forbidden?**  
 Update to the latest backend — the tester now uses the real management API with RBAC.
 
+**Q: Can I browse MongoDB in the UI?**  
+Yes — **Database** page (`/database`), requires `manage_users`. See [Database Explorer](Database-Explorer).
+
 **Q: How to reset database?**  
 `docker compose down -v && docker compose up -d`
 

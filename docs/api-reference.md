@@ -255,6 +255,38 @@ Clear logs older than retention period.
 
 ---
 
+## Database API (raw MongoDB) {#database-api-raw-mongodb}
+
+Requires **`manage_users`**. Browse whitelisted collections as JSON.
+
+### GET `/api/database/collections`
+
+List collections with document counts.
+
+### GET `/api/database/collections/:name`
+
+Query: `page`, `limit`, `search`
+
+### GET `/api/database/collections/:name/:id`
+
+Single document by `_id`.
+
+### POST `/api/database/collections/:name`
+
+Create document. Body: raw JSON object.
+
+### PUT `/api/database/collections/:name/:id`
+
+Replace/update document fields. Body: JSON (without `_id`).
+
+### DELETE `/api/database/collections/:name/:id`
+
+Delete document.
+
+See [Database Explorer](database.md) for collection list and security notes.
+
+---
+
 ## Dynamic Endpoints (Runtime)
 
 Any path matching a registered endpoint definition is handled by the dynamic engine.

@@ -88,6 +88,7 @@ docker compose up -d
 - Dashboard with charts (requests, errors, user activity)
 - Grouped endpoint tables with search and filters
 - Users & groups management with pagination
+- **Database Explorer** — raw MongoDB JSON browser/editor (manage_users)
 - System monitoring (CPU, memory, disk, network)
 - Settings: auth, rate limits, log retention, pagination
 
@@ -123,6 +124,7 @@ curl http://localhost:3001/api/products -H "Authorization: Bearer $TOKEN"
 | [API Reference](docs/api-reference.md) | All management endpoints |
 | [RBAC](docs/rbac.md) | Permissions and access control |
 | [Dynamic Engine](docs/dynamic-api-engine.md) | How runtime APIs work |
+| [Database Explorer](docs/database.md) | Raw MongoDB admin UI and API |
 | [Deployment](docs/deployment.md) | Production setup |
 | [Configuration](docs/configuration.md) | Environment variables |
 | [FAQ](docs/faq.md) | Common questions |
@@ -194,6 +196,7 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 ### Recent updates (Unreleased)
 
 - **`reference` schema fields** — foreign keys between endpoints, `?populate=` on GET
+- **Database Explorer** — raw MongoDB UI at `/database` and `/api/database/*` API
 - **Zero-downtime routing** — new endpoints without server restart
 - **Auth fixes** — session redirect to login, JWT refresh permissions
 - **System endpoint tester** — correct RBAC for `/api/users`, `/api/groups`, `/api/profile`

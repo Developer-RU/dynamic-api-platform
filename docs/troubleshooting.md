@@ -103,6 +103,10 @@ System endpoints (`/api/users`, `/api/groups`, `/api/profile`) are **management 
 
 The value must be a valid **record ID** from the linked endpoint's collection. Create the target record first (e.g. a category), then pass its `id` in the reference field (e.g. `categoryId`).
 
+### Database page not visible or returns 403
+
+The **Database** menu item requires **`manage_users`** permission. Assign user to Admin or Super Admin group. Direct URL: `/database`.
+
 ---
 
 ## Database
