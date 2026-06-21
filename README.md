@@ -11,7 +11,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](backend/package.json)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](frontend/package.json)
 
-[Documentation](https://developer-ru.github.io/Dynamic-API-Platform/) · [Quick Start](#quick-start) · [Screenshots](#screenshots) · [Features](#features) · [Issues](https://github.com/Developer-RU/Dynamic-API-Platform/issues)
+[Documentation](https://dynamic-api-platform.github.io/Dynamic-API-Platform/) · [Quick Start](#quick-start) · [Screenshots](#screenshots) · [Features](#features) · [Issues](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/issues)
 
 ---
 
@@ -32,7 +32,7 @@ Perfect for prototyping, internal tools, lightweight BaaS, and teams who need AP
 ## Quick Start
 
 ```bash
-git clone https://github.com/Developer-RU/Dynamic-API-Platform.git
+git clone https://github.com/Dynamic-API-Platform/Dynamic-API-Platform.git
 cd Dynamic-API-Platform
 docker compose up -d
 ```
@@ -113,7 +113,7 @@ curl http://localhost:3001/api/products -H "Authorization: Bearer $TOKEN"
 | [FAQ](docs/faq.md) | Common questions |
 | [Screenshots](docs/screenshots.md) | UI gallery |
 
-**Online docs:** https://developer-ru.github.io/Dynamic-API-Platform/
+**Online docs:** https://dynamic-api-platform.github.io/Dynamic-API-Platform/
 
 ## Project Structure
 
@@ -178,4 +178,4 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 
-[Apache License 2.0](LICENSE) © 2026 Developer-RU
+[Apache License 2.0](LICENSE) © 2026 Dynamic API Platform

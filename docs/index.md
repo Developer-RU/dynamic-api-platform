@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<img class="banner" src="https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/banner.png" alt="Dynamic API Platform">
+<img class="banner" src="https://raw.githubusercontent.com/Dynamic-API-Platform/Dynamic-API-Platform/main/docs/banner.png" alt="Dynamic API Platform">
 
 **Create, manage, and test REST APIs without writing backend code.**
 
@@ -12,7 +12,7 @@ Dynamic API Platform is an open-source full-stack application that lets you defi
   <a href="{{ '/getting-started/' | relative_url }}">Quick Start</a> ·
   <a href="{{ '/architecture/' | relative_url }}">Architecture</a> ·
   <a href="{{ '/api-reference/' | relative_url }}">API Reference</a> ·
-  <a href="https://github.com/Developer-RU/Dynamic-API-Platform">GitHub</a>
+  <a href="https://github.com/Dynamic-API-Platform/Dynamic-API-Platform">GitHub</a>
 </p>
 
 ## Features
@@ -28,7 +28,7 @@ Dynamic API Platform is an open-source full-stack application that lets you defi
 ## Quick Start
 
 ```bash
-git clone https://github.com/Developer-RU/Dynamic-API-Platform.git
+git clone https://github.com/Dynamic-API-Platform/Dynamic-API-Platform.git
 cd Dynamic-API-Platform
 docker compose up -d
 ```
@@ -59,7 +59,7 @@ docker compose up -d
 
 ## Preview
 
-![Dashboard preview](https://raw.githubusercontent.com/Developer-RU/Dynamic-API-Platform/main/docs/screenshots/dashboard.png)
+![Dashboard preview](https://raw.githubusercontent.com/Dynamic-API-Platform/Dynamic-API-Platform/main/docs/screenshots/dashboard.png)
 
 [Full screenshot gallery →]({{ '/screenshots/' | relative_url }})
 
@@ -71,4 +71,4 @@ docker compose up -d
 
 ## License
 
-[Apache License 2.0](https://github.com/Developer-RU/Dynamic-API-Platform/blob/main/LICENSE)
+[Apache License 2.0](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/LICENSE)
