@@ -32,6 +32,10 @@ Target record must exist first. Create the linked endpoint's record and use its 
 
 Admin UI: `/database` — raw JSON for whitelisted collections. API: `/api/database/*`. Requires `manage_users`.
 
+## Network access denied (403)
+
+Endpoint or group has **Network access** enabled. Add your domain (`Origin`) and/or client IP to allowed lists. See [Network Access](Network-Access).
+
 ## Reset all data
 
 ```bash

@@ -107,6 +107,18 @@ The value must be a valid **record ID** from the linked endpoint's collection. C
 
 The **Database** menu item requires **`manage_users`** permission. Assign user to Admin or Super Admin group. Direct URL: `/database`.
 
+### Forbidden: network access denied
+
+Dynamic endpoint has **Network access** enabled and the request did not match any allowed domain or IP rule.
+
+1. Open the endpoint (or its group) → **Network Access** tab/section
+2. Add your client domain (e.g. `localhost` or `app.example.com`) and/or IP (e.g. `127.0.0.1`)
+3. If the endpoint inherits group rules, check the parent **Endpoint Group** rules too
+4. Behind a reverse proxy, ensure `X-Forwarded-For` is set correctly
+5. Browser calls need a matching `Origin`/`Referer` for domain rules; server clients rely on IP rules
+
+See [Network Access]({{ '/network-access/' | relative_url }}).
+
 ---
 
 ## Database

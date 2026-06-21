@@ -34,6 +34,8 @@ nav:
     url: /dynamic-api-engine/
   - title: Database Explorer
     url: /database/
+  - title: Network Access
+    url: /network-access/
   - title: Deployment
     url: /deployment/
   - title: Configuration

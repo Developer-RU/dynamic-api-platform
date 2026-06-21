@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Whitelisted collections: users, groups, endpoints, endpointgroups, endpointdatas, logs, systemsettings
   - View, create, edit, delete documents as JSON; search and pagination
   - Requires `manage_users`; sensitive user fields redacted; changes audit-logged
+- **Network access rules** — restrict dynamic endpoints by allowed **domains** and **IP/CIDR pools**
+  - Configurable on **endpoint groups** and individual **endpoints** (Network Access tab/section)
+  - Group inheritance with merged rules; enforced at runtime before JWT access-type checks
+  - Admin tester can simulate client IP and `Origin` header
 - Documentation: zero-downtime API creation (no server restart on new routes), comparison with Strapi/Directus
 - Session handling: centralized `UnauthorizedError` and auth state sync on token expiry
 

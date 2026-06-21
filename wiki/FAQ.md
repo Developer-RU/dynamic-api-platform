@@ -18,6 +18,9 @@ Update to the latest backend — the tester now uses the real management API wit
 **Q: Can I browse MongoDB in the UI?**  
 Yes — **Database** page (`/database`), requires `manage_users`. See [Database Explorer](Database-Explorer).
 
+**Q: Can I restrict endpoints by domain or IP?**  
+Yes — **Network Access** on endpoint groups and endpoints. See [Network Access](Network-Access).
+
 **Q: How to reset database?**  
 `docker compose down -v && docker compose up -d`
 

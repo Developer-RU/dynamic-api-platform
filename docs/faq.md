@@ -88,6 +88,10 @@ MongoDB `endpointdatas` collection, linked by `endpointId` and `resourcePath`. A
 
 Yes. **Administration → Database** (`/database`) shows whitelisted collections as raw JSON. Requires `manage_users`. See [Database Explorer]({{ '/database/' | relative_url }}).
 
+### Can I restrict an endpoint to specific domains or IP addresses?
+
+Yes. Use **Network Access** on endpoint groups or the **Network Access** tab on an endpoint. Allow callers by domain (`Origin` / `Referer`) and/or IPv4 address/CIDR pool. See [Network Access]({{ '/network-access/' | relative_url }}).
+
 ### What happens if I change the schema?
 
 Existing records are **not** automatically migrated. New validation applies on write.

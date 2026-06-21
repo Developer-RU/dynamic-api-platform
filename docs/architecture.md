@@ -131,6 +131,7 @@ App.tsx
 ```
 User ──many-to-many──▶ Group
 Endpoint ──optional──▶ EndpointGroup
+Endpoint / EndpointGroup ──networkAccess──▶ allowed domains + IP/CIDR rules
 Endpoint ──one-to-many──▶ EndpointData (via endpointId + resourcePath)
 EndpointData ──reference fields──▶ EndpointData (cross-endpoint links via `reference` schema fields)
 Log ──optional──▶ User, Endpoint
@@ -144,7 +145,9 @@ Request
   → CORS check
   → Rate limit (dynamic from settings)
   → JWT verification (if required)
-  → Permission check (RBAC)
+  → Dynamic engine: network access (domains / IP pools)
+  → Dynamic engine: endpoint access type (public / authenticated / group)
+  → Permission check (RBAC, management API)
   → Handler
   → Audit log (on significant actions)
 ```

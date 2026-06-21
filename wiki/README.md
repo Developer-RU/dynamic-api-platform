@@ -15,6 +15,7 @@
 | [API-Reference](API-Reference.md) | REST API docs |
 | [RBAC-and-Permissions](RBAC-and-Permissions.md) | Access control |
 | [Dynamic-API-Engine](Dynamic-API-Engine.md) | Runtime engine |
+| [Network-Access](Network-Access.md) | Domain and IP/CIDR restrictions |
 | [Database-Explorer](Database-Explorer.md) | Raw MongoDB admin UI |
 | [Deployment](Deployment.md) | Production deploy |
 | [Configuration](Configuration.md) | Env vars & settings |

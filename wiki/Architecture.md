@@ -20,7 +20,7 @@ System management routes (`/api/users`, `/api/groups`, …) are registered **bef
 ## Key collections
 
 - `users`, `groups` — RBAC
-- `endpoints`, `endpointgroups` — API definitions
+- `endpoints`, `endpointgroups` — API definitions (including `networkAccess` rules)
 - `endpointdatas` — runtime data (cross-linked via `reference` schema fields)
 - `logs` — audit trail
 - `systemsettings` — platform config
@@ -28,8 +28,9 @@ System management routes (`/api/users`, `/api/groups`, …) are registered **bef
 ## Data relationships
 
 ```
+Endpoint ──optional──▶ EndpointGroup (network access defaults)
+Endpoint / EndpointGroup ──networkAccess──▶ allowed domains + IP/CIDR
 EndpointData ──reference field──▶ EndpointData (validated foreign keys)
-Endpoint ──one-to-many──▶ EndpointData (endpointId + resourcePath)
 ```
 
 ## Database routes

@@ -76,11 +76,13 @@ docker compose up -d
 - **`reference` fields** — link records between endpoints (foreign keys) with validation and optional `?populate=`
 - Schema builder: `string`, `number`, `boolean`, `object`, `array`, `datetime`, `json`, `reference`
 - Path parameters (`/api/items/:id`), validation, default values
+- **Network access** — restrict callers by allowed domains and IP/CIDR pools (group + endpoint level)
 - Built-in API tester and auto-generated documentation
 
 ### Security
 - JWT authentication with refresh tokens
 - RBAC with 5 system groups + custom groups
+- **Network access rules** for dynamic endpoints (domains, IP pools)
 - Login lockout, API rate limiting, audit logs
 - Helmet, CORS, CSRF token endpoint, bcrypt passwords
 
@@ -124,6 +126,7 @@ curl http://localhost:3001/api/products -H "Authorization: Bearer $TOKEN"
 | [API Reference](docs/api-reference.md) | All management endpoints |
 | [RBAC](docs/rbac.md) | Permissions and access control |
 | [Dynamic Engine](docs/dynamic-api-engine.md) | How runtime APIs work |
+| [Network Access](docs/network-access.md) | Domain and IP/CIDR restrictions |
 | [Database Explorer](docs/database.md) | Raw MongoDB admin UI and API |
 | [Deployment](docs/deployment.md) | Production setup |
 | [Configuration](docs/configuration.md) | Environment variables |
@@ -196,6 +199,7 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 ### Recent updates (Unreleased)
 
 - **`reference` schema fields** — foreign keys between endpoints, `?populate=` on GET
+- **Network access** — allowed domains and IP/CIDR pools on endpoints and endpoint groups
 - **Database Explorer** — raw MongoDB UI at `/database` and `/api/database/*` API
 - **Zero-downtime routing** — new endpoints without server restart
 - **Auth fixes** — session redirect to login, JWT refresh permissions

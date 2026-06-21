@@ -21,6 +21,7 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 | Update | Summary |
 |--------|---------|
 | **`reference` fields** | Foreign keys between endpoints; validate links on write; `?populate=` on GET |
+| **Network access** | Restrict dynamic APIs by allowed domains and IP/CIDR pools (group + endpoint) |
 | **Database Explorer** | Raw MongoDB browser/editor at `/database` (requires `manage_users`) |
 | **Zero-downtime routes** | Save an endpoint in the UI — callable immediately, no restart |
 | **Auth improvements** | Redirect to login when session expires; fixed JWT refresh permissions |
@@ -40,9 +41,9 @@ Details: [Changelog on GitHub](https://github.com/Developer-RU/Dynamic-API-Platf
 
 | Category | Capabilities |
 |----------|-------------|
-| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, grouped organization |
-| **Security** | JWT auth with refresh, RBAC, rate limiting, login lockout, audit logs, Helmet, CORS |
-| **Admin Panel** | Dashboard, endpoint editor with linked-endpoint picker, **Database Explorer (raw JSON)**, API tester, auto-docs, users & groups |
+| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, **network access (domains / IP pools)**, grouped organization |
+| **Security** | JWT auth with refresh, RBAC, **network access rules**, rate limiting, login lockout, audit logs, Helmet, CORS |
+| **Admin Panel** | Dashboard, endpoint editor with linked-endpoint picker, **Network Access** tab, **Database Explorer (raw JSON)**, API tester, auto-docs, users & groups |
 | **DevOps** | Docker Compose one-command deploy, health checks, persistent volumes |
 | **Search** | Full-text search on all data list pages (client + server side) |
 

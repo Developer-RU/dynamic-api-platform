@@ -11,6 +11,7 @@ Endpoints are stored in MongoDB and served **at runtime** — add or change a ro
 | Update | Summary |
 |--------|---------|
 | **`reference` fields** | Foreign keys between endpoints; `?populate=` on GET |
+| **Network access** | Restrict dynamic APIs by domain and IP/CIDR (group + endpoint) |
 | **Database Explorer** | Raw MongoDB UI + API (`/database`, `/api/database/*`) |
 | **Zero-downtime routes** | Endpoints live immediately after save |
 | **Auth fixes** | Session redirect, JWT refresh permissions |
@@ -23,6 +24,7 @@ Full list: [CHANGELOG.md](https://github.com/Developer-RU/Dynamic-API-Platform/b
 - [Installation](Installation)
 - [Quick Start Guide](Quick-Start-Guide)
 - [Dynamic API Engine](Dynamic-API-Engine)
+- [Network Access](Network-Access)
 - [Database Explorer](Database-Explorer)
 - [Screenshots](Screenshots)
 - [API Reference](API-Reference)

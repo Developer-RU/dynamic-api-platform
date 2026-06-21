@@ -26,6 +26,7 @@ Paths with `:id` (e.g. `/api/products/:id`) share the same collection base path 
 - Schema validation on write
 - Path parameters (`:id`)
 - Cross-endpoint references
+- **Network access** (domains, IP/CIDR pools) on groups and endpoints
 - Auto docs and examples
 - Built-in API tester (system endpoints use real management API + RBAC)
 

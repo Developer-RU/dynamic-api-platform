@@ -61,6 +61,8 @@ Separate from RBAC — controls who can call a **dynamic** endpoint at runtime:
 
 **Note:** System endpoints shown in the Endpoints list (`/api/users`, `/api/groups`, `/api/profile`) are **documentation entries** for the built-in management API. They use RBAC on the real Express routes, not dynamic `group` access. The built-in **Test** tab calls those management routes directly.
 
+**Network access** (allowed domains and IP/CIDR pools) applies only to **dynamic** endpoints served by the runtime engine — not to management routes like `/api/users` or `/api/auth/*`. See [Network Access]({{ '/network-access/' | relative_url }}).
+
 Management API endpoints always use RBAC permissions regardless of endpoint access type.
 
 ## Permission matrix (management API)
