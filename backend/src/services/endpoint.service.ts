@@ -12,10 +12,14 @@ import {
   generateExamples,
   matchDynamicPath,
   getCollectionPath,
+  normalizeNetworkAccessInput,
+  validateNetworkAccessInput,
+  resolveEffectiveNetworkAccess,
+  checkNetworkAccess,
 } from '../utils';
 import { CreateEndpointDto, UpdateEndpointDto, CreateEndpointGroupDto, UpdateEndpointGroupDto, TestEndpointDto } from '../dto';
 import { IEndpoint } from '../models';
-import { JwtPayload, HttpMethod, TestEndpointResult, Permission, SchemaField } from '../types';
+import { JwtPayload, HttpMethod, TestEndpointResult, Permission, SchemaField, NetworkAccessRules } from '../types';
 import { authService } from './auth.service';
 import { userService, groupService } from './user.service';
 
@@ -24,6 +28,13 @@ function assertAnyPermission(user: JwtPayload | undefined, ...permissions: Permi
   if (!permissions.some((permission) => user.permissions.includes(permission))) {
     throw new Error('Forbidden: insufficient permissions');
   }
+}
+
+function parseNetworkAccessInput(input?: Partial<NetworkAccessRules> | null): NetworkAccessRules {
+  const normalized = normalizeNetworkAccessInput(input);
+  const errors = validateNetworkAccessInput(normalized);
+  if (errors.length) throw new Error(errors.join('; '));
+  return normalized;
 }
 
 async function executeSystemEndpoint(
@@ -142,6 +153,8 @@ export class EndpointService {
       })),
       accessType: (dto.accessType as import('../types').AccessType) || 'authenticated',
       allowedGroupIds: (dto.allowedGroupIds || []) as unknown as import('mongoose').Types.ObjectId[],
+      networkAccess: dto.networkAccess ? parseNetworkAccessInput(dto.networkAccess) : undefined,
+      inheritGroupNetworkAccess: dto.inheritGroupNetworkAccess ?? true,
       handlers: (dto.handlers || []).map((h) => ({
         name: h.name,
         type: h.type as 'pre' | 'post' | 'transform',
@@ -178,6 +191,8 @@ export class EndpointService {
     if (dto.accessType !== undefined) updateData.accessType = dto.accessType;
     if (dto.allowedGroupIds !== undefined) updateData.allowedGroupIds = dto.allowedGroupIds;
     if (dto.enabled !== undefined) updateData.enabled = dto.enabled;
+    if (dto.networkAccess !== undefined) updateData.networkAccess = parseNetworkAccessInput(dto.networkAccess);
+    if (dto.inheritGroupNetworkAccess !== undefined) updateData.inheritGroupNetworkAccess = dto.inheritGroupNetworkAccess;
 
     if (dto.schema !== undefined) {
       updateData.fields = dto.schema.map((f, i) => ({
@@ -269,7 +284,13 @@ export class EndpointService {
     try {
       const result = endpoint.isSystem
         ? await executeSystemEndpoint(endpoint, mockReq)
-        : await dynamicEngine.execute(endpoint, mockReq);
+        : await dynamicEngine.execute(endpoint, mockReq, {
+            skipNetworkCheck: dto.applyNetworkAccess !== true,
+            networkMeta: {
+              ip: dto.clientIp,
+              headers: dto.headers,
+            },
+          });
       const responseTime = Date.now() - startTime;
 
       return {
@@ -317,13 +338,23 @@ export class EndpointGroupService {
   }
 
   async create(dto: CreateEndpointGroupDto) {
-    return endpointGroupRepository.create(dto);
+    const { networkAccess, ...rest } = dto;
+    const payload: Partial<import('../models').IEndpointGroup> = { ...rest };
+    if (networkAccess !== undefined) {
+      payload.networkAccess = parseNetworkAccessInput(networkAccess);
+    }
+    return endpointGroupRepository.create(payload);
   }
 
   async update(id: string, dto: UpdateEndpointGroupDto) {
     const group = await endpointGroupRepository.findById(id);
     if (!group) throw new Error('Endpoint group not found');
-    return endpointGroupRepository.update(id, dto);
+    const { networkAccess, ...rest } = dto;
+    const payload: Partial<import('../models').IEndpointGroup> = { ...rest };
+    if (networkAccess !== undefined) {
+      payload.networkAccess = parseNetworkAccessInput(networkAccess);
+    }
+    return endpointGroupRepository.update(id, payload);
   }
 
   async delete(id: string) {
@@ -360,6 +391,31 @@ export class DynamicEngine {
         user.groupIds.includes(gid.toString())
       );
       if (!hasAccess) throw new Error('Forbidden: insufficient group permissions');
+    }
+  }
+
+  private async assertNetworkAccess(
+    endpoint: IEndpoint,
+    meta?: { ip?: string; headers?: Record<string, string | string[] | undefined> },
+    skip = false
+  ): Promise<void> {
+    if (skip) return;
+
+    let group = null;
+    if (endpoint.groupId) {
+      const groupId =
+        typeof endpoint.groupId === 'object' && endpoint.groupId !== null && '_id' in endpoint.groupId
+          ? String((endpoint.groupId as { _id: unknown })._id)
+          : String(endpoint.groupId);
+      group = await endpointGroupRepository.findById(groupId);
+    }
+
+    const rules = resolveEffectiveNetworkAccess(endpoint, group);
+    if (!rules) return;
+
+    const result = checkNetworkAccess(rules, { ip: meta?.ip, headers: meta?.headers });
+    if (!result.allowed) {
+      throw new Error(result.reason || 'Forbidden: network access denied');
     }
   }
 
@@ -409,8 +465,13 @@ export class DynamicEngine {
       params?: Record<string, string>;
       query?: Record<string, string>;
       user?: JwtPayload;
+    },
+    options?: {
+      skipNetworkCheck?: boolean;
+      networkMeta?: { ip?: string; headers?: Record<string, string | string[] | undefined> };
     }
   ): Promise<unknown> {
+    await this.assertNetworkAccess(endpoint, options?.networkMeta, options?.skipNetworkCheck);
     this.checkAccess(endpoint, req.user);
 
     const params = req.params || {};
@@ -502,7 +563,7 @@ export class DynamicEngine {
     body: unknown,
     query: Record<string, string>,
     user?: JwtPayload,
-    meta?: { ip?: string; userAgent?: string }
+    meta?: { ip?: string; userAgent?: string; headers?: Record<string, string | string[] | undefined> }
   ): Promise<{ statusCode: number; body: unknown }> {
     const startTime = Date.now();
     const match = await this.findMatchingEndpoint(requestPath, method);
@@ -521,6 +582,8 @@ export class DynamicEngine {
         params,
         query,
         user,
+      }, {
+        networkMeta: { ip: meta?.ip, headers: meta?.headers },
       });
 
       await endpointRepository.incrementCallCount(endpoint._id.toString());

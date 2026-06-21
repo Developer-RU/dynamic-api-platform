@@ -234,6 +234,16 @@ export function buildTextSearchFilter(
   return { $or: fields.map((field) => ({ [field]: regex })) };
 }
 
+export {
+  normalizeNetworkAccessInput,
+  validateNetworkAccessInput,
+  resolveEffectiveNetworkAccess,
+  checkNetworkAccess,
+  matchDomain,
+  matchIpRange,
+  extractRequestDomain,
+} from './networkAccess';
+
 export function getClientIp(req: { ip?: string; headers: Record<string, unknown> }): string {
   const forwarded = req.headers['x-forwarded-for'];
   if (typeof forwarded === 'string') return forwarded.split(',')[0].trim();

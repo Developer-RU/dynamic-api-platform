@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { AccessType, EndpointHandler, HttpMethod, SchemaField } from '../types';
+import { AccessType, EndpointHandler, HttpMethod, NetworkAccessRules, SchemaField } from '../types';
 
 export interface IEndpoint extends Document {
   name: string;
@@ -11,6 +11,8 @@ export interface IEndpoint extends Document {
   fields: SchemaField[];
   accessType: AccessType;
   allowedGroupIds: mongoose.Types.ObjectId[];
+  networkAccess: NetworkAccessRules;
+  inheritGroupNetworkAccess: boolean;
   handlers: EndpointHandler[];
   isSystem: boolean;
   enabled: boolean;
@@ -34,6 +36,15 @@ const SchemaFieldSchema = new Schema(
     order: { type: Number, default: 0 },
     children: [{ type: Schema.Types.Mixed }],
     refEndpointId: { type: String },
+  },
+  { _id: false }
+);
+
+const NetworkAccessSchema = new Schema(
+  {
+    enabled: { type: Boolean, default: false },
+    allowedDomains: { type: [String], default: [] },
+    allowedIpRanges: { type: [String], default: [] },
   },
   { _id: false }
 );
@@ -65,6 +76,11 @@ const EndpointSchema = new Schema<IEndpoint>(
       type: [Schema.Types.ObjectId],
       default: [],
     },
+    networkAccess: {
+      type: NetworkAccessSchema,
+      default: () => ({ enabled: false, allowedDomains: [], allowedIpRanges: [] }),
+    },
+    inheritGroupNetworkAccess: { type: Boolean, default: true },
     handlers: {
       type: [EndpointHandlerSchema],
       default: [],

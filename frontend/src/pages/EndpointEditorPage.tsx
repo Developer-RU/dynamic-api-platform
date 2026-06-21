@@ -1,9 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, GripVertical, Send, FileText, Code, Settings } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, GripVertical, Send, FileText, Code, Settings, Shield } from 'lucide-react';
 import { api } from '../services/api';
 import { Endpoint, EndpointGroup, SchemaField, TestResult } from '../types';
 import { PageHeader, MethodBadge, LoadingSpinner, SearchInput } from '../components/UI';
+import NetworkAccessEditor, { DEFAULT_NETWORK_ACCESS } from '../components/NetworkAccessEditor';
 import { matchesSearch } from '../utils/search';
 
 const FIELD_TYPES = ['string', 'number', 'boolean', 'object', 'array', 'datetime', 'json', 'reference'];
@@ -15,7 +16,7 @@ export default function EndpointEditorPage() {
   const [endpointGroups, setEndpointGroups] = useState<EndpointGroup[]>([]);
   const [refEndpoints, setRefEndpoints] = useState<Endpoint[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<'general' | 'schema' | 'test' | 'docs'>('general');
+  const [tab, setTab] = useState<'general' | 'network' | 'schema' | 'test' | 'docs'>('general');
   const [saving, setSaving] = useState(false);
 
   const [testBody, setTestBody] = useState('{}');
@@ -25,6 +26,9 @@ export default function EndpointEditorPage() {
   const [docs, setDocs] = useState<Record<string, unknown> | null>(null);
   const [fieldSearch, setFieldSearch] = useState('');
   const [testPopulate, setTestPopulate] = useState('');
+  const [testApplyNetworkAccess, setTestApplyNetworkAccess] = useState(false);
+  const [testClientIp, setTestClientIp] = useState('');
+  const [testOrigin, setTestOrigin] = useState('');
 
   const refEndpointLabel = (refEndpointId?: string) => {
     if (!refEndpointId) return '—';
@@ -41,7 +45,11 @@ export default function EndpointEditorPage() {
       api.getEndpointExamples(id).catch(() => null),
       api.getEndpointDocs(id).catch(() => null),
     ]).then(([ep, groups, endpointList, ex, doc]) => {
-      setEndpoint(ep);
+      setEndpoint({
+        ...ep,
+        networkAccess: ep.networkAccess || { ...DEFAULT_NETWORK_ACCESS },
+        inheritGroupNetworkAccess: ep.inheritGroupNetworkAccess !== false,
+      });
       setEndpointGroups(groups);
       setRefEndpoints(endpointList.data.filter((item) => !item.isSystem && item._id !== id));
       if (ex) {
@@ -63,6 +71,8 @@ export default function EndpointEditorPage() {
         schema: endpoint.fields,
         accessType: endpoint.accessType,
         enabled: endpoint.enabled,
+        networkAccess: endpoint.networkAccess,
+        inheritGroupNetworkAccess: endpoint.inheritGroupNetworkAccess,
       });
       setEndpoint(updated);
     } catch (err) {
@@ -111,6 +121,9 @@ export default function EndpointEditorPage() {
         query: endpoint?.method === 'GET' && testPopulate.trim()
           ? { populate: testPopulate.trim() }
           : undefined,
+        applyNetworkAccess: testApplyNetworkAccess,
+        clientIp: testClientIp.trim() || undefined,
+        headers: testOrigin.trim() ? { Origin: testOrigin.trim() } : undefined,
       });
       setTestResult(result);
     } catch (err) {
@@ -132,6 +145,7 @@ export default function EndpointEditorPage() {
 
   const tabs = [
     { id: 'general' as const, label: 'General', icon: Settings },
+    { id: 'network' as const, label: 'Network Access', icon: Shield },
     { id: 'schema' as const, label: 'Schema', icon: Code },
     { id: 'test' as const, label: 'Test', icon: Send },
     { id: 'docs' as const, label: 'Docs', icon: FileText },
@@ -229,6 +243,20 @@ export default function EndpointEditorPage() {
             <input type="checkbox" checked={endpoint.enabled} onChange={(e) => setEndpoint({ ...endpoint, enabled: e.target.checked })} />
             Endpoint enabled
           </label>
+        </div>
+      )}
+
+      {tab === 'network' && (
+        <div className="max-w-2xl">
+          <NetworkAccessEditor
+            value={endpoint.networkAccess || DEFAULT_NETWORK_ACCESS}
+            onChange={(networkAccess) => setEndpoint({ ...endpoint, networkAccess })}
+            showInheritOption
+            inheritFromGroup={endpoint.inheritGroupNetworkAccess !== false}
+            onInheritFromGroupChange={(inheritGroupNetworkAccess) =>
+              setEndpoint({ ...endpoint, inheritGroupNetworkAccess })
+            }
+          />
         </div>
       )}
 
@@ -360,6 +388,39 @@ export default function EndpointEditorPage() {
                 />
               </div>
             )}
+
+            <div className="border-t border-dark-border pt-4 space-y-3">
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={testApplyNetworkAccess}
+                  onChange={(e) => setTestApplyNetworkAccess(e.target.checked)}
+                />
+                Apply network access rules during test
+              </label>
+              {testApplyNetworkAccess && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Simulated client IP</label>
+                    <input
+                      className="input font-mono text-sm"
+                      value={testClientIp}
+                      onChange={(e) => setTestClientIp(e.target.value)}
+                      placeholder="203.0.113.10"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Origin header</label>
+                    <input
+                      className="input font-mono text-sm"
+                      value={testOrigin}
+                      onChange={(e) => setTestOrigin(e.target.value)}
+                      placeholder="https://app.example.com"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
 
             <button className="btn-primary w-full justify-center py-2.5" onClick={runTest} disabled={testing}>
               <Send className="w-4 h-4" />

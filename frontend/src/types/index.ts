@@ -24,6 +24,13 @@ export interface EndpointGroup {
   icon?: string;
   color?: string;
   order: number;
+  networkAccess?: NetworkAccessRules;
+}
+
+export interface NetworkAccessRules {
+  enabled: boolean;
+  allowedDomains: string[];
+  allowedIpRanges: string[];
 }
 
 export interface SchemaField {
@@ -48,6 +55,8 @@ export interface Endpoint {
   fields: SchemaField[];
   accessType: 'public' | 'authenticated' | 'group';
   allowedGroupIds: string[];
+  networkAccess?: NetworkAccessRules;
+  inheritGroupNetworkAccess?: boolean;
   handlers: { name: string; type: string; code?: string; enabled: boolean }[];
   isSystem: boolean;
   enabled: boolean;

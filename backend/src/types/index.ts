@@ -21,6 +21,12 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export type AccessType = 'public' | 'authenticated' | 'group';
 
+export interface NetworkAccessRules {
+  enabled: boolean;
+  allowedDomains: string[];
+  allowedIpRanges: string[];
+}
+
 export type UserStatus = 'active' | 'inactive' | 'suspended';
 
 export type LogAction =
