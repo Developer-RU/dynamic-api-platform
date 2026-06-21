@@ -106,6 +106,25 @@ curl http://localhost:3001/api/products \
   -H "Authorization: Bearer $TOKEN"
 ```
 
+## Link endpoints (reference fields)
+
+Use type **`reference`** to connect records across endpoints (like a foreign key):
+
+1. Create the **target** endpoint first (e.g. `GET/POST /api/categories` with a `name` field)
+2. POST a category and note its `id` from the response
+3. On **Products**, open **Schema** → add field `categoryId`, type **`reference`**
+4. Select **Linked endpoint**: `GET /api/categories — List Categories`
+5. Save. When creating a product, pass `"categoryId": "<category-record-id>"`
+
+**Read with embedded category:**
+
+```bash
+curl "http://localhost:3001/api/products?populate=categoryId" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Details: [Dynamic API Engine — References]({{ '/dynamic-api-engine/' | relative_url }}#references-foreign-keys-between-endpoints).
+
 ## Navigation overview
 
 | Section | Path | Description |
@@ -116,6 +135,7 @@ curl http://localhost:3001/api/products \
 | Users | `/users` | User management |
 | User Groups | `/groups` | RBAC permissions |
 | Audit Logs | `/logs` | System activity |
+| Database | `/database` | Raw MongoDB collections (JSON; requires `manage_users`) |
 | System | `/system` | Server resources |
 | Settings | `/settings` | Platform configuration |
 

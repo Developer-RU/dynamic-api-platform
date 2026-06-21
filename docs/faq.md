@@ -47,6 +47,14 @@ GET, POST, PUT, PATCH, DELETE.
 
 Not in v1.0. The engine handles CRUD with schema validation only. For custom logic, extend the backend service layer.
 
+### Can I link records between endpoints (foreign keys)?
+
+Yes. Add a schema field with type **`reference`**, then select the **target endpoint** in the editor. The value stored is a record ID from that endpoint's collection. On create/update the platform validates the link. On GET use `?populate=true` or `?populate=fieldName` to embed linked data.
+
+Example: `categoryId` (reference → `GET /api/categories`) on `/api/products`.
+
+See [Dynamic API Engine — References]({{ '/dynamic-api-engine/' | relative_url }}#references-foreign-keys-between-endpoints).
+
 ---
 
 ## Authentication
@@ -64,13 +72,25 @@ Yes. Settings → Authentication → Disable registration.
 
 IP is temporarily locked out (configurable attempts and duration in Settings).
 
+### Why was I stuck on "Failed to load dashboard" after idle time?
+
+Fixed in recent builds: expired sessions now redirect to `/login`. If you still see the error, hard-refresh the page (`Ctrl+F5`) or clear `localStorage` tokens and log in again.
+
 ---
 
 ## Data
 
 ### Where is endpoint data stored?
 
-MongoDB `endpointdatas` collection, linked by `endpointId` and `resourcePath`.
+MongoDB `endpointdatas` collection, linked by `endpointId` and `resourcePath`. Admins with `manage_users` can inspect raw documents in **Database → Endpoint Data**.
+
+### Can I browse MongoDB from the admin panel?
+
+Yes. **Administration → Database** (`/database`) shows whitelisted collections as raw JSON. Requires `manage_users`. See [Database Explorer]({{ '/database/' | relative_url }}).
+
+### Can I restrict an endpoint to specific domains or IP addresses?
+
+Yes. Use **Network Access** on endpoint groups or the **Network Access** tab on an endpoint. Allow callers by domain (`Origin` / `Referer`) and/or IPv4 address/CIDR pool. See [Network Access]({{ '/network-access/' | relative_url }}).
 
 ### What happens if I change the schema?
 

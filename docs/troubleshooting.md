@@ -54,6 +54,17 @@ Update `CORS_ORIGIN` accordingly.
 - Check JWT secrets haven't changed between restarts (invalidates tokens)
 - Clear localStorage and log in again
 - Verify system clock is correct
+- After token refresh, permissions must be present in the JWT — update to the latest backend image if APIs return 403 right after idle time
+
+### Dashboard shows "Failed to load dashboard" instead of login
+
+This was a known issue when the access token expired. Current builds redirect to `/login` automatically. Rebuild Docker images if you run an older container:
+
+```bash
+docker compose build --no-cache && docker compose up -d
+```
+
+Clear browser cache / hard refresh after redeploy.
 
 ### Login returns 401
 
@@ -83,6 +94,30 @@ Request body doesn't match schema. Check required fields and types in endpoint e
 ### GET returns empty array
 
 No data created yet. POST a record first.
+
+### Built-in test returns "Forbidden: insufficient group permissions" on `/api/users`
+
+System endpoints (`/api/users`, `/api/groups`, `/api/profile`) are **management APIs** with RBAC — not dynamic CRUD routes. Older builds tested them through the dynamic engine incorrectly. Update to the latest backend; the tester now calls the real routes. Ensure your user has `manage_users` or `view` permission.
+
+### Reference field validation fails on POST
+
+The value must be a valid **record ID** from the linked endpoint's collection. Create the target record first (e.g. a category), then pass its `id` in the reference field (e.g. `categoryId`).
+
+### Database page not visible or returns 403
+
+The **Database** menu item requires **`manage_users`** permission. Assign user to Admin or Super Admin group. Direct URL: `/database`.
+
+### Forbidden: network access denied
+
+Dynamic endpoint has **Network access** enabled and the request did not match any allowed domain or IP rule.
+
+1. Open the endpoint (or its group) → **Network Access** tab/section
+2. Add your client domain (e.g. `localhost` or `app.example.com`) and/or IP (e.g. `127.0.0.1`)
+3. If the endpoint inherits group rules, check the parent **Endpoint Group** rules too
+4. Behind a reverse proxy, ensure `X-Forwarded-For` is set correctly
+5. Browser calls need a matching `Origin`/`Referer` for domain rules; server clients rely on IP rules
+
+See [Network Access]({{ '/network-access/' | relative_url }}).
 
 ---
 

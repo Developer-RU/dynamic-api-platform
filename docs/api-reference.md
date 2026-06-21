@@ -255,6 +255,38 @@ Clear logs older than retention period.
 
 ---
 
+## Database API (raw MongoDB) {#database-api-raw-mongodb}
+
+Requires **`manage_users`**. Browse whitelisted collections as JSON.
+
+### GET `/api/database/collections`
+
+List collections with document counts.
+
+### GET `/api/database/collections/:name`
+
+Query: `page`, `limit`, `search`
+
+### GET `/api/database/collections/:name/:id`
+
+Single document by `_id`.
+
+### POST `/api/database/collections/:name`
+
+Create document. Body: raw JSON object.
+
+### PUT `/api/database/collections/:name/:id`
+
+Replace/update document fields. Body: JSON (without `_id`).
+
+### DELETE `/api/database/collections/:name/:id`
+
+Delete document.
+
+See [Database Explorer](database.md) for collection list and security notes.
+
+---
+
 ## Dynamic Endpoints (Runtime)
 
 Any path matching a registered endpoint definition is handled by the dynamic engine.
@@ -263,15 +295,25 @@ Any path matching a registered endpoint definition is handled by the dynamic eng
 
 Returns paginated list of stored records for that `resourcePath`.
 
-Query: `page`, `limit`
+Query: `page`, `limit`, **`populate`**
+
+| Query | Description |
+|-------|-------------|
+| `page`, `limit` | Pagination (default 1, 20) |
+| `populate=true` | Expand all `reference` fields to embedded objects |
+| `populate=fieldName` | Expand one or more fields (comma-separated) |
+
+Example: `GET /api/products?populate=categoryId`
 
 ### GET `/api/your-path/:id`
 
-Returns single record by MongoDB `_id`.
+Returns single record by MongoDB `_id`. Supports the same `populate` query parameters.
 
 ### POST `/api/your-path`
 
 Creates record. Body validated against endpoint schema.
+
+**Schema field type `reference`:** value must be a valid record ID from the linked target endpoint. Invalid or missing references return `400`.
 
 ### PUT `/api/your-path/:id`
 
