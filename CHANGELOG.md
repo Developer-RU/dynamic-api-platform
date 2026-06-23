@@ -8,10 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- OpenAPI/Swagger export for dynamic endpoints
-- Webhook notifications on endpoint events
-- Multi-tenant workspace support
-- Endpoint versioning
+- Cron scheduler for periodic tasks
+- Outbound webhooks on platform events
+- MCP server for AI agent tools
+- API versioning (`/api/v1/...`)
+- API keys for machine-to-machine auth
+
+## [1.2.0] - 2026-06-18
+
+### Added
+- **OpenAPI / Swagger** — auto-generated spec at `/api/openapi.json` and interactive UI at `/api/swagger`
+- **Project export/import** — download/upload `project.json` from Settings (endpoint groups, endpoints, optional data & settings)
+- **JavaScript handlers** — `async function handler(req, db)` on endpoints; replaces default CRUD when enabled; no restart required
+- Admin UI: **API Docs** page (`/api-docs`), **Handler** tab in endpoint editor
+
+### Changed
+- OpenAPI, Swagger, and project routes excluded from dynamic engine catch-all
 
 ## [1.1.0] - 2026-06-18
 
@@ -119,5 +131,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.2.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.0.0

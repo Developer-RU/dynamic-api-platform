@@ -16,6 +16,8 @@ import dashboardRoutes from './routes/dashboard.routes';
 import dynamicRoutes from './routes/dynamic.routes';
 import settingsRoutes from './routes/settings.routes';
 import databaseRoutes from './routes/database.routes';
+import openapiRoutes from './routes/openapi.routes';
+import projectRoutes from './routes/project.routes';
 import { apiRateLimitMiddleware } from './middleware/rateLimit';
 
 export function createApp(): express.Application {
@@ -60,6 +62,8 @@ export function createApp(): express.Application {
   app.use('/api/dashboard', dashboardRoutes);
   app.use('/api/settings', settingsRoutes);
   app.use('/api/database', databaseRoutes);
+  app.use('/api', openapiRoutes);
+  app.use('/api/project', projectRoutes);
 
   app.use('/api', dynamicRoutes);
 

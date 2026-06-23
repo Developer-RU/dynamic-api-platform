@@ -22,6 +22,7 @@ import { IEndpoint } from '../models';
 import { JwtPayload, HttpMethod, TestEndpointResult, Permission, SchemaField, NetworkAccessRules } from '../types';
 import { authService } from './auth.service';
 import { userService, groupService } from './user.service';
+import { handlerRuntime } from './handler-runtime.service';
 
 function assertAnyPermission(user: JwtPayload | undefined, ...permissions: Permission[]): asserts user is JwtPayload {
   if (!user) throw new Error('Unauthorized');
@@ -282,7 +283,7 @@ export class EndpointService {
     };
 
     try {
-      const result = endpoint.isSystem
+      const raw = endpoint.isSystem
         ? await executeSystemEndpoint(endpoint, mockReq)
         : await dynamicEngine.execute(endpoint, mockReq, {
             skipNetworkCheck: dto.applyNetworkAccess !== true,
@@ -291,6 +292,12 @@ export class EndpointService {
               headers: dto.headers,
             },
           });
+      const isHandlerResponse =
+        raw && typeof raw === 'object' && '__handlerResponse' in (raw as object);
+      const statusCode = isHandlerResponse
+        ? Number((raw as { statusCode: number }).statusCode) || 200
+        : 200;
+      const body = isHandlerResponse ? (raw as { body: unknown }).body : raw;
       const responseTime = Date.now() - startTime;
 
       return {
@@ -302,9 +309,9 @@ export class EndpointService {
           params: dto.params,
         },
         response: {
-          statusCode: 200,
+          statusCode,
           headers: { 'content-type': 'application/json' },
-          body: result,
+          body,
           responseTime,
         },
       };
@@ -475,9 +482,31 @@ export class DynamicEngine {
     this.checkAccess(endpoint, req.user);
 
     const params = req.params || {};
+    const collectionPath = getCollectionPath(endpoint.path);
+
+    const jsHandler = endpoint.handlers?.find(
+      (h) => h.type === 'javascript' && h.enabled && h.code?.trim()
+    );
+    if (jsHandler?.code) {
+      const result = await handlerRuntime.run(
+        jsHandler.code,
+        {
+          method: req.method,
+          path: req.path,
+          params,
+          query: req.query || {},
+          body: req.body,
+          user: req.user,
+          headers: options?.networkMeta?.headers || {},
+        },
+        endpoint._id.toString(),
+        collectionPath
+      );
+      return { __handlerResponse: true, statusCode: result.statusCode, body: result.body };
+    }
+
     const hasIdParam = Object.keys(params).length > 0;
     const idParam = params.id || Object.values(params)[0];
-    const collectionPath = getCollectionPath(endpoint.path);
     const populate = req.query?.populate;
 
     switch (endpoint.method) {
@@ -586,6 +615,15 @@ export class DynamicEngine {
         networkMeta: { ip: meta?.ip, headers: meta?.headers },
       });
 
+      const isHandlerResponse =
+        result && typeof result === 'object' && '__handlerResponse' in (result as object);
+      const statusCode = isHandlerResponse
+        ? Number((result as { statusCode: number }).statusCode) || 200
+        : 200;
+      const responseBody = isHandlerResponse
+        ? (result as { body: unknown }).body
+        : result;
+
       await endpointRepository.incrementCallCount(endpoint._id.toString());
 
       const responseTime = Date.now() - startTime;
@@ -593,14 +631,14 @@ export class DynamicEngine {
         action: 'api_call',
         userId: user?.userId as unknown as import('mongoose').Types.ObjectId,
         endpointId: endpoint._id,
-        message: `${method} ${requestPath} - 200`,
-        statusCode: 200,
+        message: `${method} ${requestPath} - ${statusCode}`,
+        statusCode,
         responseTime,
         ip: meta?.ip,
         userAgent: meta?.userAgent,
       });
 
-      return { statusCode: 200, body: result };
+      return { statusCode, body: responseBody };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal server error';
       const statusCode = message.includes('not found') ? 404

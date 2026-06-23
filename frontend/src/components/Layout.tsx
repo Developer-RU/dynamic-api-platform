@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Shield, Globe, FileText,
   LogOut, Sun, Moon, Zap, Menu, X, Server, Folders, Settings,
-  BookOpen, Github, Network, Database,
+  BookOpen, Github, Network, Database, FileCode,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -38,6 +38,7 @@ const navSections: { label: string; items: NavItem[] }[] = [
       { to: '/endpoints', icon: Globe, label: 'Endpoints' },
       { to: '/endpoint-groups', icon: Folders, label: 'Endpoint Groups' },
       { to: '/api-schema', icon: Network, label: 'API Schema' },
+      { to: '/api-docs', icon: FileCode, label: 'API Docs' },
     ],
   },
   {
@@ -81,7 +82,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">Dynamic API</div>
-            <div className="text-xs text-slate-500">Platform v1.1</div>
+            <div className="text-xs text-slate-500">Platform v1.2</div>
           </div>
           <button
             type="button"

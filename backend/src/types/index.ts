@@ -55,7 +55,7 @@ export interface SchemaField {
 
 export interface EndpointHandler {
   name: string;
-  type: 'pre' | 'post' | 'transform';
+  type: 'pre' | 'post' | 'transform' | 'javascript';
   code?: string;
   enabled: boolean;
 }

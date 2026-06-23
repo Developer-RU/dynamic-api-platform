@@ -52,7 +52,7 @@ const NetworkAccessSchema = new Schema(
 const EndpointHandlerSchema = new Schema(
   {
     name: { type: String, required: true },
-    type: { type: String, enum: ['pre', 'post', 'transform'], required: true },
+    type: { type: String, enum: ['pre', 'post', 'transform', 'javascript'], required: true },
     code: { type: String },
     enabled: { type: Boolean, default: true },
   },

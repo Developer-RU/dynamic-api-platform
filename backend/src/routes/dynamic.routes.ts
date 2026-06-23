@@ -11,6 +11,9 @@ const SYSTEM_PATHS = [
   '/api/endpoints',
   '/api/dashboard',
   '/api/database',
+  '/api/openapi.json',
+  '/api/swagger',
+  '/api/project',
   '/api/health',
   '/api/csrf-token',
 ];

@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, GripVertical, Send, FileText, Code, Settings, Shield } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, GripVertical, Send, FileText, Code, Settings, Shield, Braces } from 'lucide-react';
 import { api } from '../services/api';
 import { Endpoint, EndpointGroup, SchemaField, TestResult } from '../types';
 import { PageHeader, MethodBadge, LoadingSpinner, SearchInput } from '../components/UI';
@@ -8,6 +8,17 @@ import NetworkAccessEditor, { DEFAULT_NETWORK_ACCESS } from '../components/Netwo
 import { matchesSearch } from '../utils/search';
 
 const FIELD_TYPES = ['string', 'number', 'boolean', 'object', 'array', 'datetime', 'json', 'reference'];
+
+const DEFAULT_HANDLER_CODE = `async function handler(req, db) {
+  // req: { method, path, params, query, body, user, headers }
+  // db:  { findOne, find, create, update, delete } for this endpoint's collection
+  //
+  // Example:
+  // const record = await db.findOne({ email: req.body.email });
+  // return { status: 200, data: record };
+
+  return { status: 200, data: { message: 'Handler active — replace with your logic' } };
+}`;
 
 export default function EndpointEditorPage() {
   const { id } = useParams<{ id: string }>();
@@ -17,9 +28,9 @@ export default function EndpointEditorPage() {
   const [endpointGroups, setEndpointGroups] = useState<EndpointGroup[]>([]);
   const [refEndpoints, setRefEndpoints] = useState<Endpoint[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<'general' | 'network' | 'schema' | 'test' | 'docs'>(() => {
+  const [tab, setTab] = useState<'general' | 'network' | 'schema' | 'handler' | 'test' | 'docs'>(() => {
     const t = searchParams.get('tab');
-    return t === 'general' || t === 'network' || t === 'schema' || t === 'test' || t === 'docs' ? t : 'general';
+    return t === 'general' || t === 'network' || t === 'schema' || t === 'handler' || t === 'test' || t === 'docs' ? t : 'general';
   });
   const [saving, setSaving] = useState(false);
 
@@ -53,6 +64,9 @@ export default function EndpointEditorPage() {
         ...ep,
         networkAccess: ep.networkAccess || { ...DEFAULT_NETWORK_ACCESS },
         inheritGroupNetworkAccess: ep.inheritGroupNetworkAccess !== false,
+        handlers: ep.handlers?.length
+          ? ep.handlers
+          : [{ name: 'main', type: 'javascript', code: DEFAULT_HANDLER_CODE, enabled: false }],
       });
       setEndpointGroups(groups);
       setRefEndpoints(endpointList.data.filter((item) => !item.isSystem && item._id !== id));
@@ -77,6 +91,7 @@ export default function EndpointEditorPage() {
         enabled: endpoint.enabled,
         networkAccess: endpoint.networkAccess,
         inheritGroupNetworkAccess: endpoint.inheritGroupNetworkAccess,
+        handlers: endpoint.handlers,
       });
       setEndpoint(updated);
     } catch (err) {
@@ -147,10 +162,18 @@ export default function EndpointEditorPage() {
   if (loading) return <LoadingSpinner />;
   if (!endpoint) return <div>Endpoint not found</div>;
 
+  const jsHandler = endpoint.handlers.find((h) => h.type === 'javascript') || {
+    name: 'main',
+    type: 'javascript',
+    code: DEFAULT_HANDLER_CODE,
+    enabled: false,
+  };
+
   const tabs = [
     { id: 'general' as const, label: 'General', icon: Settings },
     { id: 'network' as const, label: 'Network Access', icon: Shield },
     { id: 'schema' as const, label: 'Schema', icon: Code },
+    { id: 'handler' as const, label: 'Handler', icon: Braces },
     { id: 'test' as const, label: 'Test', icon: Send },
     { id: 'docs' as const, label: 'Docs', icon: FileText },
   ];
@@ -261,6 +284,46 @@ export default function EndpointEditorPage() {
               setEndpoint({ ...endpoint, inheritGroupNetworkAccess })
             }
           />
+        </div>
+      )}
+
+      {tab === 'handler' && (
+        <div className="space-y-4 max-w-4xl">
+          <div className="card p-4 border border-brand-500/30 bg-brand-500/5">
+            <p className="text-sm text-dark-muted">
+              Write <code className="text-accent">async function handler(req, db)</code> in JavaScript.
+              When enabled, it <strong>replaces</strong> default schema CRUD for this endpoint.
+              Changes apply immediately — no server restart.
+            </p>
+          </div>
+          <div className="card space-y-4">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={jsHandler.enabled}
+                onChange={(e) => {
+                  const handlers = endpoint.handlers.filter((h) => h.type !== 'javascript');
+                  handlers.push({ ...jsHandler, enabled: e.target.checked });
+                  setEndpoint({ ...endpoint, handlers });
+                }}
+              />
+              Enable JavaScript handler
+            </label>
+            <textarea
+              className="input font-mono text-sm min-h-[360px] resize-y"
+              value={jsHandler.code || ''}
+              spellCheck={false}
+              onChange={(e) => {
+                const handlers = endpoint.handlers.filter((h) => h.type !== 'javascript');
+                handlers.push({ ...jsHandler, code: e.target.value });
+                setEndpoint({ ...endpoint, handlers });
+              }}
+            />
+            <p className="text-xs text-dark-muted">
+              Return <code>{`{ status: 200, data: ... }`}</code> or <code>{`{ success: true, data: ... }`}</code>.
+              <code className="ml-1">db</code> methods: findOne, find, create, update, delete (scoped to this endpoint).
+            </p>
+          </div>
         </div>
       )}
 

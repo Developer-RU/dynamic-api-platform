@@ -386,6 +386,31 @@ class ApiClient {
     }
     return this.request(path, options);
   }
+
+  async exportProject(options?: { includeData?: boolean; includeSettings?: boolean }) {
+    const params = new URLSearchParams();
+    if (options?.includeData) params.set('includeData', 'true');
+    if (options?.includeSettings) params.set('includeSettings', 'true');
+    const res = await this.request<{ success: boolean; data: Record<string, unknown> }>(
+      `/api/project/export?${params}`
+    );
+    return res.data;
+  }
+
+  async importProject(
+    bundle: Record<string, unknown>,
+    options?: { mode?: 'merge' | 'replace'; includeData?: boolean }
+  ) {
+    const res = await this.request<{
+      success: boolean;
+      data: { groupsCreated: number; endpointsCreated: number; endpointsUpdated: number; recordsImported: number };
+      message: string;
+    }>('/api/project/import', {
+      method: 'POST',
+      body: JSON.stringify({ bundle, ...options }),
+    });
+    return res;
+  }
 }
 
 export const api = new ApiClient();

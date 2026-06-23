@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Save, Trash2, Shield, Gauge, FileText, Globe, RefreshCw } from 'lucide-react';
+import { Save, Trash2, Shield, Gauge, FileText, Globe, RefreshCw, Download, Upload } from 'lucide-react';
 import { api } from '../services/api';
 import { AppSettings } from '../types';
 import { PageHeader, LoadingSpinner } from '../components/UI';
@@ -40,6 +40,11 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [clearing, setClearing] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [includeData, setIncludeData] = useState(false);
+  const [includeSettings, setIncludeSettings] = useState(false);
+  const [importMode, setImportMode] = useState<'merge' | 'replace'>('merge');
 
   const load = () => {
     setLoading(true);
@@ -93,6 +98,39 @@ export default function SettingsPage() {
       alert(err instanceof Error ? err.message : 'Failed');
     } finally {
       setClearing(false);
+    }
+  };
+
+  const exportProject = async () => {
+    setExporting(true);
+    try {
+      const bundle = await api.exportProject({ includeData, includeSettings });
+      const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `dynamic-api-project-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Export failed');
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const importProject = async (file: File) => {
+    if (importMode === 'replace' && !confirm('Replace mode will delete all custom endpoints and groups. Continue?')) return;
+    setImporting(true);
+    try {
+      const text = await file.text();
+      const bundle = JSON.parse(text);
+      const res = await api.importProject(bundle, { mode: importMode, includeData });
+      alert(res.message);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Import failed');
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -178,6 +216,44 @@ export default function SettingsPage() {
               <Trash2 className="w-4 h-4" /> Clear all logs
             </button>
           </div>
+        </SettingSection>
+
+        <SettingSection title="Project Export / Import" icon={Download}>
+          <p className="text-xs text-dark-muted">
+            Export endpoint groups, endpoints, and optionally runtime data and settings to a JSON file.
+            Users and audit logs are never included.
+          </p>
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={includeData} onChange={(e) => setIncludeData(e.target.checked)} />
+            Include endpoint runtime data
+          </label>
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={includeSettings} onChange={(e) => setIncludeSettings(e.target.checked)} />
+            Include platform settings
+          </label>
+          <button className="btn-primary w-full justify-center" onClick={exportProject} disabled={exporting}>
+            <Download className="w-4 h-4" /> {exporting ? 'Exporting...' : 'Download project.json'}
+          </button>
+          <Field label="Import mode">
+            <select className="select" value={importMode} onChange={(e) => setImportMode(e.target.value as 'merge' | 'replace')}>
+              <option value="merge">Merge — update existing by path+method</option>
+              <option value="replace">Replace — delete all custom endpoints first</option>
+            </select>
+          </Field>
+          <label className="btn-secondary w-full justify-center cursor-pointer">
+            <Upload className="w-4 h-4" /> {importing ? 'Importing...' : 'Import project.json'}
+            <input
+              type="file"
+              accept="application/json,.json"
+              className="hidden"
+              disabled={importing}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void importProject(file);
+                e.target.value = '';
+              }}
+            />
+          </label>
         </SettingSection>
 
         <SettingSection title="Pagination & Display" icon={Globe}>
