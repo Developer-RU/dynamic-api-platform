@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Shield, Globe, FileText,
   LogOut, Sun, Moon, Zap, Menu, X, Server, Folders, Settings,
+  BookOpen, Github,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -32,6 +33,13 @@ const navSections = [
     ],
   },
 ];
+
+const DOCS_URL = 'https://dynamic-api-platform.github.io/Dynamic-API-Platform/';
+const GITHUB_URL = 'https://github.com/Dynamic-API-Platform';
+
+function externalLinkClass() {
+  return 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200';
+}
 
 function navClass(isActive: boolean) {
   return [
@@ -95,6 +103,32 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
           ))}
         </nav>
+
+        <div className="shrink-0 border-t border-slate-200 p-3 dark:border-slate-800">
+          <div className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Resources
+          </div>
+          <div className="space-y-0.5">
+            <a
+              href={DOCS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={externalLinkClass()}
+            >
+              <BookOpen className="h-4 w-4 shrink-0" />
+              Documentation
+            </a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={externalLinkClass()}
+            >
+              <Github className="h-4 w-4 shrink-0" />
+              GitHub
+            </a>
+          </div>
+        </div>
       </aside>
 
       {sidebarOpen && (
