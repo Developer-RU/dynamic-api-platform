@@ -145,8 +145,8 @@ export default function EndpointEditorPage() {
             onClick={() => setTab(t.id)}
             className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
               tab === t.id
-                ? 'border-primary-500 text-primary-400'
-                : 'border-transparent text-dark-muted hover:text-dark-text'
+                ? 'border-brand-500 text-brand-600 dark:text-brand-300'
+                : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
             <t.icon className="w-4 h-4" />

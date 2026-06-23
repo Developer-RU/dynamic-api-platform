@@ -8,14 +8,14 @@ import { useTheme } from '../context/ThemeContext';
 
 const chartThemes = {
   dark: {
-    grid: '#2a3142',
+    grid: '#334155',
     tick: '#94a3b8',
-    tooltip: { background: '#1a1f2e', border: '1px solid #2a3142', borderRadius: 8, fontSize: 12, color: '#e2e8f0' },
+    tooltip: { background: '#0f172a', border: '1px solid #334155', borderRadius: 8, fontSize: 12, color: '#f1f5f9' },
   },
   light: {
-    grid: '#e5e7eb',
-    tick: '#6b7280',
-    tooltip: { background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 12, color: '#111827' },
+    grid: '#e2e8f0',
+    tick: '#64748b',
+    tooltip: { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, fontSize: 12, color: '#0f172a' },
   },
 } as const;
 
@@ -47,8 +47,8 @@ export default function DashboardPage() {
       <PageHeader title="Dashboard" subtitle="System overview and statistics" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
-        <StatCard title="Users" value={stats.users} icon={Users} color="#3b82f6" subtitle={`${stats.activeUsers} active`} />
-        <StatCard title="Endpoints" value={stats.endpoints} icon={Globe} color="#8b5cf6" />
+        <StatCard title="Users" value={stats.users} icon={Users} color="#0891b2" subtitle={`${stats.activeUsers} active`} />
+        <StatCard title="Endpoints" value={stats.endpoints} icon={Globe} color="#0e7490" />
         <StatCard title="Requests" value={stats.requests} icon={Activity} color="#10b981" />
         <StatCard title="Errors" value={stats.errors} icon={AlertTriangle} color="#ef4444" />
         <StatCard title="Groups" value={stats.groups} icon={Shield} color="#f59e0b" />
@@ -63,7 +63,7 @@ export default function DashboardPage() {
               <XAxis dataKey="date" tick={{ fill: chartTheme.tick, fontSize: 11 }} />
               <YAxis tick={{ fill: chartTheme.tick, fontSize: 11 }} />
               <Tooltip contentStyle={chartTheme.tooltip} />
-              <Area type="monotone" dataKey="requests" stroke="#3b82f6" fill="#3b82f620" />
+              <Area type="monotone" dataKey="requests" stroke="#0891b2" fill="#0891b220" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -89,7 +89,7 @@ export default function DashboardPage() {
               <XAxis dataKey="date" tick={{ fill: chartTheme.tick, fontSize: 11 }} />
               <YAxis tick={{ fill: chartTheme.tick, fontSize: 11 }} />
               <Tooltip contentStyle={chartTheme.tooltip} />
-              <Area type="monotone" dataKey="activity" stroke="#8b5cf6" fill="#8b5cf620" />
+              <Area type="monotone" dataKey="activity" stroke="#0e7490" fill="#0e749020" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
