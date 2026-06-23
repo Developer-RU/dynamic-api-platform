@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { FilterQuery } from 'mongoose';
 import { CronJob, ICronJob, Webhook, IWebhook, ApiKey, IApiKey } from '../models';
 
 export class CronJobRepository {
@@ -12,6 +13,18 @@ export class CronJobRepository {
 
   async findEnabled(): Promise<ICronJob[]> {
     return CronJob.find({ enabled: true });
+  }
+
+  async count(filter: FilterQuery<ICronJob> = {}): Promise<number> {
+    return CronJob.countDocuments(filter);
+  }
+
+  async countEnabled(): Promise<number> {
+    return CronJob.countDocuments({ enabled: true });
+  }
+
+  async findWithErrors(): Promise<ICronJob[]> {
+    return CronJob.find({ lastRunStatus: 'error' }).sort({ lastRunAt: -1 }).limit(10);
   }
 
   async create(data: Partial<ICronJob>): Promise<ICronJob> {
@@ -41,6 +54,18 @@ export class WebhookRepository {
     return Webhook.find({ enabled: true, events: event });
   }
 
+  async count(filter: FilterQuery<IWebhook> = {}): Promise<number> {
+    return Webhook.countDocuments(filter);
+  }
+
+  async countEnabled(): Promise<number> {
+    return Webhook.countDocuments({ enabled: true });
+  }
+
+  async findWithErrors(): Promise<IWebhook[]> {
+    return Webhook.find({ lastStatus: 'error' }).sort({ lastTriggeredAt: -1 }).limit(10);
+  }
+
   async create(data: Partial<IWebhook>): Promise<IWebhook> {
     return Webhook.create(data);
   }
@@ -66,6 +91,14 @@ export class ApiKeyRepository {
 
   async findByPrefix(prefix: string): Promise<IApiKey[]> {
     return ApiKey.find({ keyPrefix: prefix, enabled: true });
+  }
+
+  async countEnabled(): Promise<number> {
+    return ApiKey.countDocuments({ enabled: true });
+  }
+
+  async findUnused(): Promise<IApiKey[]> {
+    return ApiKey.find({ enabled: true, lastUsedAt: { $exists: false } }).sort({ createdAt: -1 }).limit(10);
   }
 
   async create(data: Partial<IApiKey>): Promise<IApiKey> {

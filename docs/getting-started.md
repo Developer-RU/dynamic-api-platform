@@ -149,13 +149,18 @@ Full guide: [Network Access]({{ '/network-access/' | relative_url }}).
 
 | Section | Path | Description |
 |---------|------|-------------|
-| Dashboard | `/` | Statistics and charts |
+| Dashboard | `/` | KPI cards, automation health, 7-day charts (requests, webhooks, cron, traffic by source) |
 | Endpoints | `/endpoints` | Manage APIs (grouped tables) |
 | Endpoint Groups | `/endpoint-groups` | Organize endpoints |
 | API Schema | `/api-schema` | Read-only ER diagram (groups, fields, FK arrows) |
+| API Docs | `/api-docs` | Embedded OpenAPI / Swagger UI |
+| Cron Jobs | `/cron` | Scheduled tasks |
+| Webhooks | `/webhooks` | Outbound event subscriptions |
+| API Keys | `/api-keys` | Machine-to-machine authentication |
+| MCP Server | `/mcp` | AI agent tools and JSON-RPC endpoint |
 | Users | `/users` | User management |
 | User Groups | `/groups` | RBAC permissions |
-| Audit Logs | `/logs` | System activity |
+| Audit Logs | `/logs` | API calls, webhooks, cron, MCP, auth events |
 | Database | `/database` | Raw MongoDB collections (JSON; requires `manage_users`) |
 | System | `/system` | Server resources |
 | Settings | `/settings` | Platform configuration |

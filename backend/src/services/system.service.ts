@@ -2,6 +2,7 @@ import os from 'os';
 import fs from 'fs/promises';
 import path from 'path';
 import { env } from '../config/env';
+import { cronJobRepository } from '../repositories';
 
 export interface SystemInfo {
   hostname: string;
@@ -39,6 +40,8 @@ export interface SystemInfo {
   };
   loadAverage: number[];
   timestamp: string;
+  cronJobsActive: number;
+  cronJobsTotal: number;
 }
 
 async function countFiles(dir: string, maxDepth = 5, depth = 0): Promise<number> {
@@ -97,10 +100,12 @@ export class SystemService {
       }
     }
 
-    const [disk, appFiles, logFiles] = await Promise.all([
+    const [disk, appFiles, logFiles, cronJobsTotal, cronJobsActive] = await Promise.all([
       getDiskStats('/'),
       countFiles('/app'),
       countFiles('/app/logs').catch(() => 0),
+      cronJobRepository.count(),
+      cronJobRepository.countEnabled(),
     ]);
 
     return {
@@ -131,6 +136,8 @@ export class SystemService {
       network: { interfaces },
       loadAverage: os.loadavg(),
       timestamp: new Date().toISOString(),
+      cronJobsActive,
+      cronJobsTotal,
     };
   }
 }

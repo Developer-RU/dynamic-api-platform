@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **MCP Server** admin page at `/mcp` — tools table, JSON-RPC examples, endpoint URL
+- **Dashboard automation KPIs** — Cron Jobs, Webhooks, API Keys, MCP Tools cards
+- **Dashboard charts** — webhook deliveries, cron runs, API traffic by source (direct/MCP/cron/API key)
+- **Automation health** widget on dashboard — cron/webhook errors, unused API keys
+- **Audit log actions** — `webhook_dispatch`, `cron_run`, `mcp_call`, `api_key_used` with `source` field
+- **Logs filters** — new action types and Source column
 
 ### Fixed
 - Sidebar layout — navigation scrolls inside the panel; Resources footer stays visible without page scroll

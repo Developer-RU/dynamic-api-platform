@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { webhookRepository } from '../repositories';
+import { webhookRepository, logRepository } from '../repositories';
 import { WebhookEvent } from '../types';
 import { IWebhook } from '../models';
 
@@ -42,6 +42,19 @@ async function deliverWebhook(webhook: IWebhook, payload: WebhookPayload): Promi
       lastStatus: response.ok ? 'success' : 'error',
     });
 
+    await logRepository.create({
+      action: 'webhook_dispatch',
+      source: 'system',
+      message: `Webhook "${webhook.name}" → ${webhook.url} - ${response.ok ? 'success' : 'error'}`,
+      statusCode: response.status,
+      details: {
+        webhookId: webhook._id.toString(),
+        event: payload.event,
+        status: response.ok ? 'success' : 'error',
+        httpStatus: response.status,
+      },
+    });
+
     if (!response.ok) {
       console.error(`Webhook ${webhook.name} failed: HTTP ${response.status}`);
     }
@@ -50,6 +63,19 @@ async function deliverWebhook(webhook: IWebhook, payload: WebhookPayload): Promi
       lastTriggeredAt: new Date(),
       lastStatus: 'error',
     });
+
+    await logRepository.create({
+      action: 'webhook_dispatch',
+      source: 'system',
+      message: `Webhook "${webhook.name}" → ${webhook.url} - error`,
+      details: {
+        webhookId: webhook._id.toString(),
+        event: payload.event,
+        status: 'error',
+        error: error instanceof Error ? error.message : 'delivery failed',
+      },
+    });
+
     console.error(`Webhook ${webhook.name} error:`, error instanceof Error ? error.message : error);
   } finally {
     clearTimeout(timeout);

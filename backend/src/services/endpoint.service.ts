@@ -18,6 +18,8 @@ import {
   resolveEffectiveNetworkAccess,
   checkNetworkAccess,
 } from '../utils';
+import { resolveLogSource, shouldSkipApiAuditLog } from '../utils/logSource';
+import { LogSource } from '../types';
 import { CreateEndpointDto, UpdateEndpointDto, CreateEndpointGroupDto, UpdateEndpointGroupDto, TestEndpointDto } from '../dto';
 import { IEndpoint } from '../models';
 import { JwtPayload, HttpMethod, TestEndpointResult, Permission, SchemaField, NetworkAccessRules } from '../types';
@@ -621,7 +623,13 @@ export class DynamicEngine {
     body: unknown,
     query: Record<string, string>,
     user?: JwtPayload,
-    meta?: { ip?: string; userAgent?: string; headers?: Record<string, string | string[] | undefined> }
+    meta?: {
+      ip?: string;
+      userAgent?: string;
+      headers?: Record<string, string | string[] | undefined>;
+      source?: LogSource;
+      skipAuditLog?: boolean;
+    }
   ): Promise<{ statusCode: number; body: unknown }> {
     const startTime = Date.now();
     const match = await this.findMatchingEndpoint(requestPath, method);
@@ -656,16 +664,31 @@ export class DynamicEngine {
       await endpointRepository.incrementCallCount(endpoint._id.toString());
 
       const responseTime = Date.now() - startTime;
-      await logRepository.create({
-        action: 'api_call',
-        userId: user?.userId as unknown as import('mongoose').Types.ObjectId,
-        endpointId: endpoint._id,
-        message: `${method} ${requestPath} - ${statusCode}`,
-        statusCode,
-        responseTime,
-        ip: meta?.ip,
-        userAgent: meta?.userAgent,
-      });
+      const source = resolveLogSource(meta, user);
+
+      if (!shouldSkipApiAuditLog(meta)) {
+        await logRepository.create({
+          action: 'api_call',
+          source,
+          userId: user?.userId as unknown as import('mongoose').Types.ObjectId,
+          endpointId: endpoint._id,
+          message: `${method} ${requestPath} - ${statusCode}`,
+          statusCode,
+          responseTime,
+          ip: meta?.ip,
+          userAgent: meta?.userAgent,
+        });
+
+        if (source === 'api_key') {
+          await logRepository.create({
+            action: 'api_key_used',
+            source: 'api_key',
+            message: `API key ${user?.login?.replace('apikey:', '') || ''} → ${method} ${requestPath}`,
+            ip: meta?.ip,
+            userAgent: meta?.userAgent,
+          });
+        }
+      }
 
       void webhookService.dispatch('endpoint.called', {
         endpointId: endpoint._id.toString(),
@@ -692,16 +715,22 @@ export class DynamicEngine {
       });
 
       const responseTime = Date.now() - startTime;
-      await logRepository.create({
-        action: 'error',
-        userId: user?.userId as unknown as import('mongoose').Types.ObjectId,
-        endpointId: endpoint._id,
-        message: `${method} ${requestPath} - ${statusCode}: ${message}`,
-        statusCode,
-        responseTime,
-        ip: meta?.ip,
-        details: { error: message },
-      });
+      const source = resolveLogSource(meta, user);
+
+      if (!shouldSkipApiAuditLog(meta)) {
+        await logRepository.create({
+          action: 'error',
+          source,
+          userId: user?.userId as unknown as import('mongoose').Types.ObjectId,
+          endpointId: endpoint._id,
+          message: `${method} ${requestPath} - ${statusCode}: ${message}`,
+          statusCode,
+          responseTime,
+          ip: meta?.ip,
+          userAgent: meta?.userAgent,
+          details: { error: message },
+        });
+      }
 
       return { statusCode, body: { success: false, error: message } };
     }

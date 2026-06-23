@@ -1,8 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { LogAction } from '../types';
+import { LogAction, LogSource } from '../types';
 
 export interface ILog extends Document {
   action: LogAction;
+  source?: LogSource;
   userId?: mongoose.Types.ObjectId;
   endpointId?: mongoose.Types.ObjectId;
   message: string;
@@ -22,8 +23,14 @@ const LogSchema = new Schema<ILog>(
         'login', 'logout', 'register', 'error',
         'endpoint_create', 'endpoint_update', 'endpoint_delete',
         'api_call', 'user_create', 'user_update', 'user_delete',
+        'webhook_dispatch', 'cron_run', 'mcp_call', 'api_key_used',
       ],
       required: true,
+      index: true,
+    },
+    source: {
+      type: String,
+      enum: ['direct', 'mcp', 'cron', 'api_key', 'system'],
       index: true,
     },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },

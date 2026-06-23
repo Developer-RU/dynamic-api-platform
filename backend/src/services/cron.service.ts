@@ -1,6 +1,6 @@
 import vm from 'vm';
 import cron, { ScheduledTask } from 'node-cron';
-import { cronJobRepository } from '../repositories';
+import { cronJobRepository, logRepository } from '../repositories';
 import { ICronJob } from '../models';
 import { dynamicEngine } from './endpoint.service';
 
@@ -59,6 +59,16 @@ export class CronSchedulerService {
         lastRunStatus: 'success',
         lastRunMessage: message,
       });
+      await logRepository.create({
+        action: 'cron_run',
+        source: 'system',
+        message: `Cron "${job.name}" - success`,
+        details: {
+          cronJobId: id,
+          actionType: job.actionType,
+          status: 'success',
+        },
+      });
       return { success: true, message };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Cron job failed';
@@ -66,6 +76,17 @@ export class CronSchedulerService {
         lastRunAt: new Date(),
         lastRunStatus: 'error',
         lastRunMessage: message,
+      });
+      await logRepository.create({
+        action: 'cron_run',
+        source: 'system',
+        message: `Cron "${job.name}" - error`,
+        details: {
+          cronJobId: id,
+          actionType: job.actionType,
+          status: 'error',
+          error: message,
+        },
       });
       throw error;
     }
@@ -120,6 +141,7 @@ return await run();
     const result = await dynamicEngine.handleRequest(path, method.toUpperCase(), {}, {}, undefined, {
       ip: '127.0.0.1',
       userAgent: 'cron-scheduler',
+      source: 'cron',
     });
     if (result.statusCode >= 400) {
       throw new Error(`Endpoint returned ${result.statusCode}`);

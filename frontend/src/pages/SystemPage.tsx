@@ -81,6 +81,16 @@ export default function SystemPage() {
         <InfoCard icon={Clock} label="Uptime" value={formatUptime(info.uptime)} sub={`Node ${info.nodeVersion}`} color="#10b981" />
       </div>
 
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <InfoCard
+          icon={Clock}
+          label="Cron Scheduler"
+          value={`${info.cronJobsActive} active`}
+          sub={`${info.cronJobsTotal} total jobs`}
+          color="#8b5cf6"
+        />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div className="card">
           <div className="flex items-center gap-2 mb-4">

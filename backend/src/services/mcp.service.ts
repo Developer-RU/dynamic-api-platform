@@ -1,4 +1,4 @@
-import { endpointRepository } from '../repositories';
+import { endpointRepository, logRepository } from '../repositories';
 import { dynamicEngine } from './endpoint.service';
 import { openApiService } from './openapi.service';
 
@@ -53,8 +53,18 @@ export class McpService {
       args.body || {},
       (args.query || {}) as Record<string, string>,
       undefined,
-      { ip: '127.0.0.1', userAgent: 'mcp-server' }
+      { ip: '127.0.0.1', userAgent: 'mcp-server', skipAuditLog: true }
     );
+
+    await logRepository.create({
+      action: 'mcp_call',
+      source: 'mcp',
+      endpointId: endpoint._id,
+      message: `MCP tool ${name} - ${result.statusCode}`,
+      statusCode: result.statusCode,
+      userAgent: 'mcp-server',
+      details: { toolName: name },
+    });
 
     if (result.statusCode >= 400) {
       throw new Error(typeof result.body === 'object' && result.body && 'error' in (result.body as object)

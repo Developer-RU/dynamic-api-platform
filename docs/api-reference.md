@@ -264,13 +264,13 @@ Group-level `networkAccess` applies to all endpoints in the group that inherit r
 
 Permission: `view`
 
-Returns users, endpoints, requests, errors counts and 7-day charts.
+Returns users, endpoints, requests/errors (last 7 days), automation counts (cron, webhooks, API keys, MCP tools), 7-day charts (requests, errors, logins, webhook deliveries, cron runs, traffic by source), and `automationHealth` (failed cron jobs, webhook errors, unused API keys).
 
 ### GET `/api/dashboard/system`
 
 Permission: `view`
 
-Server OS, CPU, memory, disk, network info.
+Server OS, CPU, memory, disk, network info, plus `cronJobsActive` and `cronJobsTotal`.
 
 ### GET `/api/dashboard/logs`
 
@@ -279,8 +279,8 @@ Permission: `view_logs`
 | Query | Description |
 |-------|-------------|
 | `page`, `limit` | Pagination |
-| `action` | Filter: `login`, `error`, `api_call`, etc. |
-| `search` | Search message, action, IP |
+| `action` | Filter: `login`, `error`, `api_call`, `webhook_dispatch`, `cron_run`, `mcp_call`, `api_key_used`, etc. |
+| `search` | Search message, action, source, IP |
 
 ---
 
