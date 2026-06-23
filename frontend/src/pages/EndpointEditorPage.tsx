@@ -199,7 +199,7 @@ export default function EndpointEditorPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Path</label>
-              <input className="input font-mono text-sm bg-dark-hover" value={endpoint.path} readOnly />
+              <input className="input font-mono text-sm bg-dark-hover/50" value={endpoint.path} readOnly />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Method</label>
@@ -240,7 +240,7 @@ export default function EndpointEditorPage() {
             ) : (
               <div className="space-y-3">
                 {visibleFields.map(({ field, index }) => (
-                  <div key={index} className="flex items-start gap-3 p-3 bg-dark-bg rounded-md border border-dark-border">
+                  <div key={index} className="flex items-start gap-3 p-3 bg-dark-hover/60 rounded-md border border-dark-border">
                     <GripVertical className="w-4 h-4 text-dark-muted mt-2.5 cursor-grab" />
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-4 gap-2">
                       <input className="input" value={field.name} onChange={(e) => updateField(index, { name: e.target.value })} placeholder="Field name" />
@@ -266,13 +266,13 @@ export default function EndpointEditorPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="card">
                 <h4 className="text-sm font-semibold mb-2">Example Request</h4>
-                <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto max-h-48 font-mono text-green-400">
+                <pre className="code-block-success max-h-48">
                   {JSON.stringify(examples.request, null, 2)}
                 </pre>
               </div>
               <div className="card">
                 <h4 className="text-sm font-semibold mb-2">Example Response</h4>
-                <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto max-h-48 font-mono text-blue-400">
+                <pre className="code-block-info max-h-48">
                   {JSON.stringify(examples.response, null, 2)}
                 </pre>
               </div>
@@ -318,14 +318,14 @@ export default function EndpointEditorPage() {
                     <span className="text-xs text-dark-muted">{testResult.response.responseTime}ms</span>
                   </div>
                 </div>
-                <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto max-h-64 font-mono">
+                <pre className="code-block max-h-64">
                   {JSON.stringify(testResult.response.body, null, 2)}
                 </pre>
               </div>
 
               <div className="card">
                 <h4 className="text-sm font-semibold mb-2">Request</h4>
-                <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto max-h-32 font-mono text-dark-muted">
+                <pre className="code-block max-h-32 text-dark-muted">
                   {JSON.stringify(testResult.request, null, 2)}
                 </pre>
               </div>
@@ -366,13 +366,13 @@ export default function EndpointEditorPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h4 className="text-sm font-semibold mb-2">Request Body</h4>
-              <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto font-mono">
+              <pre className="code-block">
                 {JSON.stringify(docs.requestBody, null, 2)}
               </pre>
             </div>
             <div>
               <h4 className="text-sm font-semibold mb-2">Example Response</h4>
-              <pre className="text-xs bg-dark-bg p-3 rounded-md overflow-auto font-mono">
+              <pre className="code-block">
                 {JSON.stringify(docs.exampleResponse, null, 2)}
               </pre>
             </div>

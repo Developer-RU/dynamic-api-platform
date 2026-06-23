@@ -18,12 +18,12 @@ export default {
           900: '#1e3a8a',
         },
         dark: {
-          bg: '#0f1419',
-          card: '#1a1f2e',
-          border: '#2a3142',
-          hover: '#242b3d',
-          text: '#e2e8f0',
-          muted: '#94a3b8',
+          bg: 'rgb(var(--dap-bg) / <alpha-value>)',
+          card: 'rgb(var(--dap-card) / <alpha-value>)',
+          border: 'rgb(var(--dap-border) / <alpha-value>)',
+          hover: 'rgb(var(--dap-hover) / <alpha-value>)',
+          text: 'rgb(var(--dap-text) / <alpha-value>)',
+          muted: 'rgb(var(--dap-muted) / <alpha-value>)',
         },
       },
       fontFamily: {

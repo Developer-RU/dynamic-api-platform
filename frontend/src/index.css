@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    --dap-bg: 249 250 251;
+    --dap-card: 255 255 255;
+    --dap-border: 229 231 235;
+    --dap-hover: 243 244 246;
+    --dap-text: 17 24 39;
+    --dap-muted: 107 114 128;
+  }
+
+  html.dark {
+    --dap-bg: 15 20 25;
+    --dap-card: 26 31 46;
+    --dap-border: 42 49 66;
+    --dap-hover: 36 43 61;
+    --dap-text: 226 232 240;
+    --dap-muted: 148 163 184;
+  }
+
   * {
     @apply border-dark-border;
   }
@@ -11,19 +29,26 @@
     @apply bg-dark-bg text-dark-text antialiased;
   }
 
-  .light body,
-  html:not(.dark) body {
-    @apply bg-gray-50 text-gray-900;
+  html:not(.dark) .text-primary-400 {
+    @apply text-primary-600;
+  }
+
+  html:not(.dark) .text-green-400 {
+    @apply text-green-600;
+  }
+
+  html:not(.dark) .text-blue-400 {
+    @apply text-blue-600;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-dark-card border border-dark-border rounded-lg p-5 shadow-lg;
+    @apply bg-dark-card border border-dark-border rounded-lg p-5 shadow-sm;
   }
 
-  html:not(.dark) .card {
-    @apply bg-white border-gray-200;
+  html.dark .card {
+    @apply shadow-lg;
   }
 
   .btn {
@@ -39,11 +64,15 @@
   }
 
   html:not(.dark) .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300;
+    @apply hover:bg-gray-200 border-gray-300 text-gray-700;
   }
 
   .btn-danger {
     @apply btn bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30;
+  }
+
+  html:not(.dark) .btn-danger {
+    @apply bg-red-50 hover:bg-red-100 text-red-700 border-red-200;
   }
 
   .input {
@@ -51,7 +80,7 @@
   }
 
   html:not(.dark) .input {
-    @apply bg-white border-gray-300 text-gray-900 placeholder-gray-400;
+    @apply bg-white border-gray-300 shadow-sm;
   }
 
   .select {
@@ -82,6 +111,12 @@
     @apply badge bg-purple-500/20 text-purple-400;
   }
 
+  html:not(.dark) .badge-green { @apply bg-green-100 text-green-800; }
+  html:not(.dark) .badge-blue { @apply bg-blue-100 text-blue-800; }
+  html:not(.dark) .badge-yellow { @apply bg-amber-100 text-amber-800; }
+  html:not(.dark) .badge-red { @apply bg-red-100 text-red-800; }
+  html:not(.dark) .badge-purple { @apply bg-purple-100 text-purple-800; }
+
   .stat-card {
     @apply card flex flex-col gap-2 hover:border-primary-500/30 transition-colors;
   }
@@ -94,16 +129,12 @@
     @apply text-primary-400 bg-primary-500/10 border-l-2 border-primary-500;
   }
 
-  html:not(.dark) .sidebar-link {
-    @apply text-gray-500 hover:text-gray-900 hover:bg-gray-100;
-  }
-
   html:not(.dark) .sidebar-link.active {
-    @apply text-primary-600 bg-primary-50;
+    @apply text-primary-700 bg-primary-50 border-primary-500;
   }
 
   .table-container {
-    @apply overflow-x-auto rounded-lg border border-dark-border;
+    @apply overflow-x-auto rounded-lg border border-dark-border bg-dark-card;
   }
 
   .table {
@@ -115,15 +146,11 @@
   }
 
   html:not(.dark) .table th {
-    @apply text-gray-500 bg-gray-50 border-gray-200;
+    @apply bg-gray-50;
   }
 
   .table td {
     @apply px-4 py-3 border-b border-dark-border/50;
-  }
-
-  html:not(.dark) .table td {
-    @apply border-gray-100;
   }
 
   .table tr:hover td {
@@ -131,7 +158,7 @@
   }
 
   html:not(.dark) .table tr:hover td {
-    @apply bg-gray-50;
+    @apply bg-gray-50/80;
   }
 
   .method-badge {
@@ -144,8 +171,18 @@
   .method-patch { @apply bg-orange-500/20 text-orange-400; }
   .method-delete { @apply bg-red-500/20 text-red-400; }
 
+  html:not(.dark) .method-get { @apply bg-green-100 text-green-800; }
+  html:not(.dark) .method-post { @apply bg-blue-100 text-blue-800; }
+  html:not(.dark) .method-put { @apply bg-amber-100 text-amber-800; }
+  html:not(.dark) .method-patch { @apply bg-orange-100 text-orange-800; }
+  html:not(.dark) .method-delete { @apply bg-red-100 text-red-800; }
+
   .sidebar {
-    @apply fixed lg:static inset-y-0 left-0 z-50 w-64 bg-dark-card border-r border-dark-border flex flex-col transform transition-transform lg:transform-none -translate-x-full lg:translate-x-0;
+    @apply fixed lg:static inset-y-0 left-0 z-50 w-64 bg-dark-card border-r border-dark-border flex flex-col transform transition-transform lg:transform-none -translate-x-full lg:translate-x-0 shadow-sm;
+  }
+
+  html.dark .sidebar {
+    @apply shadow-none;
   }
 
   .sidebar-open {
@@ -172,12 +209,20 @@
     @apply w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/40 to-primary-700/40 flex items-center justify-center text-primary-300 text-sm font-bold;
   }
 
+  html:not(.dark) .user-avatar {
+    @apply from-primary-100 to-primary-200 text-primary-700;
+  }
+
   .mobile-header {
     @apply lg:hidden flex items-center gap-3 px-4 py-3 border-b border-dark-border bg-dark-card/80 backdrop-blur-sm;
   }
 
   .main-content {
     @apply bg-gradient-to-br from-dark-bg via-dark-bg to-dark-card/30;
+  }
+
+  html:not(.dark) .main-content {
+    @apply from-gray-50 via-white to-slate-100;
   }
 
   .info-card {
@@ -189,7 +234,11 @@
   }
 
   .endpoint-group-card {
-    @apply card border-l-4 hover:shadow-xl hover:shadow-black/20 transition-all duration-300;
+    @apply card border-l-4 hover:shadow-lg transition-all duration-300;
+  }
+
+  html.dark .endpoint-group-card {
+    @apply hover:shadow-xl hover:shadow-black/20;
   }
 
   .endpoint-group-section {
@@ -203,6 +252,54 @@
   .endpoint-group-body {
     @apply border-t border-dark-border;
   }
+
+  .code-block {
+    @apply text-xs bg-dark-bg p-3 rounded-md overflow-auto font-mono border border-dark-border/60;
+  }
+
+  html:not(.dark) .code-block {
+    @apply bg-slate-50 border-gray-200;
+  }
+
+  .code-block-success {
+    @apply code-block text-green-400;
+  }
+
+  html:not(.dark) .code-block-success {
+    @apply text-green-700;
+  }
+
+  .code-block-info {
+    @apply code-block text-blue-400;
+  }
+
+  html:not(.dark) .code-block-info {
+    @apply text-blue-700;
+  }
+
+  .alert-error {
+    @apply bg-red-500/10 border border-red-500/30 text-red-400;
+  }
+
+  html:not(.dark) .alert-error {
+    @apply bg-red-50 border-red-200 text-red-700;
+  }
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #2a3142;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b4252;
 }
 
 ::-webkit-scrollbar {
@@ -215,10 +312,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a3142;
   border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3b4252;
 }

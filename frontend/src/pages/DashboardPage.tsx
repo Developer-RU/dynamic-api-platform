@@ -4,8 +4,24 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { api } from '../services/api';
 import { DashboardStats } from '../types';
 import { StatCard, PageHeader, LoadingSpinner } from '../components/UI';
+import { useTheme } from '../context/ThemeContext';
+
+const chartThemes = {
+  dark: {
+    grid: '#2a3142',
+    tick: '#94a3b8',
+    tooltip: { background: '#1a1f2e', border: '1px solid #2a3142', borderRadius: 8, fontSize: 12, color: '#e2e8f0' },
+  },
+  light: {
+    grid: '#e5e7eb',
+    tick: '#6b7280',
+    tooltip: { background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 12, color: '#111827' },
+  },
+} as const;
 
 export default function DashboardPage() {
+  const { theme } = useTheme();
+  const chartTheme = chartThemes[theme];
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,12 +59,10 @@ export default function DashboardPage() {
           <h3 className="font-semibold mb-4 text-sm">Requests Over Time</h3>
           <ResponsiveContainer width="100%" height={250}>
             <AreaChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2a3142" />
-              <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{ background: '#1a1f2e', border: '1px solid #2a3142', borderRadius: 8, fontSize: 12 }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} />
+              <XAxis dataKey="date" tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <YAxis tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <Tooltip contentStyle={chartTheme.tooltip} />
               <Area type="monotone" dataKey="requests" stroke="#3b82f6" fill="#3b82f620" />
             </AreaChart>
           </ResponsiveContainer>
@@ -58,12 +72,10 @@ export default function DashboardPage() {
           <h3 className="font-semibold mb-4 text-sm">Errors Over Time</h3>
           <ResponsiveContainer width="100%" height={250}>
             <AreaChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2a3142" />
-              <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{ background: '#1a1f2e', border: '1px solid #2a3142', borderRadius: 8, fontSize: 12 }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} />
+              <XAxis dataKey="date" tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <YAxis tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <Tooltip contentStyle={chartTheme.tooltip} />
               <Area type="monotone" dataKey="errors" stroke="#ef4444" fill="#ef444420" />
             </AreaChart>
           </ResponsiveContainer>
@@ -73,12 +85,10 @@ export default function DashboardPage() {
           <h3 className="font-semibold mb-4 text-sm">User Activity</h3>
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2a3142" />
-              <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{ background: '#1a1f2e', border: '1px solid #2a3142', borderRadius: 8, fontSize: 12 }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} />
+              <XAxis dataKey="date" tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <YAxis tick={{ fill: chartTheme.tick, fontSize: 11 }} />
+              <Tooltip contentStyle={chartTheme.tooltip} />
               <Area type="monotone" dataKey="activity" stroke="#8b5cf6" fill="#8b5cf620" />
             </AreaChart>
           </ResponsiveContainer>
