@@ -18,6 +18,10 @@ import settingsRoutes from './routes/settings.routes';
 import databaseRoutes from './routes/database.routes';
 import openapiRoutes from './routes/openapi.routes';
 import projectRoutes from './routes/project.routes';
+import cronRoutes from './routes/cron.routes';
+import webhooksRoutes from './routes/webhooks.routes';
+import apiKeysRoutes from './routes/api-keys.routes';
+import mcpRoutes from './routes/mcp.routes';
 import { apiRateLimitMiddleware } from './middleware/rateLimit';
 
 export function createApp(): express.Application {
@@ -34,7 +38,7 @@ export function createApp(): express.Application {
     origin: env.corsOrigin,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'X-API-Key'],
   }));
 
   app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
@@ -64,6 +68,10 @@ export function createApp(): express.Application {
   app.use('/api/database', databaseRoutes);
   app.use('/api', openapiRoutes);
   app.use('/api/project', projectRoutes);
+  app.use('/api/cron', cronRoutes);
+  app.use('/api/webhooks', webhooksRoutes);
+  app.use('/api/api-keys', apiKeysRoutes);
+  app.use('/api/mcp', mcpRoutes);
 
   app.use('/api', dynamicRoutes);
 

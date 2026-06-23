@@ -2,6 +2,7 @@ import { IEndpoint, IEndpointGroup } from '../models';
 import { SchemaField } from '../types';
 import { endpointRepository, endpointGroupRepository } from '../repositories';
 import { generateExampleFromSchema } from '../utils';
+import { getEndpointMatchPaths } from '../utils';
 
 function toOpenApiPath(path: string): string {
   return path.replace(/:([A-Za-z0-9_]+)/g, '{$1}');
@@ -144,9 +145,11 @@ export class OpenApiService {
     const paths: Record<string, Record<string, unknown>> = {};
 
     for (const endpoint of endpoints) {
-      const openApiPath = toOpenApiPath(endpoint.path);
+      const openApiPaths = getEndpointMatchPaths(endpoint.path, endpoint.apiVersion);
+      for (const epPath of openApiPaths) {
+      const openApiPath = toOpenApiPath(epPath);
       const method = endpoint.method.toLowerCase();
-      const pathParams = extractPathParams(endpoint.path);
+      const pathParams = extractPathParams(epPath);
       const hasIdParam = pathParams.length > 0;
       const tag = groupTag(endpoint, groupsById);
 
@@ -258,6 +261,7 @@ export class OpenApiService {
 
       if (!paths[openApiPath]) paths[openApiPath] = {};
       paths[openApiPath][method] = operation;
+      }
     }
 
     return {
@@ -265,7 +269,7 @@ export class OpenApiService {
       info: {
         title: 'Dynamic API Platform',
         description: 'Auto-generated OpenAPI specification for dynamic REST endpoints.',
-        version: '1.2.0',
+        version: '1.3.0',
       },
       servers: [{ url: serverUrl }],
       tags: groups.map((g) => ({ name: g.name, description: g.description })),
@@ -277,6 +281,12 @@ export class OpenApiService {
             scheme: 'bearer',
             bearerFormat: 'JWT',
             description: 'JWT from POST /api/auth/login',
+          },
+          apiKeyAuth: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'X-API-Key',
+            description: 'API key from Admin → API Keys',
           },
         },
       },

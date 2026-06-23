@@ -14,6 +14,10 @@ const SYSTEM_PATHS = [
   '/api/openapi.json',
   '/api/swagger',
   '/api/project',
+  '/api/cron',
+  '/api/webhooks',
+  '/api/api-keys',
+  '/api/mcp',
   '/api/health',
   '/api/csrf-token',
 ];

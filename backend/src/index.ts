@@ -3,6 +3,7 @@ import { connectDatabase } from './config/database';
 import { env } from './config/env';
 import { seedDatabase } from './seed';
 import { settingsService } from './services/settings.service';
+import { cronScheduler } from './services/cron.service';
 
 async function main(): Promise<void> {
   await connectDatabase();
@@ -10,6 +11,7 @@ async function main(): Promise<void> {
   await settingsService.load();
 
   const app = createApp();
+  await cronScheduler.start();
 
   app.listen(env.port, () => {
     console.log(`Dynamic API Platform backend running on port ${env.port}`);

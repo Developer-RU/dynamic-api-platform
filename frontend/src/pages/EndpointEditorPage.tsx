@@ -92,6 +92,7 @@ export default function EndpointEditorPage() {
         networkAccess: endpoint.networkAccess,
         inheritGroupNetworkAccess: endpoint.inheritGroupNetworkAccess,
         handlers: endpoint.handlers,
+        apiVersion: endpoint.apiVersion,
       });
       setEndpoint(updated);
     } catch (err) {
@@ -265,6 +266,23 @@ export default function EndpointEditorPage() {
               <label className="block text-sm font-medium mb-1">Method</label>
               <div className="pt-2"><MethodBadge method={endpoint.method} /></div>
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">API Version</label>
+            <input
+              className="input font-mono max-w-xs"
+              placeholder="v1 (optional — also serves /api/v1/...)"
+              value={endpoint.apiVersion || ''}
+              onChange={(e) => setEndpoint({ ...endpoint, apiVersion: e.target.value || undefined })}
+            />
+            <p className="text-xs text-dark-muted mt-1">
+              Path <code className="text-accent">{endpoint.path}</code> will also match{' '}
+              <code className="text-accent">
+                {endpoint.apiVersion
+                  ? endpoint.path.replace(/^\/api\//, `/api/${endpoint.apiVersion.replace(/^v/, 'v')}/`)
+                  : '/api/v1/...'}
+              </code>
+            </p>
           </div>
           <label className="flex items-center gap-2 text-sm cursor-pointer">
             <input type="checkbox" checked={endpoint.enabled} onChange={(e) => setEndpoint({ ...endpoint, enabled: e.target.checked })} />

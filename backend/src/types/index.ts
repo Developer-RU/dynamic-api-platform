@@ -29,6 +29,16 @@ export interface NetworkAccessRules {
 
 export type UserStatus = 'active' | 'inactive' | 'suspended';
 
+export type WebhookEvent =
+  | 'user.created'
+  | 'user.updated'
+  | 'user.deleted'
+  | 'endpoint.created'
+  | 'endpoint.updated'
+  | 'endpoint.deleted'
+  | 'endpoint.called'
+  | 'api.error';
+
 export type LogAction =
   | 'login'
   | 'logout'

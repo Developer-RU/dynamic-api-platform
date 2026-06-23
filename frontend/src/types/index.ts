@@ -51,6 +51,7 @@ export interface Endpoint {
   slug: string;
   path: string;
   method: string;
+  apiVersion?: string;
   groupId?: EndpointGroup;
   fields: SchemaField[];
   accessType: 'public' | 'authenticated' | 'group';

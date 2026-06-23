@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Shield, Globe, FileText,
   LogOut, Sun, Moon, Zap, Menu, X, Server, Folders, Settings,
-  BookOpen, Github, Network, Database, FileCode,
+  BookOpen, Github, Network, Database, FileCode, Clock, Webhook, Key,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -39,6 +39,14 @@ const navSections: { label: string; items: NavItem[] }[] = [
       { to: '/endpoint-groups', icon: Folders, label: 'Endpoint Groups' },
       { to: '/api-schema', icon: Network, label: 'API Schema' },
       { to: '/api-docs', icon: FileCode, label: 'API Docs' },
+    ],
+  },
+  {
+    label: 'Automation',
+    items: [
+      { to: '/cron', icon: Clock, label: 'Cron Jobs', permission: 'manage_api' },
+      { to: '/webhooks', icon: Webhook, label: 'Webhooks', permission: 'manage_api' },
+      { to: '/api-keys', icon: Key, label: 'API Keys', permission: 'manage_api' },
     ],
   },
   {
@@ -82,7 +90,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">Dynamic API</div>
-            <div className="text-xs text-slate-500">Platform v1.2</div>
+            <div className="text-xs text-slate-500">Platform v1.3</div>
           </div>
           <button
             type="button"

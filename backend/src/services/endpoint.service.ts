@@ -12,6 +12,7 @@ import {
   generateExamples,
   matchDynamicPath,
   getCollectionPath,
+  getEndpointMatchPaths,
   normalizeNetworkAccessInput,
   validateNetworkAccessInput,
   resolveEffectiveNetworkAccess,
@@ -23,6 +24,7 @@ import { JwtPayload, HttpMethod, TestEndpointResult, Permission, SchemaField, Ne
 import { authService } from './auth.service';
 import { userService, groupService } from './user.service';
 import { handlerRuntime } from './handler-runtime.service';
+import { webhookService } from './webhook.service';
 
 function assertAnyPermission(user: JwtPayload | undefined, ...permissions: Permission[]): asserts user is JwtPayload {
   if (!user) throw new Error('Unauthorized');
@@ -141,6 +143,7 @@ export class EndpointService {
       slug: dto.slug,
       path,
       method,
+      apiVersion: dto.apiVersion?.trim() || undefined,
       groupId: dto.groupId as unknown as import('mongoose').Types.ObjectId,
       fields: (dto.schema || []).map((f, i) => ({
         name: f.name,
@@ -158,7 +161,7 @@ export class EndpointService {
       inheritGroupNetworkAccess: dto.inheritGroupNetworkAccess ?? true,
       handlers: (dto.handlers || []).map((h) => ({
         name: h.name,
-        type: h.type as 'pre' | 'post' | 'transform',
+        type: h.type as 'pre' | 'post' | 'transform' | 'javascript',
         code: h.code,
         enabled: h.enabled ?? true,
       })),
@@ -172,6 +175,14 @@ export class EndpointService {
       userId: userId as unknown as import('mongoose').Types.ObjectId,
       endpointId: endpoint._id,
       message: `Endpoint ${endpoint.name} (${method} ${path}) created`,
+    });
+
+    void webhookService.dispatch('endpoint.created', {
+      endpointId: endpoint._id.toString(),
+      name: endpoint.name,
+      path: endpoint.path,
+      method: endpoint.method,
+      apiVersion: endpoint.apiVersion,
     });
 
     return endpoint;
@@ -188,6 +199,7 @@ export class EndpointService {
     if (dto.slug !== undefined) updateData.slug = dto.slug;
     if (dto.path !== undefined) updateData.path = normalizePath(dto.path);
     if (dto.method !== undefined) updateData.method = dto.method.toUpperCase();
+    if (dto.apiVersion !== undefined) updateData.apiVersion = dto.apiVersion?.trim() || undefined;
     if (dto.groupId !== undefined) updateData.groupId = dto.groupId;
     if (dto.accessType !== undefined) updateData.accessType = dto.accessType;
     if (dto.allowedGroupIds !== undefined) updateData.allowedGroupIds = dto.allowedGroupIds;
@@ -226,6 +238,13 @@ export class EndpointService {
       message: `Endpoint ${endpoint.name} updated`,
     });
 
+    void webhookService.dispatch('endpoint.updated', {
+      endpointId: id,
+      name: updated?.name || endpoint.name,
+      path: updated?.path || endpoint.path,
+      method: updated?.method || endpoint.method,
+    });
+
     return updated;
   }
 
@@ -242,6 +261,13 @@ export class EndpointService {
       userId: userId as unknown as import('mongoose').Types.ObjectId,
       endpointId: endpoint._id,
       message: `Endpoint ${endpoint.name} deleted`,
+    });
+
+    void webhookService.dispatch('endpoint.deleted', {
+      endpointId: id,
+      name: endpoint.name,
+      path: endpoint.path,
+      method: endpoint.method,
     });
   }
 
@@ -375,9 +401,12 @@ export class DynamicEngine {
     const endpoints = await endpointRepository.findDynamicEndpoints();
 
     for (const endpoint of endpoints) {
-      const { match, params } = matchDynamicPath(endpoint.path, requestPath);
-      if (match && endpoint.method === method.toUpperCase()) {
-        return { endpoint, params };
+      const paths = getEndpointMatchPaths(endpoint.path, endpoint.apiVersion);
+      for (const epPath of paths) {
+        const { match, params } = matchDynamicPath(epPath, requestPath);
+        if (match && endpoint.method === method.toUpperCase()) {
+          return { endpoint, params };
+        }
       }
     }
 
@@ -638,6 +667,14 @@ export class DynamicEngine {
         userAgent: meta?.userAgent,
       });
 
+      void webhookService.dispatch('endpoint.called', {
+        endpointId: endpoint._id.toString(),
+        path: requestPath,
+        method,
+        statusCode,
+        userId: user?.userId,
+      });
+
       return { statusCode, body: responseBody };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal server error';
@@ -645,6 +682,14 @@ export class DynamicEngine {
         : message.includes('Forbidden') ? 403
         : message.includes('Unauthorized') ? 401
         : 400;
+
+      void webhookService.dispatch('api.error', {
+        path: requestPath,
+        method,
+        statusCode,
+        error: message,
+        endpointId: endpoint._id.toString(),
+      });
 
       const responseTime = Date.now() - startTime;
       await logRepository.create({

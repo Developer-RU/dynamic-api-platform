@@ -7,6 +7,7 @@ export interface IEndpoint extends Document {
   slug: string;
   path: string;
   method: HttpMethod;
+  apiVersion?: string;
   groupId?: mongoose.Types.ObjectId;
   fields: SchemaField[];
   accessType: AccessType;
@@ -66,6 +67,7 @@ const EndpointSchema = new Schema<IEndpoint>(
     slug: { type: String, required: true, trim: true },
     path: { type: String, required: true, trim: true },
     method: { type: String, enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], required: true },
+    apiVersion: { type: String, trim: true },
     groupId: { type: Schema.Types.ObjectId, ref: 'EndpointGroup' },
     fields: {
       type: [SchemaFieldSchema],

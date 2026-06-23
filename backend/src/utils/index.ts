@@ -215,6 +215,18 @@ export function matchDynamicPath(pattern: string, requestPath: string): { match:
   return { match: true, params };
 }
 
+export function getEndpointMatchPaths(path: string, apiVersion?: string): string[] {
+  const paths = new Set<string>([normalizePath(path)]);
+  if (apiVersion?.trim()) {
+    const version = apiVersion.trim().startsWith('v') ? apiVersion.trim() : `v${apiVersion.trim()}`;
+    const normalized = normalizePath(path);
+    if (!normalized.includes(`/api/${version}/`)) {
+      paths.add(normalized.replace(/^\/api\//, `/api/${version}/`));
+    }
+  }
+  return [...paths];
+}
+
 export function sanitizeUser(user: Record<string, unknown>): Record<string, unknown> {
   const { password, refreshToken, ...rest } = user;
   return rest;

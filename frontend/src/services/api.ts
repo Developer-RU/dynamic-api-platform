@@ -411,6 +411,69 @@ class ApiClient {
     });
     return res;
   }
+
+  async getCronJobs() {
+    const res = await this.request<{ success: boolean; data: unknown[] }>('/api/cron');
+    return res.data;
+  }
+
+  async createCronJob(data: Record<string, unknown>) {
+    const res = await this.request<{ success: boolean; data: unknown }>('/api/cron', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    return res.data;
+  }
+
+  async deleteCronJob(id: string) {
+    await this.request(`/api/cron/${id}`, { method: 'DELETE' });
+  }
+
+  async runCronJob(id: string) {
+    const res = await this.request<{ success: boolean; data: { success: boolean; message: string } }>(
+      `/api/cron/${id}/run`,
+      { method: 'POST' }
+    );
+    return res.data;
+  }
+
+  async getWebhooks() {
+    const res = await this.request<{ success: boolean; data: unknown[] }>('/api/webhooks');
+    return res.data;
+  }
+
+  async createWebhook(data: Record<string, unknown>) {
+    const res = await this.request<{ success: boolean; data: unknown }>('/api/webhooks', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    return res.data;
+  }
+
+  async deleteWebhook(id: string) {
+    await this.request(`/api/webhooks/${id}`, { method: 'DELETE' });
+  }
+
+  async testWebhook(id: string) {
+    await this.request(`/api/webhooks/${id}/test`, { method: 'POST' });
+  }
+
+  async getApiKeys() {
+    const res = await this.request<{ success: boolean; data: unknown[] }>('/api/api-keys');
+    return res.data;
+  }
+
+  async createApiKey(data: { name: string; permissions: string[] }) {
+    const res = await this.request<{ success: boolean; data: { apiKey: string } }>('/api/api-keys', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    return res.data;
+  }
+
+  async deleteApiKey(id: string) {
+    await this.request(`/api/api-keys/${id}`, { method: 'DELETE' });
+  }
 }
 
 export const api = new ApiClient();

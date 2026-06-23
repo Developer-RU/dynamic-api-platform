@@ -8,11 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Cron scheduler for periodic tasks
-- Outbound webhooks on platform events
-- MCP server for AI agent tools
-- API versioning (`/api/v1/...`)
-- API keys for machine-to-machine auth
+- Multi-tenant workspace support
+
+## [1.3.0] - 2026-06-18
+
+### Added
+- **Cron scheduler** — periodic jobs (JavaScript, HTTP, internal endpoint calls) via `node-cron`
+- **Outbound webhooks** — `user.*`, `endpoint.*`, `api.error` events with HMAC signatures
+- **MCP server** — JSON-RPC at `POST /api/mcp` (`tools/list`, `tools/call`, OpenAPI resource)
+- **API versioning** — optional `apiVersion` on endpoints (also serves `/api/v1/...`)
+- **API keys** — machine-to-machine auth via `X-API-Key` or `Authorization: ApiKey`
+- Admin UI: **Cron Jobs**, **Webhooks**, **API Keys** (Automation section)
+
+### Changed
+- `optionalAuth` / `authenticate` accept API keys alongside JWT
+- OpenAPI spec includes versioned paths and API key security scheme
 
 ## [1.2.0] - 2026-06-18
 
@@ -131,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.3.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.3.0
 [1.2.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.0.0

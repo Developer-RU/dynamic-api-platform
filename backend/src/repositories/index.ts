@@ -256,3 +256,10 @@ export const endpointRepository = new EndpointRepository();
 export const endpointGroupRepository = new EndpointGroupRepository();
 export const endpointDataRepository = new EndpointDataRepository();
 export const logRepository = new LogRepository();
+
+export {
+  cronJobRepository,
+  webhookRepository,
+  apiKeyRepository,
+  generateApiKeyRaw,
+} from './automation.repositories';

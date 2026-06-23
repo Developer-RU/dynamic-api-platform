@@ -6,3 +6,7 @@ export { systemService } from './system.service';
 export { databaseService } from './database.service';
 export { openApiService } from './openapi.service';
 export { projectService } from './project.service';
+export { webhookService } from './webhook.service';
+export { cronScheduler } from './cron.service';
+export { apiKeyService } from './api-key.service';
+export { mcpService } from './mcp.service';
