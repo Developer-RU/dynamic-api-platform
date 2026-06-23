@@ -38,6 +38,8 @@ nav:
     url: /database/
   - title: Network Access
     url: /network-access/
+  - title: Automation
+    url: /automation/
   - title: Deployment
     url: /deployment/
   - title: Configuration

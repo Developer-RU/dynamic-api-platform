@@ -20,32 +20,43 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 
 | Update | Summary |
 |--------|---------|
+| **v1.3 — Cron** | Scheduled jobs (JavaScript, HTTP, internal endpoint) at `/cron` |
+| **v1.3 — Webhooks** | Outbound event subscriptions with optional HMAC at `/webhooks` |
+| **v1.3 — MCP** | JSON-RPC server at `POST /api/mcp` for AI agent tool integration |
+| **v1.3 — API keys** | Machine-to-machine auth via `X-API-Key` at `/api-keys` |
+| **v1.3 — API versioning** | Serve `/api/v1/...` alongside `/api/...` per endpoint |
+| **v1.2 — OpenAPI** | Auto-generated spec at `/api/openapi.json`, Swagger UI at `/api-docs` |
+| **v1.2 — JS handlers** | Custom `async function handler(req, db)` per endpoint |
+| **v1.2 — Export / import** | Full project backup and restore in Settings |
 | **`reference` fields** | Foreign keys between endpoints; validate links on write; `?populate=` on GET |
 | **Network access** | Restrict dynamic APIs by allowed domains and IP/CIDR pools (group + endpoint) |
 | **Database Explorer** | Raw MongoDB browser/editor at `/database` (requires `manage_users`) |
 | **API Schema** | Read-only ER diagram of endpoints, groups, and reference links at `/api-schema` |
 | **Zero-downtime routes** | Save an endpoint in the UI — callable immediately, no restart |
 | **Auth improvements** | Redirect to login when session expires; fixed JWT refresh permissions |
-| **System endpoint tests** | Tester uses real management API for `/api/users`, `/api/groups`, `/api/profile` |
 | **UI themes** | Light and dark themes (slate + cyan); toggle in header or login page |
 | **License** | Apache License 2.0 |
 
-Details: [Changelog on GitHub](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/CHANGELOG.md)
+Details: [Automation & Integrations]({{ '/automation/' | relative_url }}) · [Changelog on GitHub](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/CHANGELOG.md)
 
 <p class="quick-links">
   <a href="{{ '/getting-started/' | relative_url }}">Quick Start</a> ·
   <a href="{{ '/architecture/' | relative_url }}">Architecture</a> ·
+  <a href="{{ '/automation/' | relative_url }}">Automation</a> ·
   <a href="{{ '/api-reference/' | relative_url }}">API Reference</a> ·
-  <a href="https://github.com/Dynamic-API-Platform/Dynamic-API-Platform">GitHub</a>
+  <a href="https://github.com/Dynamic-API-Platform/Dynamic-API-Platform">GitHub</a> ·
+  <a href="https://github.com/Developer-RU">Developer</a>
 </p>
 
 ## Features
 
 | Category | Capabilities |
 |----------|-------------|
-| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, **network access (domains / IP pools)**, grouped organization |
-| **Security** | JWT auth with refresh, RBAC, **network access rules**, rate limiting, login lockout, audit logs, Helmet, CORS |
-| **Admin Panel** | Dashboard, endpoint editor, **API Schema (ER diagram)**, linked-endpoint picker, **Network Access** tab, **Database Explorer (raw JSON)**, API tester, auto-docs, users & groups |
+| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, **network access (domains / IP pools)**, **API versioning**, grouped organization |
+| **Automation** | **Cron scheduler**, **outbound webhooks**, **JavaScript handlers**, **MCP server** for AI agents, **API keys** for M2M auth |
+| **OpenAPI** | Auto-generated spec, Swagger UI, embedded **API Docs** in admin panel |
+| **Security** | JWT auth with refresh, RBAC, **API keys**, **network access rules**, rate limiting, login lockout, audit logs, Helmet, CORS |
+| **Admin Panel** | Dashboard, endpoint editor, **Handler tab**, **API Schema (ER diagram)**, **API Docs**, **Cron / Webhooks / API Keys**, linked-endpoint picker, **Network Access** tab, **Database Explorer (raw JSON)**, API tester, users & groups, **project export/import** |
 | **DevOps** | Docker Compose one-command deploy, health checks, persistent volumes |
 | **Search** | Full-text search on all data list pages (client + server side) |
 
@@ -77,6 +88,7 @@ docker compose up -d
 | [API Schema]({{ '/api-schema/' | relative_url }}) | ER-style diagram of endpoints and references |
 | [Database Explorer]({{ '/database/' | relative_url }}) | Raw MongoDB admin UI and API |
 | [Network Access]({{ '/network-access/' | relative_url }}) | Domain and IP/CIDR restrictions for dynamic APIs |
+| [Automation]({{ '/automation/' | relative_url }}) | Cron, webhooks, MCP, API keys, JS handlers, OpenAPI |
 | [Deployment]({{ '/deployment/' | relative_url }}) | Docker, production, reverse proxy |
 | [Configuration]({{ '/configuration/' | relative_url }}) | Environment variables & Settings UI |
 | [Development]({{ '/development/' | relative_url }}) | Local dev setup, project conventions |

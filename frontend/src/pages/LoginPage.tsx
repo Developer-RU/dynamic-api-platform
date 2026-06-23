@@ -111,6 +111,15 @@ export default function LoginPage() {
             >
               GitHub
             </a>
+            <span aria-hidden>·</span>
+            <a
+              href="https://github.com/Developer-RU"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-600 dark:hover:text-brand-300"
+            >
+              Developer
+            </a>
           </div>
         </div>
       </div>
