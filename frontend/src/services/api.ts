@@ -531,6 +531,14 @@ class ApiClient {
     );
     return res;
   }
+
+  async cancelUpdate(jobId: string) {
+    const res = await this.request<{ success: boolean; data: UpdateJob; message: string }>(
+      `/api/updates/jobs/${jobId}/cancel`,
+      { method: 'POST' }
+    );
+    return res;
+  }
 }
 
 export const api = new ApiClient();

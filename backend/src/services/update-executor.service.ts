@@ -126,7 +126,7 @@ export class UpdateExecutorService {
         env.updateHealthUrl,
       ];
 
-      const inner = `apk add --no-cache bash git jq curl rsync >/dev/null 2>&1; sh /deploy/scripts/self-update.sh ${containerArgs.map((a) => `'${a.replace(/'/g, "'\\''")}'`).join(' ')}`;
+      const inner = `apk add --no-cache bash git jq curl rsync >/dev/null 2>&1; bash /deploy/scripts/self-update.sh ${containerArgs.map((a) => `'${a.replace(/'/g, "'\\''")}'`).join(' ')}`;
 
       const dockerArgs = [
         'run',
@@ -149,23 +149,44 @@ export class UpdateExecutorService {
         dockerArgs.push('--network', env.updateDockerNetwork);
       }
 
-      dockerArgs.push(
-        UPDATER_IMAGE,
-        'sh',
-        '-c',
-        inner
-      );
+      dockerArgs.push(UPDATER_IMAGE, 'sh', '-c', inner);
 
-      const child = spawn('docker', dockerArgs, { detached: true, stdio: 'ignore' });
-      child.unref();
+      try {
+        await this.spawnDocker(dockerArgs);
+        await updateService.markJobStarted(jobId);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to start updater container';
+        await updateService.finishJob(jobId, 'failed', message);
+      }
       return;
     }
 
-    const child = spawn('bash', [script, ...scriptArgs], {
-      detached: true,
-      stdio: 'ignore',
+    try {
+      const child = spawn('bash', [script, ...scriptArgs], {
+        detached: true,
+        stdio: 'ignore',
+      });
+      child.unref();
+      await updateService.markJobStarted(jobId);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to start update script';
+      await updateService.finishJob(jobId, 'failed', message);
+    }
+  }
+
+  private spawnDocker(args: string[]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const child = spawn('docker', args, { stdio: ['ignore', 'pipe', 'pipe'] });
+      let stderr = '';
+      child.stderr?.on('data', (chunk: Buffer) => {
+        stderr += chunk.toString();
+      });
+      child.on('error', reject);
+      child.on('close', (code) => {
+        if (code === 0) resolve();
+        else reject(new Error(stderr.trim() || `docker run exited with code ${code}`));
+      });
     });
-    child.unref();
   }
 
   async rollbackJob(jobId: string, _userId?: string): Promise<void> {

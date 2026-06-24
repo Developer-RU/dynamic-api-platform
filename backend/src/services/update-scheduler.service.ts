@@ -11,11 +11,13 @@ class UpdateSchedulerService {
     await updateSettingsService.load();
     updateService.processResultFile();
     updateService.processProgressFile();
+    await updateService.reconcileStaleJobs();
 
     this.scheduleChecks();
     setInterval(() => {
       updateService.processResultFile();
       updateService.processProgressFile();
+      void updateService.reconcileStaleJobs();
     }, 5000);
 
     console.log('Update scheduler started');

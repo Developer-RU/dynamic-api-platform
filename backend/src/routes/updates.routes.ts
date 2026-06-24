@@ -66,6 +66,12 @@ router.get('/jobs/:id', asyncHandler(async (req, res) => {
   res.json({ success: true, data: job });
 }));
 
+router.post('/jobs/:id/cancel', asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  const jobId = String(req.params.id);
+  const job = await updateService.cancelJob(jobId);
+  res.json({ success: true, data: job, message: 'Update cancelled' });
+}));
+
 router.post('/jobs/:id/rollback', asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const jobId = String(req.params.id);
   const job = await updateService.rollback(jobId, req.user?.userId);

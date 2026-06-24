@@ -1,4 +1,4 @@
-# Wiki mirror (v1.5.3)
+# Wiki mirror (v1.5.5)
 
 > This folder mirrors the GitHub Wiki content.  
 > Push to `Dynamic-API-Platform/.github` wiki repo when releasing.
@@ -29,5 +29,5 @@
 ## Sync command
 
 ```bash
-git commit -m "docs: sync wiki with v1.5.3"
+git commit -m "docs: sync wiki with v1.5.5"
 ```

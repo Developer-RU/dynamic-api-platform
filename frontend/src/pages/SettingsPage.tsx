@@ -50,6 +50,7 @@ export default function SettingsPage() {
   const [updateSaving, setUpdateSaving] = useState(false);
   const [checkingUpdates, setCheckingUpdates] = useState(false);
   const [applyingUpdate, setApplyingUpdate] = useState(false);
+  const [cancellingUpdate, setCancellingUpdate] = useState(false);
 
   const load = () => {
     setLoading(true);
@@ -136,6 +137,21 @@ export default function SettingsPage() {
       alert(err instanceof Error ? err.message : 'Update failed');
     } finally {
       setApplyingUpdate(false);
+    }
+  };
+
+  const cancelUpdate = async () => {
+    if (!updateStatus?.activeJob?._id) return;
+    if (!confirm('Cancel this update?')) return;
+    setCancellingUpdate(true);
+    try {
+      await api.cancelUpdate(updateStatus.activeJob._id);
+      const status = await api.getUpdateStatus();
+      setUpdateStatus(status);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Cancel failed');
+    } finally {
+      setCancellingUpdate(false);
     }
   };
 
@@ -369,9 +385,22 @@ export default function SettingsPage() {
 
           {updateStatus?.activeJob && (
             <div className="rounded-md border border-brand-200 dark:border-brand-800 p-3">
-              <div className="text-sm font-medium mb-2">
-                Update in progress: v{updateStatus.activeJob.targetVersion}
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="text-sm font-medium">
+                  {updateStatus.activeJob.status === 'queued' ? 'Update queued' : 'Update in progress'}: v
+                  {updateStatus.activeJob.targetVersion}
+                </div>
+                <button
+                  className="btn-secondary !py-1 !px-2 text-xs"
+                  onClick={cancelUpdate}
+                  disabled={cancellingUpdate}
+                >
+                  {cancellingUpdate ? 'Cancelling…' : 'Cancel'}
+                </button>
               </div>
+              {updateStatus.activeJob.error && (
+                <p className="text-xs text-red-600 mb-2">{updateStatus.activeJob.error}</p>
+              )}
               <ul className="space-y-1 text-xs">
                 {updateStatus.activeJob.steps.map((step) => (
                   <li key={step.id} className="flex justify-between gap-2">

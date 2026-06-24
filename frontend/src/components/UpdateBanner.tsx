@@ -58,19 +58,25 @@ export default function UpdateBanner() {
 
   if (status.activeJob) {
     const job = status.activeJob;
-    const runningStep = job.steps.find((s) => s.status === 'running') ?? job.steps.find((s) => s.status === 'pending');
+    const runningStep =
+      job.steps.find((s) => s.status === 'running') ??
+      (job.status === 'queued' ? null : job.steps.find((s) => s.status === 'pending'));
+    const isQueued = job.status === 'queued';
     return (
       <div className="mb-4 rounded-lg border border-brand-200 bg-brand-50 px-4 py-3 dark:border-brand-800 dark:bg-brand-950/40">
         <div className="flex items-start gap-3">
           <Loader2 className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-brand-600 dark:text-brand-300" />
           <div className="min-w-0 flex-1">
             <div className="text-sm font-medium text-brand-900 dark:text-brand-100">
-              Updating to v{job.targetVersion}
+              {isQueued ? 'Preparing update' : `Updating to v${job.targetVersion}`}
               {job.status === 'rolling_back' && ' — rolling back'}
             </div>
-            <div className="mt-1 text-xs text-brand-800/80 dark:text-brand-200/80">
-              {runningStep?.label}
-              {runningStep?.message ? ` — ${runningStep.message}` : ''}
+            <div className="mt-0.5 text-xs text-brand-800/80 dark:text-brand-200/80">
+              {isQueued
+                ? `Target v${job.targetVersion} — waiting for updater`
+                : runningStep
+                  ? `${runningStep.label}${runningStep.message ? ` — ${runningStep.message}` : ''}`
+                  : 'Processing…'}
             </div>
             <div className="mt-2 flex gap-1">
               {job.steps.map((step) => (

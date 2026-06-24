@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.5] - 2026-06-18
+
+### Fixed
+- **Stuck update banner** — stale jobs (e.g. target v1.5.2 while already on a newer version) are auto-failed on startup and status checks
+- **Updater crash** — self-update script now runs with `bash` (not `sh`); POSIX-compatible loops in `self-update.sh`
+- **Executor** — detects failed `docker run` spawn and marks job failed instead of leaving it queued forever
+- **Cancel** button on Settings for active update jobs
+
 ## [1.5.3] - 2026-06-18
 
 ### Fixed
@@ -219,6 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.5]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.5
 [1.5.3]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3
 [1.5.2]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2
 [1.5.1]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.1

@@ -111,6 +111,7 @@ export class UpdateService {
   }
 
   async getStatus(): Promise<UpdateStatusResponse> {
+    await this.reconcileStaleJobs();
     const settings = await updateSettingsService.load();
     const currentVersion = getAppVersion();
     let check: UpdateCheckResult;
@@ -184,6 +185,8 @@ export class UpdateService {
     userId?: string;
     trigger: 'manual' | 'auto' | 'scheduled';
   }): Promise<IUpdateJob> {
+    await this.reconcileStaleJobs();
+
     const running = await UpdateJob.findOne({
       status: { $in: ['queued', 'running', 'rolling_back'] },
     });
@@ -281,6 +284,64 @@ export class UpdateService {
     }
 
     await job.save();
+  }
+
+  async markJobStarted(jobId: string): Promise<void> {
+    const job = await UpdateJob.findById(jobId);
+    if (!job || job.status !== 'queued') return;
+
+    job.status = 'running';
+    job.startedAt = new Date();
+    job.steps = job.steps.map((step, index) =>
+      index === 0
+        ? { ...step, status: 'running', message: 'Updater started', at: new Date() }
+        : step
+    );
+    await job.save();
+  }
+
+  async reconcileStaleJobs(): Promise<void> {
+    const current = getAppVersion();
+    const active = await UpdateJob.find({
+      status: { $in: ['queued', 'running', 'rolling_back'] },
+    });
+    const now = Date.now();
+
+    for (const job of active) {
+      const outdatedTarget = !isNewerVersion(job.targetVersion, current);
+      if (outdatedTarget) {
+        await this.finishJob(
+          String(job._id),
+          'failed',
+          `Already on v${current} — update to v${job.targetVersion} is no longer needed`
+        );
+        continue;
+      }
+
+      const ref = job.startedAt ?? job.createdAt;
+      const ageMs = now - new Date(ref).getTime();
+
+      if (job.status === 'queued' && ageMs > 10 * 60 * 1000) {
+        await this.finishJob(String(job._id), 'failed', 'Update timed out — updater never started');
+        continue;
+      }
+
+      if (job.status === 'running' && ageMs > 60 * 60 * 1000) {
+        await this.finishJob(String(job._id), 'failed', 'Update timed out — no completion signal');
+      }
+    }
+  }
+
+  async cancelJob(jobId: string): Promise<IUpdateJob> {
+    const job = await UpdateJob.findById(jobId);
+    if (!job) throw new Error('Update job not found');
+    if (!['queued', 'running'].includes(job.status)) {
+      throw new Error('Only active jobs can be cancelled');
+    }
+    await this.finishJob(jobId, 'failed', 'Cancelled by user');
+    const updated = await UpdateJob.findById(jobId);
+    if (!updated) throw new Error('Update job not found');
+    return updated;
   }
 
   processResultFile(): void {

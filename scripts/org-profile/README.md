@@ -13,7 +13,7 @@ git clone https://github.com/Dynamic-API-Platform/.github.git /tmp/DAP-dotgithub
 cp scripts/org-profile/profile/README.md /tmp/DAP-dotgithub/profile/README.md
 cd /tmp/DAP-dotgithub
 git add profile/README.md
-git commit -m "docs: sync org profile for v1.5.3"
+git commit -m "docs: sync org profile for v1.5.5"
 git push
 ```
 

@@ -16,7 +16,7 @@ MANIFEST_FILE="$DATA_DIR/job-${JOB_ID}.json"
 LOG_FILE="$DATA_DIR/update-${JOB_ID}.log"
 
 mkdir -p "$DATA_DIR"
-exec > >(tee -a "$LOG_FILE") 2>&1
+exec >>"$LOG_FILE" 2>&1
 
 if [[ ! -f "$MANIFEST_FILE" ]]; then
   echo "Manifest not found: $MANIFEST_FILE"
@@ -67,11 +67,13 @@ wait_for_health() {
   local url="$1"
   local attempts="${2:-60}"
   local delay="${3:-5}"
-  for ((i = 1; i <= attempts; i++)); do
+  local i=1
+  while [ "$i" -le "$attempts" ]; do
     if curl -sf "$url" >/dev/null 2>&1; then
       return 0
     fi
     sleep "$delay"
+    i=$((i + 1))
   done
   return 1
 }
