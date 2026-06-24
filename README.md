@@ -98,6 +98,7 @@ docker compose up -d
 - **Light and dark themes** (toggle in header)
 
 ### DevOps
+- **Three deployment variants:** [Docker single](docs/deployment-variants.md#variant-1--docker-compose-single-mongodb) · [Docker replica set](docs/deployment-variants.md#variant-2--docker-compose--mongodb-replica-set) · [Kubernetes](docs/deployment-variants.md#variant-3--kubernetes)
 - One-command Docker Compose deployment
 - Health checks, persistent volumes (`dap_mongodb_data`), nginx API proxy
 - GitHub Actions CI, GitHub Pages docs
