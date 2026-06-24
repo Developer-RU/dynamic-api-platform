@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { userHasPermission } from '../utils/permissions';
+import UpdateBanner from './UpdateBanner';
 
 type NavItem = {
   to: string;
@@ -92,7 +93,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">Dynamic API</div>
-            <div className="text-xs text-slate-500">Platform v1.4</div>
+            <div className="text-xs text-slate-500">Platform v1.5</div>
           </div>
           <button
             type="button"
@@ -201,6 +202,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </header>
 
         <main className="min-h-0 flex-1 overflow-auto p-4 lg:p-6">
+          <UpdateBanner />
           {children}
         </main>
       </div>

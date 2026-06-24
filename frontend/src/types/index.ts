@@ -191,6 +191,69 @@ export interface SettingsResponse {
   logsCount: number;
 }
 
+export interface UpdateSettings {
+  checkEnabled: boolean;
+  notifyEnabled: boolean;
+  autoUpdateEnabled: boolean;
+  checkIntervalHours: number;
+  autoUpdateIntervalHours: number;
+  githubRepo: string;
+  includePrerelease: boolean;
+  lastCheckAt: string | null;
+  lastNotifiedVersion: string | null;
+  dismissedVersion: string | null;
+  lastAppliedVersion: string | null;
+}
+
+export type UpdateJobStatus =
+  | 'queued'
+  | 'running'
+  | 'completed'
+  | 'failed'
+  | 'rolling_back'
+  | 'rolled_back';
+
+export interface UpdateStep {
+  id: string;
+  label: string;
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'skipped';
+  message?: string;
+  at?: string;
+}
+
+export interface UpdateJob {
+  _id: string;
+  status: UpdateJobStatus;
+  fromVersion: string;
+  targetVersion: string;
+  targetTag: string;
+  releaseUrl?: string;
+  releaseNotes?: string;
+  steps: UpdateStep[];
+  error?: string;
+  trigger: 'manual' | 'auto' | 'scheduled';
+  startedAt?: string;
+  finishedAt?: string;
+  createdAt: string;
+}
+
+export interface UpdateStatus {
+  currentVersion: string;
+  latestVersion: string | null;
+  latestTag: string | null;
+  updateAvailable: boolean;
+  releaseUrl: string | null;
+  releaseNotes: string | null;
+  publishedAt: string | null;
+  checkedAt: string;
+  executorAvailable: boolean;
+  deployMode: string;
+  settings: UpdateSettings;
+  activeJob: UpdateJob | null;
+  recentJobs: UpdateJob[];
+  showNotification: boolean;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

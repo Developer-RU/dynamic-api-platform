@@ -10,6 +10,9 @@ import {
   SystemInfo,
   AppSettings,
   SettingsResponse,
+  UpdateSettings,
+  UpdateStatus,
+  UpdateJob,
 } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -478,6 +481,55 @@ class ApiClient {
   async getMcpTools() {
     const res = await this.request<{ success: boolean; data: unknown[] }>('/api/mcp/tools');
     return res.data;
+  }
+
+  async getUpdateStatus() {
+    const res = await this.request<{ success: boolean; data: UpdateStatus }>('/api/updates/status');
+    return res.data;
+  }
+
+  async checkForUpdates() {
+    const res = await this.request<{ success: boolean; data: UpdateStatus & { updateAvailable?: boolean } }>(
+      '/api/updates/check',
+      { method: 'POST' }
+    );
+    return res.data;
+  }
+
+  async getUpdateSettings() {
+    const res = await this.request<{ success: boolean; data: UpdateSettings }>('/api/updates/settings');
+    return res.data;
+  }
+
+  async updateUpdateSettings(settings: Partial<UpdateSettings>) {
+    const res = await this.request<{ success: boolean; data: UpdateSettings }>('/api/updates/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+    return res.data;
+  }
+
+  async applyUpdate(targetVersion?: string) {
+    const res = await this.request<{ success: boolean; data: UpdateJob; message: string }>('/api/updates/apply', {
+      method: 'POST',
+      body: JSON.stringify(targetVersion ? { targetVersion } : {}),
+    });
+    return res;
+  }
+
+  async dismissUpdate(version: string) {
+    await this.request('/api/updates/dismiss', {
+      method: 'POST',
+      body: JSON.stringify({ version }),
+    });
+  }
+
+  async rollbackUpdate(jobId: string) {
+    const res = await this.request<{ success: boolean; data: UpdateJob; message: string }>(
+      `/api/updates/jobs/${jobId}/rollback`,
+      { method: 'POST' }
+    );
+    return res;
   }
 }
 

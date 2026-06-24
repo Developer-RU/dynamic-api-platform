@@ -8,3 +8,4 @@ export { SystemSettings, ISystemSettings } from './SystemSettings';
 export { CronJob, ICronJob } from './CronJob';
 export { Webhook, IWebhook } from './Webhook';
 export { ApiKey, IApiKey } from './ApiKey';
+export { UpdateJob, IUpdateJob } from './UpdateJob';

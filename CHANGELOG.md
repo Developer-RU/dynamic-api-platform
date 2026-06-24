@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.0] - 2026-06-18
+
+### Added
+- **Software update system** — GitHub Releases check, in-app notification banner, Settings → Software Updates
+- **Scheduled update checks** and optional **auto-update** with configurable intervals
+- **Update jobs** with step progress (snapshot → fetch → deploy → health)
+- **Automatic rollback** on failed health check after deploy
+- **Self-update scripts** — `scripts/self-update.sh`, `scripts/self-update-rollback.sh` (detached Docker runner)
+- **Update API** — `/api/updates/*` (status, settings, apply, rollback, dismiss)
+- **Documentation** — [docs/updates.md](docs/updates.md)
+- **Semver tests** — version comparison for release checks (30 unit tests total)
+
+### Changed
+- **Docker backend image** — root build context; includes `docker-cli`, `git`, `jq`, `curl`, updater scripts
+- **docker-compose.yml** / **docker-compose.replica.yml** — update env vars, `update_data` volume, `host.docker.internal`
+- **Health endpoint** — returns installed `version`
+
 ## [1.4.0] - 2026-06-24
 
 ### Added
@@ -171,6 +188,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.0
 [1.4.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.4.0
 [1.3.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.3.0
 [1.2.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.2.0

@@ -84,12 +84,14 @@ services:
 
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: dap-backend-replica
     restart: unless-stopped
     ports:
       - "3001:3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       NODE_ENV: production
       PORT: 3001
@@ -105,11 +107,22 @@ services:
       ADMIN_EMAIL: admin@dynamic-api.local
       ADMIN_PASSWORD: Admin123!
       ADMIN_LOGIN: admin
+      APP_VERSION: ${APP_VERSION:-1.5.0}
+      UPDATE_EXECUTOR_ENABLED: ${UPDATE_EXECUTOR_ENABLED:-false}
+      UPDATE_DEPLOY_MODE: ${UPDATE_DEPLOY_MODE:-docker-replica}
+      UPDATE_COMPOSE_FILE: ${UPDATE_COMPOSE_FILE:-/deploy/docker-compose.replica.yml}
+      UPDATE_PROJECT_ROOT: ${UPDATE_PROJECT_ROOT:-/deploy}
+      UPDATE_DATA_DIR: /app/data/updates
+      UPDATE_HEALTH_URL: ${UPDATE_HEALTH_URL:-http://host.docker.internal:3001/api/health}
     depends_on:
       mongo-init:
         condition: service_completed_successfully
     volumes:
       - backend_logs:/app/logs
+      - update_data:/app/data/updates
+      # Uncomment for in-app auto-update:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - ..:/deploy:ro
     networks:
       - replica-network
     healthcheck:
@@ -149,3 +162,5 @@ volumes:
     name: dap_mongo3_data
   backend_logs:
     name: dap_backend_logs_replica
+  update_data:
+    name: dap_update_data_replica

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Save, Trash2, Shield, Gauge, FileText, Globe, RefreshCw, Download, Upload } from 'lucide-react';
+import { Save, Trash2, Shield, Gauge, FileText, Globe, RefreshCw, Download, Upload, ArrowUpCircle } from 'lucide-react';
 import { api } from '../services/api';
-import { AppSettings } from '../types';
+import { AppSettings, UpdateSettings, UpdateStatus } from '../types';
 import { PageHeader, LoadingSpinner } from '../components/UI';
 
 function msToMinutes(ms: number): number {
@@ -45,19 +45,80 @@ export default function SettingsPage() {
   const [includeData, setIncludeData] = useState(false);
   const [includeSettings, setIncludeSettings] = useState(false);
   const [importMode, setImportMode] = useState<'merge' | 'replace'>('merge');
+  const [updateSettings, setUpdateSettings] = useState<UpdateSettings | null>(null);
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus | null>(null);
+  const [updateSaving, setUpdateSaving] = useState(false);
+  const [checkingUpdates, setCheckingUpdates] = useState(false);
+  const [applyingUpdate, setApplyingUpdate] = useState(false);
 
   const load = () => {
     setLoading(true);
-    api.getSettings()
-      .then((data) => {
+    Promise.all([
+      api.getSettings(),
+      api.getUpdateSettings().catch(() => null),
+      api.getUpdateStatus().catch(() => null),
+    ])
+      .then(([data, updSettings, updStatus]) => {
         setSettings(data.settings);
         setLogsCount(data.logsCount);
+        if (updSettings) setUpdateSettings(updSettings);
+        if (updStatus) setUpdateStatus(updStatus);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
+
+  useEffect(() => {
+    if (!updateStatus?.activeJob) return;
+    const timer = setInterval(() => {
+      api.getUpdateStatus().then(setUpdateStatus).catch(() => {});
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [updateStatus?.activeJob?._id, updateStatus?.activeJob?.status]);
+
+  const saveUpdateSettings = async () => {
+    if (!updateSettings) return;
+    setUpdateSaving(true);
+    try {
+      const updated = await api.updateUpdateSettings(updateSettings);
+      setUpdateSettings(updated);
+      alert('Update settings saved');
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to save');
+    } finally {
+      setUpdateSaving(false);
+    }
+  };
+
+  const checkUpdatesNow = async () => {
+    setCheckingUpdates(true);
+    try {
+      await api.checkForUpdates();
+      const status = await api.getUpdateStatus();
+      setUpdateStatus(status);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Check failed');
+    } finally {
+      setCheckingUpdates(false);
+    }
+  };
+
+  const applyUpdateNow = async () => {
+    if (!updateStatus?.latestVersion) return;
+    if (!confirm(`Update to v${updateStatus.latestVersion}? Services will restart.`)) return;
+    setApplyingUpdate(true);
+    try {
+      await api.applyUpdate(updateStatus.latestVersion);
+      const status = await api.getUpdateStatus();
+      setUpdateStatus(status);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Update failed');
+    } finally {
+      setApplyingUpdate(false);
+    }
+  };
 
   const save = async () => {
     if (!settings) return;
@@ -254,6 +315,154 @@ export default function SettingsPage() {
               }}
             />
           </label>
+        </SettingSection>
+
+        <SettingSection title="Software Updates" icon={ArrowUpCircle}>
+          {updateStatus && (
+            <div className="bg-dark-bg rounded-md p-3 space-y-1 text-sm">
+              <div className="flex justify-between">
+                <span className="text-dark-muted">Installed version</span>
+                <span className="font-mono font-medium">v{updateStatus.currentVersion}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-dark-muted">Latest on GitHub</span>
+                <span className="font-mono font-medium">
+                  {updateStatus.latestVersion ? `v${updateStatus.latestVersion}` : '—'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-dark-muted">Last check</span>
+                <span className="text-xs">
+                  {updateStatus.checkedAt ? new Date(updateStatus.checkedAt).toLocaleString() : 'Never'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-dark-muted">Auto-update executor</span>
+                <span className={updateStatus.executorAvailable ? 'text-green-600' : 'text-amber-600'}>
+                  {updateStatus.executorAvailable ? 'Ready' : 'Not configured'}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {updateStatus?.activeJob && (
+            <div className="rounded-md border border-brand-200 dark:border-brand-800 p-3">
+              <div className="text-sm font-medium mb-2">
+                Update in progress: v{updateStatus.activeJob.targetVersion}
+              </div>
+              <ul className="space-y-1 text-xs">
+                {updateStatus.activeJob.steps.map((step) => (
+                  <li key={step.id} className="flex justify-between gap-2">
+                    <span>{step.label}</span>
+                    <span className={
+                      step.status === 'completed' ? 'text-green-600' :
+                      step.status === 'failed' ? 'text-red-600' :
+                      step.status === 'running' ? 'text-brand-600' : 'text-dark-muted'
+                    }>
+                      {step.status}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2">
+            <button className="btn-secondary" onClick={checkUpdatesNow} disabled={checkingUpdates}>
+              <RefreshCw className={`w-4 h-4 ${checkingUpdates ? 'animate-spin' : ''}`} />
+              {checkingUpdates ? 'Checking…' : 'Check now'}
+            </button>
+            {updateStatus?.updateAvailable && updateStatus.executorAvailable && !updateStatus.activeJob && (
+              <button className="btn-primary" onClick={applyUpdateNow} disabled={applyingUpdate}>
+                <ArrowUpCircle className="w-4 h-4" />
+                {applyingUpdate ? 'Starting…' : `Update to v${updateStatus.latestVersion}`}
+              </button>
+            )}
+          </div>
+
+          {updateSettings && (
+            <>
+              <Field label="GitHub repository" hint="owner/repo for release checks">
+                <input
+                  className="input font-mono"
+                  value={updateSettings.githubRepo}
+                  onChange={(e) => setUpdateSettings({ ...updateSettings, githubRepo: e.target.value })}
+                />
+              </Field>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={updateSettings.checkEnabled}
+                  onChange={(e) => setUpdateSettings({ ...updateSettings, checkEnabled: e.target.checked })}
+                />
+                Periodically check GitHub for new releases
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={updateSettings.notifyEnabled}
+                  onChange={(e) => setUpdateSettings({ ...updateSettings, notifyEnabled: e.target.checked })}
+                />
+                Show in-app notification when update is available
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={updateSettings.autoUpdateEnabled}
+                  onChange={(e) => setUpdateSettings({ ...updateSettings, autoUpdateEnabled: e.target.checked })}
+                />
+                Automatically install updates on schedule
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={updateSettings.includePrerelease}
+                  onChange={(e) => setUpdateSettings({ ...updateSettings, includePrerelease: e.target.checked })}
+                />
+                Include pre-releases
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Check interval (hours)">
+                  <input
+                    type="number"
+                    className="input"
+                    min={1}
+                    max={168}
+                    value={updateSettings.checkIntervalHours}
+                    onChange={(e) =>
+                      setUpdateSettings({
+                        ...updateSettings,
+                        checkIntervalHours: parseInt(e.target.value, 10) || 24,
+                      })
+                    }
+                  />
+                </Field>
+                <Field label="Auto-update interval (hours)">
+                  <input
+                    type="number"
+                    className="input"
+                    min={1}
+                    max={720}
+                    value={updateSettings.autoUpdateIntervalHours}
+                    onChange={(e) =>
+                      setUpdateSettings({
+                        ...updateSettings,
+                        autoUpdateIntervalHours: parseInt(e.target.value, 10) || 168,
+                      })
+                    }
+                  />
+                </Field>
+              </div>
+              <button className="btn-primary w-full justify-center" onClick={saveUpdateSettings} disabled={updateSaving}>
+                <Save className="w-4 h-4" /> {updateSaving ? 'Saving…' : 'Save update settings'}
+              </button>
+            </>
+          )}
+
+          <p className="text-xs text-dark-muted">
+            Auto-update requires Docker socket and project mount on the backend container.
+            See documentation for <code className="text-xs">UPDATE_EXECUTOR_ENABLED</code>.
+          </p>
         </SettingSection>
 
         <SettingSection title="Pagination & Display" icon={Globe}>

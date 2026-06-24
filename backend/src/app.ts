@@ -22,6 +22,8 @@ import cronRoutes from './routes/cron.routes';
 import webhooksRoutes from './routes/webhooks.routes';
 import apiKeysRoutes from './routes/api-keys.routes';
 import mcpRoutes from './routes/mcp.routes';
+import updatesRoutes from './routes/updates.routes';
+import { getAppVersion } from './services/update-settings.service';
 import { apiRateLimitMiddleware } from './middleware/rateLimit';
 
 export function createApp(): express.Application {
@@ -51,7 +53,12 @@ export function createApp(): express.Application {
   const csrfProtection = csrf({ cookie: { httpOnly: true, secure: env.nodeEnv === 'production' } });
 
   app.get('/api/health', (_req, res) => {
-    res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
+    res.json({
+      success: true,
+      status: 'ok',
+      version: getAppVersion(),
+      timestamp: new Date().toISOString(),
+    });
   });
 
   app.get('/api/csrf-token', csrfProtection, (req, res) => {
@@ -72,6 +79,7 @@ export function createApp(): express.Application {
   app.use('/api/webhooks', webhooksRoutes);
   app.use('/api/api-keys', apiKeysRoutes);
   app.use('/api/mcp', mcpRoutes);
+  app.use('/api/updates', updatesRoutes);
 
   app.use('/api', dynamicRoutes);
 

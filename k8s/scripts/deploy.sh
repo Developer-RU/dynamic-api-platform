@@ -17,7 +17,7 @@ fi
 
 if [ "$BUILD_IMAGES" = "1" ]; then
   echo "==> Building images"
-  docker build -t dap/backend:latest "$ROOT/backend"
+  docker build -t dap/backend:latest -f "$ROOT/backend/Dockerfile" "$ROOT"
   docker build -t dap/frontend:latest --build-arg VITE_API_URL="" "$ROOT/frontend"
 fi
 
