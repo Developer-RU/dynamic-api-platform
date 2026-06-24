@@ -40,7 +40,7 @@ services:
       ADMIN_EMAIL: admin@dynamic-api.local
       ADMIN_PASSWORD: Admin123!
       ADMIN_LOGIN: admin
-      APP_VERSION: ${APP_VERSION:-1.5.0}
+      APP_VERSION: ${APP_VERSION:-1.5.1}
       # Self-update (optional — see docs/updates.md)
       UPDATE_EXECUTOR_ENABLED: ${UPDATE_EXECUTOR_ENABLED:-false}
       UPDATE_DEPLOY_MODE: ${UPDATE_DEPLOY_MODE:-docker}

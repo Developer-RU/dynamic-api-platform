@@ -96,6 +96,7 @@ class UpdateSettingsService {
 
   async seedDefaults(): Promise<void> {
     for (const [field, value] of Object.entries(DEFAULTS)) {
+      if (value === null) continue;
       const key = KEY_MAP[field as keyof UpdateSettings];
       const existing = await SystemSettings.findOne({ key });
       if (!existing) {

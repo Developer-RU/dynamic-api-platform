@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.1] - 2026-06-18
+
+### Fixed
+- **Startup crash** — update settings seed no longer writes `null` values to `SystemSettings` (MongoDB validation error on first boot)
+
 ## [1.5.0] - 2026-06-18
 
 ### Added
@@ -188,6 +193,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.1]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.1
 [1.5.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.0
 [1.4.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.4.0
 [1.3.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.3.0
