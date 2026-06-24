@@ -17,6 +17,8 @@ The platform can check [GitHub Releases](https://github.com/Dynamic-API-Platform
 | **Scheduled checks** | Configurable interval (Settings → Software Updates) |
 | **Auto-update** | Optional scheduled install when a newer release exists |
 | **Progress** | Step-by-step progress during update (snapshot → fetch → deploy → health) |
+| **Cancel** | Cancel active jobs from Settings → Software Updates |
+| **Stale job cleanup** | Jobs targeting an older version than installed are auto-failed on startup |
 | **Auto-rollback** | Restores previous git ref and restarts services if health check fails |
 
 ## Settings UI
@@ -136,6 +138,7 @@ All routes require authentication and `manage_users` + `manage_api`.
 | `GET` | `/api/updates/settings` | Update settings |
 | `PUT` | `/api/updates/settings` | Save update settings |
 | `POST` | `/api/updates/apply` | Start update job |
+| `POST` | `/api/updates/jobs/:id/cancel` | Cancel active job |
 | `POST` | `/api/updates/dismiss` | Dismiss notification for version |
 | `GET` | `/api/updates/jobs` | Recent jobs |
 | `POST` | `/api/updates/jobs/:id/rollback` | Manual rollback |
@@ -151,6 +154,7 @@ In-cluster auto-update is not enabled by default. Use your GitOps / CI pipeline 
 | Executor **Not configured** | Set `UPDATE_EXECUTOR_ENABLED=true`, mount socket + project |
 | Check fails | Outbound HTTPS blocked; verify `githubRepo` |
 | Health timeout | Fix `UPDATE_HEALTH_URL`; ensure port reachable from updater |
+| Stuck update banner | Stale job in DB — restart backend (auto-reconcile) or **Cancel** in Settings |
 | Rollback after update | Previous git ref restored; inspect `update_data` logs |
 
 Logs: `{UPDATE_DATA_DIR}/update-{jobId}.log`

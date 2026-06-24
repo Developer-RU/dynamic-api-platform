@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.6] - 2026-06-18
+
+### Changed
+- **GitHub Pages**, **wiki**, and **organization profile** synced with v1.5.5 update fixes
+- **docs/updates.md** — cancel button, stale job reconciliation, bash updater notes
+
 ## [1.5.5] - 2026-06-18
 
 ### Fixed
@@ -227,6 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.6]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.6
 [1.5.5]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.5
 [1.5.3]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3
 [1.5.2]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2

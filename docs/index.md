@@ -20,6 +20,7 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 
 | Update | Summary |
 |--------|---------|
+| **v1.5.5 — Update reliability** | Stale job cleanup, **Cancel** in Settings, bash updater fix — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.5 — Software updates** | In-app updates from GitHub Releases, **Update now**, auto-update in Docker, rollback — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.4 — Deployment** | [Three variants]({{ '/deployment-variants/' | relative_url }}): Docker single, MongoDB replica set, Kubernetes |
 | **v1.4 — Testing** | Vitest (30 tests), load test, CI — [Testing]({{ '/testing/' | relative_url }}) |

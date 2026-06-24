@@ -9,6 +9,8 @@
 - **Update now** in Settings → Software Updates
 - Optional scheduled auto-update
 - Progress steps: snapshot → fetch → deploy → health
+- **Cancel** active jobs from Settings
+- Stale jobs (target older than installed version) auto-failed on startup
 - Automatic rollback if health check fails after deploy
 
 ## Out of the box
