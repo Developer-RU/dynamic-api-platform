@@ -247,6 +247,7 @@ export interface UpdateStatus {
   publishedAt: string | null;
   checkedAt: string;
   executorAvailable: boolean;
+  executorReason: string | null;
   deployMode: string;
   settings: UpdateSettings;
   activeJob: UpdateJob | null;

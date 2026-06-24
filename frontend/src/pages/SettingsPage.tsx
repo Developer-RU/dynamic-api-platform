@@ -106,13 +106,32 @@ export default function SettingsPage() {
   };
 
   const applyUpdateNow = async () => {
-    if (!updateStatus?.latestVersion) return;
-    if (!confirm(`Update to v${updateStatus.latestVersion}? Services will restart.`)) return;
+    if (!updateStatus?.executorAvailable) {
+      alert(updateStatus?.executorReason ?? 'Auto-update is not available on this server');
+      return;
+    }
+    if (updateStatus.activeJob) return;
+
     setApplyingUpdate(true);
     try {
-      await api.applyUpdate(updateStatus.latestVersion);
-      const status = await api.getUpdateStatus();
-      setUpdateStatus(status);
+      let status = updateStatus;
+      if (!status.updateAvailable || !status.latestVersion) {
+        await api.checkForUpdates();
+        status = await api.getUpdateStatus();
+        setUpdateStatus(status);
+      }
+      if (!status.latestVersion) {
+        alert('No release found on GitHub. Check repository settings.');
+        return;
+      }
+      if (!status.updateAvailable) {
+        alert(`You are already on the latest version (v${status.currentVersion}).`);
+        return;
+      }
+      if (!confirm(`Update to v${status.latestVersion}? Services will restart briefly.`)) return;
+      await api.applyUpdate(status.latestVersion);
+      const next = await api.getUpdateStatus();
+      setUpdateStatus(next);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Update failed');
     } finally {
@@ -337,11 +356,14 @@ export default function SettingsPage() {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-dark-muted">Auto-update executor</span>
+                <span className="text-dark-muted">Auto-update</span>
                 <span className={updateStatus.executorAvailable ? 'text-green-600' : 'text-amber-600'}>
-                  {updateStatus.executorAvailable ? 'Ready' : 'Not configured'}
+                  {updateStatus.executorAvailable ? 'Ready' : 'Unavailable'}
                 </span>
               </div>
+              {!updateStatus.executorAvailable && updateStatus.executorReason && (
+                <p className="text-xs text-amber-600 pt-1">{updateStatus.executorReason}</p>
+              )}
             </div>
           )}
 
@@ -372,10 +394,10 @@ export default function SettingsPage() {
               <RefreshCw className={`w-4 h-4 ${checkingUpdates ? 'animate-spin' : ''}`} />
               {checkingUpdates ? 'Checking…' : 'Check now'}
             </button>
-            {updateStatus?.updateAvailable && updateStatus.executorAvailable && !updateStatus.activeJob && (
+            {updateStatus?.executorAvailable && !updateStatus.activeJob && (
               <button className="btn-primary" onClick={applyUpdateNow} disabled={applyingUpdate}>
                 <ArrowUpCircle className="w-4 h-4" />
-                {applyingUpdate ? 'Starting…' : `Update to v${updateStatus.latestVersion}`}
+                {applyingUpdate ? 'Starting…' : 'Update now'}
               </button>
             )}
           </div>
@@ -460,8 +482,8 @@ export default function SettingsPage() {
           )}
 
           <p className="text-xs text-dark-muted">
-            Auto-update requires Docker socket and project mount on the backend container.
-            See documentation for <code className="text-xs">UPDATE_EXECUTOR_ENABLED</code>.
+            Works out of the box with <code className="text-xs">docker compose up -d --build</code> on a local PC or VPS.
+            Deploy from a git clone or release archive — updates are applied automatically with rollback on failure.
           </p>
         </SettingSection>
 

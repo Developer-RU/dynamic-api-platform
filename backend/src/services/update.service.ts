@@ -26,6 +26,7 @@ export interface UpdateCheckResult {
   publishedAt: string | null;
   checkedAt: string;
   executorAvailable: boolean;
+  executorReason: string | null;
   deployMode: string;
 }
 
@@ -104,6 +105,7 @@ export class UpdateService {
       publishedAt: latest?.published_at ?? null,
       checkedAt,
       executorAvailable: updateExecutorService.isAvailable(),
+      executorReason: updateExecutorService.getUnavailableReason(),
       deployMode: env.updateDeployMode,
     };
   }
@@ -127,6 +129,7 @@ export class UpdateService {
           publishedAt: null,
           checkedAt: settings.lastCheckAt,
           executorAvailable: updateExecutorService.isAvailable(),
+          executorReason: updateExecutorService.getUnavailableReason(),
           deployMode: env.updateDeployMode,
         };
       } else {
@@ -143,6 +146,7 @@ export class UpdateService {
         publishedAt: null,
         checkedAt: settings.lastCheckAt ?? new Date().toISOString(),
         executorAvailable: updateExecutorService.isAvailable(),
+        executorReason: updateExecutorService.getUnavailableReason(),
         deployMode: env.updateDeployMode,
       };
     }
@@ -201,7 +205,8 @@ export class UpdateService {
 
     if (!updateExecutorService.isAvailable()) {
       throw new Error(
-        'Auto-update executor is not configured. Mount Docker socket and set UPDATE_EXECUTOR_ENABLED=true. See docs/updates.md.'
+        updateExecutorService.getUnavailableReason() ??
+          'Auto-update is not available on this server. Deploy with Docker Compose from the project directory.'
       );
     }
 

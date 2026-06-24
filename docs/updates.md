@@ -33,23 +33,32 @@ Open **Settings → Software Updates** (requires `manage_users` and `manage_api`
 | Auto-update interval | 168 hours (7 days) | How often to attempt auto-install |
 | Include pre-releases | Off | Use GitHub pre-releases |
 
-## Check-only mode (default)
+## Out of the box (Docker)
 
-Without the update executor, the platform still:
+`docker compose up -d --build` on a **local PC** or **VPS** enables in-app updates automatically:
+
+- Docker socket and project directory are mounted into the backend
+- **Settings → Software Updates** shows **Auto-update: Ready**
+- **Update now** applies the latest GitHub release with progress and rollback on failure
+
+Works with `git clone` (preferred) or a downloaded release archive — without `.git`, the updater downloads the release tarball from GitHub.
+
+To disable: set `UPDATE_EXECUTOR_ENABLED=false` in `.env`.
+
+## Check-only mode
+
+If the executor is disabled, the platform still:
 
 - Checks GitHub for new releases
 - Shows notifications and release links
-- Lets you configure intervals and repository
 
 Manual upgrade follows normal [Deployment]({{ '/deployment/' | relative_url }}) steps.
 
-## Enabling auto-update (Docker)
+## How auto-update works (Docker)
 
-Auto-update runs a **detached updater container** that uses the host Docker socket so it survives backend restarts.
+Auto-update runs a **detached updater container** on the host Docker socket so it survives backend restarts.
 
-### 1. Mount Docker socket and project
-
-In `docker-compose.yml` for the `backend` service:
+Default `docker-compose.yml` backend service (already configured):
 
 ```yaml
 environment:
@@ -57,26 +66,19 @@ environment:
   UPDATE_DEPLOY_MODE: docker
   UPDATE_COMPOSE_FILE: /deploy/docker-compose.yml
   UPDATE_PROJECT_ROOT: /deploy
-  UPDATE_HEALTH_URL: http://host.docker.internal:3001/api/health
-  APP_VERSION: "1.5.0"
+  UPDATE_HOST_PROJECT_ROOT: ${PWD}
+  UPDATE_DATA_VOLUME: dap_update_data
+  UPDATE_DOCKER_NETWORK: dap_default
+  UPDATE_HEALTH_URL: http://backend:3001/api/health
 volumes:
   - update_data:/app/data/updates
   - /var/run/docker.sock:/var/run/docker.sock
-  - ..:/deploy
+  - ${PWD}:/deploy
 ```
 
-Use `UPDATE_DEPLOY_MODE=docker-replica` with `UPDATE_COMPOSE_FILE=/deploy/docker-compose.replica.yml` for the replica-set stack.
+Replica stack: use `docker-compose.replica.yml` (`UPDATE_DEPLOY_MODE=docker-replica`, network `dap-replica-network`).
 
-### 2. Rebuild backend image
-
-The backend image includes the Docker CLI to spawn the updater:
-
-```bash
-docker compose build backend
-docker compose up -d
-```
-
-### 3. Verify
+### Verify
 
 In **Settings → Software Updates**, **Auto-update executor** should show **Ready**.
 

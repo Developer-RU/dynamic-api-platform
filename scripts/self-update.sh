@@ -25,6 +25,8 @@ fi
 
 TARGET_TAG="$(jq -r '.targetTag' "$MANIFEST_FILE")"
 FROM_VERSION="$(jq -r '.fromVersion' "$MANIFEST_FILE")"
+GITHUB_REPO="$(jq -r '.githubRepo // "Dynamic-API-Platform/Dynamic-API-Platform"' "$MANIFEST_FILE")"
+BACKUP_ARCHIVE="$DATA_DIR/backup-${JOB_ID}.tar.gz"
 
 STEPS='[{"id":"snapshot","label":"Save rollback snapshot","status":"pending"},{"id":"fetch","label":"Fetch release","status":"pending"},{"id":"deploy","label":"Apply update","status":"pending"},{"id":"health","label":"Verify health","status":"pending"}]'
 ROLLBACK_SNAPSHOT="{}"
@@ -105,16 +107,34 @@ set_step snapshot running "Capturing current state"
 
 cd "$PROJECT_ROOT"
 
+USE_GIT=0
+if [[ -d .git ]]; then
+  USE_GIT=1
+fi
+
 if [[ "$DEPLOY_MODE" == "docker" || "$DEPLOY_MODE" == "docker-replica" ]]; then
-  GIT_REF="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+  if [[ "$USE_GIT" -eq 1 ]]; then
+    GIT_REF="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+  else
+    GIT_REF="archive"
+    tar -czf "$BACKUP_ARCHIVE" \
+      --exclude='./node_modules' \
+      --exclude='./backend/node_modules' \
+      --exclude='./frontend/node_modules' \
+      --exclude='./frontend/dist' \
+      --exclude='./.git' \
+      . 2>/dev/null || true
+  fi
   COMPOSE_IMAGES="$(docker compose -f "$COMPOSE_FILE" images -q 2>/dev/null | sort -u | jq -R -s 'split("\n") | map(select(length>0))')"
   ROLLBACK_SNAPSHOT="$(jq -n \
     --arg mode "$DEPLOY_MODE" \
     --arg ref "$GIT_REF" \
     --arg from "$FROM_VERSION" \
     --arg compose "$COMPOSE_FILE" \
+    --arg backup "$BACKUP_ARCHIVE" \
+    --argjson useGit "$USE_GIT" \
     --argjson images "$COMPOSE_IMAGES" \
-    '{mode: $mode, gitRef: $ref, fromVersion: $from, composeFile: $compose, imageIds: $images}')"
+    '{mode: $mode, gitRef: $ref, fromVersion: $from, composeFile: $compose, backupArchive: $backup, useGit: $useGit, imageIds: $images}')"
 elif [[ "$DEPLOY_MODE" == "native" ]]; then
   GIT_REF="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
   ROLLBACK_SNAPSHOT="$(jq -n --arg ref "$GIT_REF" --arg from "$FROM_VERSION" '{mode: "native", gitRef: $ref, fromVersion: $from}')"
@@ -127,8 +147,32 @@ echo "$ROLLBACK_SNAPSHOT" > "$DATA_DIR/rollback-${JOB_ID}.json"
 set_step snapshot completed "Snapshot saved"
 
 set_step fetch running "Fetching $TARGET_TAG"
-git fetch --tags --force origin
-git checkout "$TARGET_TAG"
+if [[ "$USE_GIT" -eq 1 ]]; then
+  if ! git remote get-url origin >/dev/null 2>&1; then
+    git remote add origin "https://github.com/${GITHUB_REPO}.git"
+  fi
+  git fetch --tags --force origin
+  git checkout "$TARGET_TAG"
+else
+  TMP_ARCHIVE="/tmp/dap-release-${JOB_ID}.tar.gz"
+  TAG_PATH="${TARGET_TAG}"
+  if ! curl -sfL "https://github.com/${GITHUB_REPO}/archive/refs/tags/${TAG_PATH}.tar.gz" -o "$TMP_ARCHIVE"; then
+    ALT_TAG="${TARGET_TAG#v}"
+    curl -sfL "https://github.com/${GITHUB_REPO}/archive/refs/tags/v${ALT_TAG}.tar.gz" -o "$TMP_ARCHIVE"
+  fi
+  EXTRACT_DIR="/tmp/dap-extract-${JOB_ID}"
+  rm -rf "$EXTRACT_DIR"
+  mkdir -p "$EXTRACT_DIR"
+  tar -xzf "$TMP_ARCHIVE" -C "$EXTRACT_DIR"
+  SRC_DIR="$(find "$EXTRACT_DIR" -mindepth 1 -maxdepth 1 -type d | head -1)"
+  rsync -a --delete \
+    --exclude='node_modules' \
+    --exclude='backend/node_modules' \
+    --exclude='frontend/node_modules' \
+    --exclude='.git' \
+    "$SRC_DIR"/ "$PROJECT_ROOT"/
+  rm -rf "$EXTRACT_DIR" "$TMP_ARCHIVE"
+fi
 set_step fetch completed "Checked out $TARGET_TAG"
 
 set_step deploy running "Rebuilding services"

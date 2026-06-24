@@ -23,6 +23,37 @@ export default function UpdateBanner() {
     return () => clearInterval(timer);
   }, [canManage, status?.activeJob?.status]);
 
+  const apply = async () => {
+    if (!status?.executorAvailable) {
+      alert(status?.executorReason ?? 'Auto-update is not available');
+      return;
+    }
+    setApplying(true);
+    try {
+      let next = status;
+      if (!next.updateAvailable || !next.latestVersion) {
+        await api.checkForUpdates();
+        next = await api.getUpdateStatus();
+        setStatus(next);
+      }
+      if (!next.latestVersion) {
+        alert('No release found on GitHub');
+        return;
+      }
+      if (!next.updateAvailable) {
+        alert(`Already on latest version (v${next.currentVersion})`);
+        return;
+      }
+      if (!confirm(`Update to v${next.latestVersion}? Services will restart briefly.`)) return;
+      await api.applyUpdate(next.latestVersion);
+      load();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Update failed');
+    } finally {
+      setApplying(false);
+    }
+  };
+
   if (!canManage || !status) return null;
 
   if (status.activeJob) {
@@ -64,23 +95,13 @@ export default function UpdateBanner() {
     );
   }
 
-  if (!status.showNotification || !status.latestVersion) return null;
+  const showBanner = status.showNotification || (status.updateAvailable && !!status.latestVersion);
+
+  if (!showBanner || !status.latestVersion) return null;
 
   const dismiss = async () => {
     await api.dismissUpdate(status.latestVersion!);
     load();
-  };
-
-  const apply = async () => {
-    setApplying(true);
-    try {
-      await api.applyUpdate(status.latestVersion!);
-      load();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Update failed');
-    } finally {
-      setApplying(false);
-    }
   };
 
   return (
@@ -93,7 +114,6 @@ export default function UpdateBanner() {
           </div>
           <div className="mt-0.5 text-xs text-amber-900/80 dark:text-amber-200/80">
             Current version v{status.currentVersion}.
-            {!status.executorAvailable && ' Auto-update is not configured on this server — see Settings.'}
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {status.executorAvailable && (

@@ -20,12 +20,20 @@ cd "$PROJECT_ROOT"
 
 GIT_REF="$(jq -r '.gitRef // empty' "$SNAPSHOT_FILE")"
 MODE="$(jq -r '.mode // "docker"' "$SNAPSHOT_FILE")"
+USE_GIT="$(jq -r '.useGit // 1' "$SNAPSHOT_FILE")"
+BACKUP_ARCHIVE="$(jq -r '.backupArchive // empty' "$SNAPSHOT_FILE")"
 
-echo "Rolling back job $JOB_ID to ref $GIT_REF"
+echo "Rolling back job $JOB_ID"
 
-if [[ -n "$GIT_REF" && "$GIT_REF" != "unknown" && "$GIT_REF" != "null" ]]; then
-  git fetch --tags --force origin
+if [[ "$USE_GIT" == "1" && -n "$GIT_REF" && "$GIT_REF" != "unknown" && "$GIT_REF" != "null" && "$GIT_REF" != "archive" ]]; then
+  git fetch --tags --force origin || true
   git checkout "$GIT_REF"
+elif [[ -n "$BACKUP_ARCHIVE" && -f "$BACKUP_ARCHIVE" ]]; then
+  echo "Restoring backup archive $BACKUP_ARCHIVE"
+  tar -xzf "$BACKUP_ARCHIVE" -C "$PROJECT_ROOT"
+else
+  echo "No git ref or backup archive available for rollback"
+  exit 1
 fi
 
 if [[ "$MODE" == "docker" || "$MODE" == "docker-replica" || "$DEPLOY_MODE" == "docker" || "$DEPLOY_MODE" == "docker-replica" ]]; then
