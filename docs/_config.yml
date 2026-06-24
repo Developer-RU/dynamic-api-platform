@@ -44,6 +44,12 @@ nav:
     url: /automation/
   - title: Deployment
     url: /deployment/
+  - title: Deployment Variants
+    url: /deployment-variants/
+  - title: MongoDB Replica Set
+    url: /mongodb-replica-set/
+  - title: Kubernetes
+    url: /kubernetes/
   - title: Configuration
     url: /configuration/
   - title: Development

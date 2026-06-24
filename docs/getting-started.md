@@ -11,7 +11,17 @@ title: Getting Started
 - [Docker](https://docs.docker.com/get-docker/) 24+ and Docker Compose v2
 - **Or** for local development: Node.js 20+, npm, MongoDB 7+
 
-## Installation with Docker (recommended)
+## Installation
+
+Three deployment options are available — see [Deployment Variants]({{ '/deployment-variants/' | relative_url }}) for a full comparison.
+
+| Variant | Command | When |
+|---------|---------|------|
+| **1. Docker (single)** | `docker compose up -d` | Default — fastest start |
+| **2. Docker replica set** | `docker compose -f docker-compose.replica.yml up -d` | HA MongoDB on Docker |
+| **3. Kubernetes** | `./k8s/scripts/deploy.sh` | K8s cluster |
+
+### Variant 1 — Docker (recommended for first run)
 
 ```bash
 # Clone repository

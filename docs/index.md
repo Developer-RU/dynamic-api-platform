@@ -77,7 +77,7 @@ Dynamic API Platform is designed to eliminate that workflow.
 - IP-based security restrictions.
 - Request statistics and monitoring.
 - Error tracking and logging.
-- Single Docker deployment containing frontend, backend, and database.
+- Three deployment options: Docker (single), Docker + MongoDB replica set, Kubernetes.
 - Extensible architecture with JavaScript handlers, webhooks, cron jobs, MCP tools, and custom logic.
 
 The platform focuses on **rapid API deployment and management** without requiring continuous backend development.
