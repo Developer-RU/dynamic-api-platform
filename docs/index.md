@@ -20,8 +20,9 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 
 | Update | Summary |
 |--------|---------|
+| **v1.5 — Software updates** | In-app updates from GitHub Releases, **Update now**, auto-update in Docker, rollback — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.4 — Deployment** | [Three variants]({{ '/deployment-variants/' | relative_url }}): Docker single, MongoDB replica set, Kubernetes |
-| **v1.4 — Testing** | Vitest (27 tests), load test, CI — [Testing]({{ '/testing/' | relative_url }}) |
+| **v1.4 — Testing** | Vitest (30 tests), load test, CI — [Testing]({{ '/testing/' | relative_url }}) |
 | **v1.4 — Observability** | Dashboard automation KPIs, charts, health widget; audit log `source` field |
 | **v1.3 — Cron** | Scheduled jobs at `/cron` |
 | **v1.3 — Webhooks** | Outbound events at `/webhooks` |
@@ -55,7 +56,8 @@ Details: [Automation & Integrations]({{ '/automation/' | relative_url }}) · [Ch
 | **OpenAPI** | Auto-generated spec, Swagger UI, embedded **API Docs** in admin panel |
 | **Security** | JWT auth with refresh, RBAC, **API keys**, **network access rules**, rate limiting, login lockout, audit logs, Helmet, CORS |
 | **Admin Panel** | Dashboard, endpoint editor, **Handler tab**, **API Schema (ER diagram)**, **API Docs**, **Cron / Webhooks / API Keys / MCP Server**, linked-endpoint picker, **Network Access** tab, **Database Explorer (raw JSON)**, API tester, users & groups, **project export/import**, scrollable sidebar |
-| **DevOps** | Docker Compose, **MongoDB replica set**, **Kubernetes**, health checks, CI/tests |
+| **DevOps** | Docker Compose (**in-app software updates**), **MongoDB replica set**, **Kubernetes**, health checks, CI/tests |
+| **Software updates** | GitHub release checks, notification banner, **Update now**, scheduled auto-update, rollback — [Updates]({{ '/updates/' | relative_url }}) |
 | **Search** | Full-text search on all data list pages (client + server side) |
 | **Testing** | Vitest unit tests, autocannon load tests, GitHub Actions CI |
 
@@ -96,6 +98,7 @@ The platform focuses on **rapid API deployment and management** without requirin
 | Webhooks | ✅ | Plugin | ✅ | Plugin |
 | MongoDB support | ✅ | Manual | Plugin | Plugin |
 | Docker deployment | ✅ | Manual | ✅ | ✅ |
+| In-app software updates | ✅ | ❌ | ❌ | ❌ |
 | MongoDB replica set / K8s | ✅ | Manual | ⚠️ | ⚠️ |
 
 Dynamic API Platform is intended for situations where APIs must be created, modified, and managed quickly — without developing and redeploying backend applications.

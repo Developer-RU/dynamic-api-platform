@@ -1,4 +1,4 @@
-UI preview of **Dynamic API Platform v1.4** (localhost:8080).
+UI preview of **Dynamic API Platform v1.5** (localhost:8080).
 
 Full gallery: [GitHub Pages — Screenshots](https://dynamic-api-platform.github.io/Dynamic-API-Platform/screenshots/)
 

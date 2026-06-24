@@ -13,7 +13,7 @@ Full guide: [GitHub Pages — Testing](https://dynamic-api-platform.github.io/Dy
 
 ## Unit tests (Vitest)
 
-27 tests covering validation, schema, network access, audit logs, MCP naming — **no MongoDB required**.
+30 tests covering validation, schema, semver, network access, audit logs, MCP naming — **no MongoDB required**.
 
 ```bash
 cd backend

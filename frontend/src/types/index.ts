@@ -167,6 +167,8 @@ export interface SystemInfo {
   timestamp: string;
   cronJobsActive: number;
   cronJobsTotal: number;
+  deployMode: string;
+  updateExecutorReady: boolean;
 }
 
 export interface AppSettings {

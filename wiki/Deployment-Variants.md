@@ -1,6 +1,8 @@
 # Deployment variants
 
-**v1.4.0** ships three deployment options. This page is a wiki summary — full details on [GitHub Pages](https://dynamic-api-platform.github.io/Dynamic-API-Platform/deployment-variants/).
+**v1.5+** ships three deployment options plus **in-app software updates** on Docker. Full details on [GitHub Pages](https://dynamic-api-platform.github.io/Dynamic-API-Platform/deployment-variants/).
+
+Docker Compose enables auto-update by default — see [Software Updates](Software-Updates).
 
 ## Comparison
 

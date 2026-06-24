@@ -24,6 +24,7 @@ Dynamic API Platform is designed to eliminate that workflow.
 - Request statistics and monitoring.
 - Error tracking and logging.
 - Three deployment options: Docker (single), Docker + MongoDB replica set, Kubernetes — [Deployment Variants]({{ '/deployment-variants/' | relative_url }}).
+- **In-app software updates** from GitHub Releases (Docker Compose) — [Software Updates]({{ '/updates/' | relative_url }}).
 - Extensible architecture with JavaScript handlers, webhooks, cron jobs, MCP tools, and custom logic.
 
 The platform focuses on **rapid API deployment and management** without requiring continuous backend development.
@@ -43,6 +44,7 @@ The platform focuses on **rapid API deployment and management** without requirin
 | Webhooks | ✅ | Plugin | ✅ | Plugin |
 | MongoDB support | ✅ | Manual | Plugin | Plugin |
 | Docker deployment | ✅ | Manual | ✅ | ✅ |
+| In-app software updates | ✅ | ❌ | ❌ | ❌ |
 | MongoDB replica set / Kubernetes | ✅ | Manual | ⚠️ | ⚠️ |
 
 Dynamic API Platform is intended for situations where APIs must be created, modified, and managed quickly — without developing and redeploying backend applications.

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Shield, Globe, FileText,
@@ -78,6 +78,16 @@ export default function Layout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [appVersion, setAppVersion] = useState('');
+
+  useEffect(() => {
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((d: { version?: string }) => {
+        if (d.version) setAppVersion(d.version);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
@@ -93,7 +103,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">Dynamic API</div>
-            <div className="text-xs text-slate-500">Platform v1.5</div>
+            <div className="text-xs text-slate-500">
+              Platform {appVersion ? `v${appVersion}` : '…'}
+            </div>
           </div>
           <button
             type="button"

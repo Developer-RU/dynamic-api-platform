@@ -6,7 +6,7 @@
 
 **Open-source platform for creating, managing, and testing REST APIs without writing backend code.**
 
-[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.2)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2)
+[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.3)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-manifests-326CE5?logo=kubernetes&logoColor=white)](k8s/)
@@ -103,9 +103,11 @@ Regenerate from a running instance: `npm run screenshots`
 - Users, groups, **audit logs** with source filters
 - System monitoring, settings (export/import), light/dark themes
 
-### DevOps
-- Docker Compose, **MongoDB replica set**, **Kubernetes** manifests
-- Vitest unit tests (27), load test, GitHub Actions CI
+### DevOps & software updates
+- Docker Compose with **in-app updates enabled by default** (local PC or VPS)
+- **Software updates** — GitHub release checks, **Update now**, scheduled auto-update, rollback — [docs/updates.md](docs/updates.md)
+- **MongoDB replica set**, **Kubernetes** manifests
+- Vitest unit tests (30), load test, GitHub Actions CI
 - Health checks, persistent volumes, nginx API proxy
 - [GitHub Pages](https://dynamic-api-platform.github.io/Dynamic-API-Platform/) docs + [Wiki](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/wiki)
 
@@ -134,7 +136,7 @@ curl -X POST http://localhost:3001/api/products \
 | [Testing](docs/testing.md) | Unit tests, load test, CI |
 | [Kubernetes](docs/kubernetes.md) | K8s deploy guide |
 | [MongoDB Replica Set](docs/mongodb-replica-set.md) | 3-node Docker replica set |
-| [Screenshots](docs/screenshots.md) | UI gallery |
+| [Software Updates](docs/updates.md) | In-app updates from GitHub Releases |
 | [FAQ](docs/faq.md) | Common questions |
 
 **Online:** https://dynamic-api-platform.github.io/Dynamic-API-Platform/
@@ -166,7 +168,7 @@ See [Development Guide](docs/development.md).
 
 ```bash
 cd backend
-npm test                 # Vitest — 27 tests, no MongoDB required
+npm test                 # Vitest — 30 tests, no MongoDB required
 npm run test:load        # autocannon — backend must be running
 ```
 
@@ -189,7 +191,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.
 
 ## Changelog
 
-**[v1.5.2](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2)** (latest) — auto-update out of the box in Docker, Update now button, archive deploy support.
+**[v1.5.3](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3)** (latest) — fix update snapshot hang, correct version on System page.
+
+**[v1.5.2](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2)** — auto-update out of the box in Docker, Update now button, archive deploy support.
 
 **[v1.5.1](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.1)** — hotfix: startup seed for update settings.
 

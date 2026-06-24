@@ -1,4 +1,4 @@
-Welcome to the **Dynamic API Platform** wiki (v1.4.0).
+Welcome to the **Dynamic API Platform** wiki (v1.5.3).
 
 Create, manage, and test REST APIs without writing backend code.
 
@@ -6,16 +6,15 @@ Create, manage, and test REST APIs without writing backend code.
 
 Endpoints are stored in MongoDB and served **at runtime** — add or change a route in the admin UI and it is callable immediately, with **no server restart or redeploy**. This is the main difference from Strapi, Directus, and typical custom backends where new APIs usually require code changes and a rebuild or restart.
 
-## What's new in v1.4.0
+## What's new in v1.5.x
 
 | Area | Summary |
 |------|---------|
-| **Deployment variants** | Docker single-node, Docker MongoDB replica set (3 nodes), Kubernetes — [Deployment Variants](Deployment-Variants) |
-| **Testing** | Vitest unit tests (27), load test, CI — [Testing](Testing) |
-| **Observability** | Dashboard automation KPIs, charts, health widget; audit log `source` field |
-| **MCP admin UI** | `/mcp` — tools list, JSON-RPC examples |
-| **Validation** | Reject unknown fields on write; lean audit logs; MongoDB indexes |
-| **Screenshots** | Refreshed gallery (`npm run screenshots`) — [Screenshots](Screenshots) |
+| **Software updates** | GitHub release checks, **Update now**, auto-update in Docker (out of the box), rollback — [Software Updates](Software-Updates) |
+| **System page** | Correct installed version, auto-update status |
+| **v1.4 deployment** | Docker single-node, MongoDB replica set, Kubernetes — [Deployment Variants](Deployment-Variants) |
+| **Testing** | Vitest (30 tests), load test, CI — [Testing](Testing) |
+| **Observability** | Dashboard automation KPIs, charts, health widget |
 
 Earlier releases: `reference` fields, network access, Database Explorer, cron/webhooks/API keys/MCP, OpenAPI, JS handlers — see [CHANGELOG](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/CHANGELOG.md).
 
@@ -27,6 +26,7 @@ Earlier releases: `reference` fields, network access, Database Explorer, cron/we
 - [Deployment](Deployment)
 - [Deployment Variants](Deployment-Variants)
 - [Configuration](Configuration)
+- [Software Updates](Software-Updates)
 
 ### Platform
 - [Architecture](Architecture)

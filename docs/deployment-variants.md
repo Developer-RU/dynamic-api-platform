@@ -317,6 +317,10 @@ All variants use the same application secrets (change before production):
 | `CSRF_SECRET` | CSRF protection |
 | `ADMIN_PASSWORD` | Default admin (first seed) |
 | `CORS_ORIGIN` | Allowed frontend origin |
+| `APP_VERSION` | Installed version (shown in System page and update checks) |
+| `UPDATE_EXECUTOR_ENABLED` | In-app updates (`true` by default in Docker Compose) |
+
+**Software updates:** Variants **1** and **2** support in-app updates from GitHub Releases when deployed via Docker Compose — see [Software Updates]({{ '/updates/' | relative_url }}).
 
 See [Configuration]({{ '/configuration/' | relative_url }}) and [Deployment]({{ '/deployment/' | relative_url }}) for reverse proxy, cloud, and upgrade notes.
 

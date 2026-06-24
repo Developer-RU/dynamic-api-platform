@@ -6,7 +6,7 @@
 
 **Open-source platform for creating, managing, and testing REST APIs without writing backend code.**
 
-[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.4.0)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.4.0)
+[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.3)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/docker-compose.yml)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-manifests-326CE5?logo=kubernetes&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/tree/main/k8s)
@@ -74,8 +74,9 @@ docker compose up -d
 | **Network access** | Restrict callers by domain and IP/CIDR pools |
 | **Database Explorer** | Raw MongoDB admin UI for power users |
 | **RBAC** | Permission-based groups for users and management API |
+| **Software updates** | In-app updates from GitHub Releases (Docker, out of the box) |
 | **Deployment** | Docker, MongoDB replica set, Kubernetes |
-| **Testing** | Vitest (27 tests), load test, GitHub Actions CI |
+| **Testing** | Vitest (30 tests), load test, GitHub Actions CI |
 | **Zero downtime** | Route changes without restarting the server |
 
 <p align="center">
@@ -109,7 +110,7 @@ docker compose up -d
 | Automation & MCP | https://dynamic-api-platform.github.io/Dynamic-API-Platform/automation/ |
 | Testing | https://dynamic-api-platform.github.io/Dynamic-API-Platform/testing/ |
 | Kubernetes | https://dynamic-api-platform.github.io/Dynamic-API-Platform/kubernetes/ |
-| Screenshots | https://dynamic-api-platform.github.io/Dynamic-API-Platform/screenshots/ |
+| Software Updates | https://dynamic-api-platform.github.io/Dynamic-API-Platform/updates/ |
 | Wiki | https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/wiki |
 
 ---

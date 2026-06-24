@@ -104,7 +104,7 @@ See the full guide: [Testing]({{ '/testing/' | relative_url }})
 
 ```bash
 cd backend
-npm test              # unit tests (27 tests, no MongoDB required)
+npm test              # unit tests (30 tests, no MongoDB required)
 npm run test:load     # load test (requires running backend)
 ```
 

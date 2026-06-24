@@ -1,43 +1,33 @@
-# Dynamic API Platform Wiki
+# Wiki mirror (v1.5.3)
 
-> This folder mirrors the GitHub Wiki content (v1.4.0).  
-> Full documentation: [GitHub Pages](https://dynamic-api-platform.github.io/Dynamic-API-Platform/).  
-> Changelog: [CHANGELOG.md](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/CHANGELOG.md)
+> This folder mirrors the GitHub Wiki content.  
+> Push to `Dynamic-API-Platform/.github` wiki repo when releasing.
 
-## Pages
-
-| Wiki Page | Description |
-|-----------|-------------|
-| [Home](Home.md) | Project overview, v1.4.0 highlights |
-| [Installation](Installation.md) | Three deployment variants — setup |
-| [Quick-Start-Guide](Quick-Start-Guide.md) | First endpoint in 5 minutes |
-| [Deployment](Deployment.md) | Production deploy, upgrade |
-| [Deployment-Variants](Deployment-Variants.md) | Docker / replica set / K8s comparison |
-| [MongoDB-Replica-Set](MongoDB-Replica-Set.md) | Variant 2 — 3-node MongoDB in Docker |
-| [Kubernetes](Kubernetes.md) | Variant 3 — K8s cluster |
-| [Testing](Testing.md) | Unit tests, load test, CI |
+| Page | Description |
+|------|-------------|
+| [Home](Home.md) | Project overview, v1.5.x highlights |
+| [Software Updates](Software-Updates.md) | In-app updates from GitHub Releases |
+| [Installation](Installation.md) | Prerequisites and install |
+| [Quick Start Guide](Quick-Start-Guide.md) | First endpoint walkthrough |
+| [Deployment](Deployment.md) | Production deployment |
+| [Deployment Variants](Deployment-Variants.md) | Docker / replica set / K8s |
+| [Configuration](Configuration.md) | Environment variables |
 | [Architecture](Architecture.md) | System design |
-| [API-Reference](API-Reference.md) | REST API docs |
-| [RBAC-and-Permissions](RBAC-and-Permissions.md) | Access control |
-| [Dynamic-API-Engine](Dynamic-API-Engine.md) | Runtime engine |
-| [API-Schema](API-Schema.md) | ER diagram of endpoints |
-| [Network-Access](Network-Access.md) | Domain and IP/CIDR restrictions |
-| [Database-Explorer](Database-Explorer.md) | Raw MongoDB admin UI |
-| [Configuration](Configuration.md) | Env vars & settings |
-| [Screenshots](Screenshots.md) | UI gallery (v1.4) |
+| [API Reference](API-Reference.md) | Management REST API |
+| [RBAC & Permissions](RBAC-and-Permissions.md) | Groups and permissions |
+| [API Schema](API-Schema.md) | ER diagram |
+| [Network Access](Network-Access.md) | Domain and IP rules |
+| [Database Explorer](Database-Explorer.md) | Raw MongoDB UI |
+| [Testing](Testing.md) | Unit and load tests |
+| [Kubernetes](Kubernetes.md) | K8s manifests |
+| [MongoDB Replica Set](MongoDB-Replica-Set.md) | 3-node Docker replica |
+| [Screenshots](Screenshots.md) | UI gallery |
 | [FAQ](FAQ.md) | Common questions |
 | [Troubleshooting](Troubleshooting.md) | Problem solving |
 | [Contributing](Contributing.md) | How to contribute |
 
-## Importing to GitHub Wiki
+## Sync command
 
 ```bash
-git clone https://github.com/Dynamic-API-Platform/Dynamic-API-Platform.wiki.git
-cp wiki/*.md Dynamic-API-Platform.wiki/
-cd Dynamic-API-Platform.wiki
-git add .
-git commit -m "docs: sync wiki with v1.4.0"
-git push
+git commit -m "docs: sync wiki with v1.5.3"
 ```
-
-Or copy pages manually via the [GitHub Wiki](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/wiki) web editor.

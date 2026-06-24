@@ -54,7 +54,7 @@ npm test && npm run build
 | `src/utils/auditLog.test.ts` | Logging | Log source resolution (MCP, cron, API key), compact log entries, valid ObjectId for `userId` |
 | `src/services/mcp.service.test.ts` | MCP | Tool name generation from method + path |
 
-**Current count:** 27 tests across 5 files.
+**Current count:** 30 tests across 6 files.
 
 ### What unit tests do *not* cover
 

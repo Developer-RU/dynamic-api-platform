@@ -1,6 +1,6 @@
 # Screenshots
 
-Визуальный обзор интерфейса **Dynamic API Platform v1.4**.
+Визуальный обзор интерфейса **Dynamic API Platform v1.5**.
 
 - Полная галерея: [docs/screenshots.md](docs/screenshots.md)
 - Онлайн: [GitHub Pages](https://dynamic-api-platform.github.io/Dynamic-API-Platform/screenshots/)

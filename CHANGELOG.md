@@ -10,6 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.3] - 2026-06-18
+
+### Fixed
+- **Update snapshot step** no longer hangs — removed slow `docker compose images` scan and full-directory tar backup; snapshot completes in seconds
+- **System page** shows correct installed version from `APP_VERSION` / `package.json` (was hardcoded `1.0.0`)
+- **Settings** platform version synced with installed release
+- **Sidebar** version loaded dynamically from `/api/health`
+
+### Changed
+- **System page** — Auto-update status and deploy mode cards
+- Archive-based rollback uses GitHub release tarball of previous version
+
 ## [1.5.2] - 2026-06-18
 
 ### Added
@@ -207,6 +219,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.3]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3
 [1.5.2]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.2
 [1.5.1]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.1
 [1.5.0]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.0

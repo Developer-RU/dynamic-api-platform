@@ -47,7 +47,8 @@ Wait until all three containers are healthy (`dap-mongodb`, `dap-backend`, `dap-
    - Login: `admin`
    - Password: `Admin123!`
 3. Go to **Settings** and change the admin password
-4. Update JWT secrets in `.env` before any production use
+4. Open **Settings → Software Updates** to check for new releases or click **Update now**
+5. Update JWT secrets in `.env` before any production use
 
 ## Create your first dynamic endpoint
 
