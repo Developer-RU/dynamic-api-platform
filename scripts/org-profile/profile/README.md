@@ -6,7 +6,7 @@
 
 **Open-source platform for creating, managing, and testing REST APIs without writing backend code.**
 
-[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.6)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.6)
+[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.7)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.7)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/docker-compose.yml)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-manifests-326CE5?logo=kubernetes&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/tree/main/k8s)
@@ -69,6 +69,8 @@ docker compose up -d
 | Capability | Description |
 |------------|-------------|
 | **Dynamic engine** | GET/POST/PUT/PATCH/DELETE routes defined in the UI |
+| **Data retention** | Optional per-endpoint TTL in days — or keep data forever |
+| **Editable path** | Change route path after creation; data migrates automatically |
 | **`reference` fields** | Foreign keys between endpoints with `?populate=` |
 | **Automation** | Cron, webhooks, API keys, **MCP server** for AI agents |
 | **Network access** | Restrict callers by domain and IP/CIDR pools |

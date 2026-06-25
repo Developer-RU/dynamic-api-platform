@@ -7,7 +7,7 @@ title: Screenshots
 description: UI screenshots from localhost deployment
 ---
 
-Screenshots of **Dynamic API Platform v1.5.6** running at `http://localhost:8080` (captured June 2026).
+Screenshots of **Dynamic API Platform v1.5.7** running at `http://localhost:8080` (captured June 2026).
 
 > The admin panel supports **light** and **dark** themes (slate + cyan) — toggle via the header sun/moon button.
 

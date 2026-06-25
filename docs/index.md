@@ -20,6 +20,7 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 
 | Update | Summary |
 |--------|---------|
+| **v1.5.7 — Endpoint data lifecycle** | Per-endpoint **data retention** (days, or forever); **editable path** after creation — [Dynamic Engine]({{ '/dynamic-api-engine/' | relative_url }}) |
 | **v1.5.5 — Update reliability** | Stale job cleanup, **Cancel** in Settings, bash updater fix — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.5 — Software updates** | In-app updates from GitHub Releases, **Update now**, auto-update in Docker, rollback — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.4 — Deployment** | [Three variants]({{ '/deployment-variants/' | relative_url }}): Docker single, MongoDB replica set, Kubernetes |
@@ -52,7 +53,7 @@ Details: [Automation & Integrations]({{ '/automation/' | relative_url }}) · [Ch
 
 | Category | Capabilities |
 |----------|-------------|
-| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **`reference` fields (foreign keys)**, `?populate=` on GET, **network access (domains / IP pools)**, **API versioning**, grouped organization |
+| **Dynamic APIs** | CRUD endpoints defined in UI, **available instantly without server restart**, schema validation, path params, **editable path**, **optional data retention (TTL)**, **`reference` fields (foreign keys)**, `?populate=` on GET, **network access (domains / IP pools)**, **API versioning**, grouped organization |
 | **Automation** | **Cron scheduler**, **outbound webhooks**, **JavaScript handlers**, **MCP server** for AI agents, **API keys** for M2M auth |
 | **OpenAPI** | Auto-generated spec, Swagger UI, embedded **API Docs** in admin panel |
 | **Security** | JWT auth with refresh, RBAC, **API keys**, **network access rules**, rate limiting, login lockout, audit logs, Helmet, CORS |

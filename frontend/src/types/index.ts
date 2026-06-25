@@ -62,6 +62,7 @@ export interface Endpoint {
   isSystem: boolean;
   enabled: boolean;
   callCount: number;
+  dataRetentionDays?: number;
   createdAt: string;
 }
 

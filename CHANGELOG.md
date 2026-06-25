@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.7] - 2026-06-18
+
+### Added
+- **Data retention** — per-endpoint storage lifetime in days (Settings → Endpoint → General); MongoDB TTL auto-deletes records after expiry; leave empty to keep data **forever**
+- **Editable path** — change endpoint path after creation; stored records migrate to the new collection automatically
+
+### Changed
+- **docs**, **wiki**, and **README** — data retention and path editing documented
+
 ## [1.5.6] - 2026-06-18
 
 ### Changed
@@ -233,6 +242,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.7]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.7
 [1.5.6]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.6
 [1.5.5]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.5
 [1.5.3]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.3
