@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.9] - 2026-06-25
+
+### Added
+- **Ocean** theme — deep navy panels with teal accents
+- **Forest** theme — charcoal green with emerald accents
+- **UI Themes** docs — [themes.md](docs/themes.md); palette button in header cycles Dark → Light → Ocean → Forest
+- Theme descriptions in **Settings → Display**
+
 ## [1.5.8] - 2026-06-25
 
 ### Fixed
@@ -248,6 +256,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.9]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.9
 [1.5.8]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.8
 [1.5.7]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.7
 [1.5.6]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.6

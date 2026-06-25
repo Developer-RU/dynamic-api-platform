@@ -3,6 +3,7 @@ import { Save, Trash2, Shield, Gauge, FileText, Globe, RefreshCw, Download, Uplo
 import { api } from '../services/api';
 import { AppSettings, UpdateSettings, UpdateStatus } from '../types';
 import { PageHeader, LoadingSpinner } from '../components/UI';
+import { THEME_OPTIONS } from '../themes';
 
 function msToMinutes(ms: number): number {
   return Math.round(ms / 60000);
@@ -550,12 +551,23 @@ export default function SettingsPage() {
                 onChange={(e) => setSettings({ ...settings, endpointsPerPage: parseInt(e.target.value) || 50 })} />
             </Field>
           </div>
-          <Field label="Default theme">
+          <Field label="Default theme" hint="Suggested theme for new users — each user can switch anytime via the palette button in the header">
             <select className="select" value={settings.defaultTheme}
               onChange={(e) => setSettings({ ...settings, defaultTheme: e.target.value })}>
-              <option value="dark">Dark</option>
-              <option value="light">Light</option>
+              {THEME_OPTIONS.map((t) => (
+                <option key={t.id} value={t.id}>{t.label}</option>
+              ))}
             </select>
+            <p className="text-xs text-dark-muted mt-2">
+              {THEME_OPTIONS.find((t) => t.id === settings.defaultTheme)?.description}
+            </p>
+            <ul className="mt-3 space-y-2 text-xs text-dark-muted">
+              {THEME_OPTIONS.map((t) => (
+                <li key={t.id}>
+                  <span className="font-medium text-dark-text">{t.label}</span> — {t.description}
+                </li>
+              ))}
+            </ul>
           </Field>
         </SettingSection>
       </div>
