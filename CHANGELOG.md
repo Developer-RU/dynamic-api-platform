@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Multi-tenant workspace support
 
+## [1.5.10] - 2026-06-25
+
+### Security
+- Validate **githubRepo** update setting (`owner/repo` only) — blocks malformed or path-like values before GitHub API calls
+- **HSTS** enabled in production (Helmet)
+- **Referrer-Policy**: `strict-origin-when-cross-origin` on API responses
+
 ## [1.5.9] - 2026-06-25
 
 ### Added
@@ -256,6 +263,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Default endpoint groups
 - CRM, SHOP, DEVICES
 
+[1.5.10]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.10
 [1.5.9]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.9
 [1.5.8]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.8
 [1.5.7]: https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.7

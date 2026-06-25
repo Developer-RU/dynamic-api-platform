@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { SystemSettings } from '../models';
+import { validateGithubRepo } from '../utils/github-repo';
 
 export interface UpdateSettings {
   checkEnabled: boolean;
@@ -85,7 +86,12 @@ class UpdateSettingsService {
   }
 
   async update(partial: Partial<UpdateSettings>): Promise<UpdateSettings> {
-    for (const [field, value] of Object.entries(partial)) {
+    const patch = { ...partial };
+    if (patch.githubRepo !== undefined) {
+      patch.githubRepo = validateGithubRepo(String(patch.githubRepo));
+    }
+
+    for (const [field, value] of Object.entries(patch)) {
       const key = KEY_MAP[field as keyof UpdateSettings];
       if (!key || value === undefined) continue;
       await SystemSettings.findOneAndUpdate(
