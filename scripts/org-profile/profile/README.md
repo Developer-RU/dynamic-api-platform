@@ -6,7 +6,7 @@
 
 **Open-source platform for creating, managing, and testing REST APIs without writing backend code.**
 
-[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.11)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.11)
+[![Release](https://img.shields.io/github/v/release/Dynamic-API-Platform/Dynamic-API-Platform?label=v1.5.12)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/releases/tag/v1.5.12)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/blob/main/docker-compose.yml)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-manifests-326CE5?logo=kubernetes&logoColor=white)](https://github.com/Dynamic-API-Platform/Dynamic-API-Platform/tree/main/k8s)

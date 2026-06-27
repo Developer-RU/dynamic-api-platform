@@ -1,6 +1,6 @@
 # Live UI indicator (wiki)
 
-Full guide: [Live UI Indicator](https://dynamic-api-platform.github.io/Dynamic-API-Platform/live-ui/)
+**v1.5.12+** — full guide: [Live UI Indicator](https://dynamic-api-platform.github.io/Dynamic-API-Platform/live-ui/)
 
 ## Header badge
 

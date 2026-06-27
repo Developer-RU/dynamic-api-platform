@@ -6,7 +6,7 @@ redirect_from:
 title: Live UI Indicator
 ---
 
-The admin header shows a **Live** badge on every authenticated page. It tells you whether the current page auto-refreshes or loads data once.
+The admin header shows a **Live** badge on every authenticated page (since **v1.5.12**). It tells you whether the current page auto-refreshes or loads data once.
 
 ## Badge states
 

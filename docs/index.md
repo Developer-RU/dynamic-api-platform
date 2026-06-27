@@ -20,8 +20,8 @@ Ideal when you need APIs that evolve quickly: internal admin backends, MVPs, int
 
 | Update | Summary |
 |--------|---------|
+| **v1.5.12 — Live UI** | Header **Live** badge: auto-refresh on Dashboard/System, **статические данные** elsewhere — [Live UI]({{ '/live-ui/' | relative_url }}) |
 | **v1.5.11 — Docker update fix** | In-app update uses host path `DAP_HOST_PROJECT_ROOT` for compose bind mounts (macOS / updater container) — [Updates]({{ '/updates/' | relative_url }}) |
-| **v1.5.11 — Live UI** | Header **Live** badge: auto-refresh on Dashboard/System, **статические данные** elsewhere — [Live UI]({{ '/live-ui/' | relative_url }}) |
 | **v1.5.10 — Security** | `githubRepo` validation, HSTS, Referrer-Policy — [Updates]({{ '/updates/' | relative_url }}) |
 | **v1.5.9 — UI themes** | **Ocean** & **Forest** themes + palette switcher — [UI Themes]({{ '/themes/' | relative_url }}) |
 | **v1.5.8 — Update status** | Correct **Latest on GitHub** and **Up to date** in Settings — [Updates]({{ '/updates/' | relative_url }}) |
